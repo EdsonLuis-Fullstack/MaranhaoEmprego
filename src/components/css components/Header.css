@@ -1,0 +1,180 @@
+/* Importando fontes */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap');
+
+/* Estilos gerais do header */
+header {
+    background: white;
+    display: flex;
+    width: 100%;
+    height: 100px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding-left: 80px;
+    padding-right: 80px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+
+}
+
+.logo-icon {
+    width: 50px;
+    height: auto;
+}
+
+nav {
+
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+    transition: 0.3s;
+}
+.btnss{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+}
+#buttonLogi{
+    border: 1px, solid, rgb(212, 212, 212);
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    font-family: montserrat, poppins;
+    font-weight: 600;
+}
+#buttonEnviarVag{
+    border: 1px, solid, rgb(212, 212, 212);
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    font-family: montserrat, poppins;
+    font-weight: 600;
+    background: #02539b;
+    color: white;
+}
+.buttons{
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    display: none;
+}
+#buttonLogin{
+    border: 1px, solid, rgb(212, 212, 212);
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    font-family: montserrat, poppins;
+    font-weight: 600;
+}
+#buttonEnviarVaga{
+    border: 1px, solid, rgb(212, 212, 212);
+    border-radius: 3px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+    font-family: montserrat, poppins;
+    font-weight: 600;
+    background: #02539b;
+    color: white;
+}
+a:hover {
+    color: #02539b;
+    text-decoration: underline;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+    .btnss{
+        display: none;
+    }
+    header{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .buttons{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    nav {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        background: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        justify-content: center;
+        align-items: center;
+    }
+    
+    ul {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px 0;
+    }
+    
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav-active {
+        display: flex;
+    }
+}

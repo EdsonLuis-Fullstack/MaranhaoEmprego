@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&family=Roboto:wght@400;700&family=Lato:wght@300;900&family=Oswald:wght@400;700&family=Raleway:wght@300;600&family=Playfair+Display:wght@400;700&display=swap');
+
+nav{
+    width: 33%;
+}
+ul{
+    display: flex;
+    list-style-type: none;
+    gap: 25px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+a{
+    font-family: montserrat, poppins;
+    font-size: 18px;
+    font-weight: 550;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+}
+a:hover{
+    color: #02539b;
+    text-decoration: underline;
+    text-decoration-color: #02539b;
+}
+
+/* Esconder os botões no desktop */
+.mobile-buttons {
+    display: none;
+}
+
+/* Mostrar os botões no menu mobile */
+@media (max-width: 768px) {
+    #buttonLogin {
+        background: #fff;
+        color: #02539b;
+        border: 1px solid #02539b;
+    }
+
+    #buttonEnviarVaga {
+        background: #02539b;
+        color: white;
+    }
+    .buttons{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+}
