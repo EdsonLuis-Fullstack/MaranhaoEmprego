@@ -57,6 +57,9 @@
     gap:15px;
     z-index: 100;
 }
+#imagemaranhao{
+    display: block;
+}
 #subheadline{
     font-size: 40px;
     text-transform: uppercase;
@@ -90,7 +93,7 @@
         align-items: center;
         gap:20px
     }
-    #imagemaranhao{
+    .mapaMaranhao{
         display: none;
     }
     #subheadline{

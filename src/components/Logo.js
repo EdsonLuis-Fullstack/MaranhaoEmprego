@@ -1,9 +1,10 @@
-import LogoTipo from './images components/logo/logoazul.png'
+import Image from 'next/image'
+
 
 function Logo(){
     return(
         <>
-           <a href='/'><img src={LogoTipo} alt="logo" width="200px" height="50px" /></a>
+           <a href='/'><Image src='/logo/logoazul.png' alt="logo" width={200} height={50} /></a>
         </>
     )
 }

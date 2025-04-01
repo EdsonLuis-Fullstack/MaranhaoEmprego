@@ -1,20 +1,19 @@
 import NavBar from '../layout/NavBar';
 import Logo from '../Logo';
 import '../css components/Header.css'
-import IconLogin from '../images components/icons/IconLogin.png'
-
+import Image from 'next/image';
 
 function Header() {
 
     return (
         <header>
-            <div class="logo">
+            <div className="logo">
           <Logo/>
         </div>
             <NavBar/>
         
-        <div class="btnss">
-                <button id="buttonLogi"> <img src={IconLogin} al="icone login da pagina principal" width="25px" height="25px"/> Login</button>
+        <div className="btnss">
+                <button id="buttonLogi"> <Image src='/icons/IconLogin.png' alt='dfasd' width={25} height={25}/> Login</button>
                  <button id="buttonEnviarVag">Enviar vaga</button>
         </div> 
         </header>
