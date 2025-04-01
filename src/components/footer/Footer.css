@@ -1,0 +1,42 @@
+.Footer{
+    height: 60vh;
+    background-color: var(--color-blue);
+    padding-left: 80px;
+    padding-right: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.LogoFooter{
+    width: 50%;
+    height: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.Anuncio{
+    width: 50%;
+    height: 150px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: white;
+    border-radius: 7px;
+}
+@media screen and (max-width: 798px){
+    .Footer{
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .Anuncio{
+        width: 100%;
+    }
+    .LogoFooter{
+        width: 100%;
+    }
+}

@@ -1,6 +1,6 @@
 import NavBar from '../layout/NavBar';
-import Logo from '../Logo';
-import '../css components/Header.css'
+import Logo from '../Logoblue';
+import './Header.css'
 import Image from 'next/image';
 
 function Header() {

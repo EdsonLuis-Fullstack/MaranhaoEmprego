@@ -2,24 +2,25 @@
 import { useState } from "react";
 import  Link  from "next/link";
 import Image from "next/image";
+import MenuToggle from "./MenuToggle";
 function NavBar() {
     const [menuOpen, setMenuOpen] = useState(false);
 
     return (
         <>
             <div className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-                <i className="ri-menu-line"></i>
+                <MenuToggle isOpen={menuOpen} />
             </div>
             <nav className={menuOpen ? "nav-active" : ""}>
-            <div class="buttons">
-                    <button id="buttonLogin"> <Image src='/icons/IconLogin.png' width={25} height={25}/> Login</button>
+            <div className="buttons">
+                    <button id="buttonLogin"> <Image src='/icons/IconLogin.png' alt="imagem butao login" width={25} height={25}/> Login</button>
                     <button id="buttonEnviarVaga">Enviar vaga</button>
              </div> 
                 <ul>
-                    <li><Link  href="/">Home</Link></li>
-                    <li><Link href="/Vagas">Vagas</Link></li>
-                    <li><Link href="/Noticias">Noticias</Link></li>
-                    <li><Link href="/Cursos">Cursos</Link></li>
+                    <li><Link href="/">Home</Link></li>
+                    <li><Link href="/job">Vagas</Link></li>
+                    <li><Link href="/news">Noticias</Link></li>
+                    <li><Link href="/courses">Cursos</Link></li>
                 </ul>
                 
             </nav>

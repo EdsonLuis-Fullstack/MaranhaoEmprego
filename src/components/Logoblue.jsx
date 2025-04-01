@@ -1,7 +1,7 @@
 import Image from 'next/image'
 
 
-function Logo(){
+function Logoblue(){
     return(
         <>
            <a href='/'><Image src='/logo/logoazul.png' alt="logo" width={200} height={50} /></a>
@@ -9,4 +9,4 @@ function Logo(){
     )
 }
 
-export default Logo 
+export default Logoblue 
