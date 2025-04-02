@@ -1,0 +1,107 @@
+.Vagas{
+    width: 100%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    gap: 15px;
+    justify-content: center; 
+    align-content: center; 
+    justify-items: center; 
+    align-items: center;
+
+}
+.CardVagas{
+    height: 300px;
+    width: 100%;
+    border-radius: 7px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: start;
+    flex-wrap: nowrap;
+    padding: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+#tituloCard{
+    color: #02539b;
+    font-family: montserrat, poppins;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: start;
+}
+#statusTempo{
+    background: #02539b;
+    color: white;
+    font-family: poppins, montserrat;
+    padding:5px;
+    font-size: 10px;
+    border-radius: 25px;
+}
+#Local{
+    font-size: 12px;
+    font-family: poppins, montserrat;
+    text-align: start;
+    display: flex;
+    gap: 10px;
+}
+#Categoria{
+    font-size: 12px;
+    font-family: poppins, montserrat;
+    text-align: start;
+    display: flex;
+    gap: 10px;
+}
+#SobreVaga{
+    font-size: 11px;
+    font-family: poppins, montserrat;
+    text-align: start;
+}
+#SalarioPreço{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ccc;
+    padding: 5px;
+    width: 100%;
+    border-radius: 25px;
+}
+#Salario{
+    font-family: montserrat, poppins;
+    color: black;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: start;
+}
+#SalarioP{
+    font-family: montserrat, poppins;
+    color: #02539b;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: start;
+}
+
+@media screen and (max-width: 798px) {
+    .Vagas{
+        grid-template-columns: 55% 55%;
+        gap: 10px;
+    }
+    .CardVagas{
+        padding: 10px;
+    }
+    #statusTempo{
+        font-size: 8px;
+    }
+    #Local{
+        font-size: 10px;
+    }
+    #Categoria{
+        font-size: 10px;
+    }
+    #SobreVaga{
+        font-size: 10px;
+    }
+    #Salario{
+        font-size: 11px;
+    }
+}

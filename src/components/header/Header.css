@@ -62,10 +62,8 @@ a {
 }
 #buttonLogi{
     border: 1px, solid, rgb(212, 212, 212);
-    width: 130px;
+    width: 140px;
     border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -77,10 +75,8 @@ a {
 }
 #buttonEnviarVag{
     border: 1px, solid, rgb(212, 212, 212);
-    width: 130px;
+    width: 140px;
     border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -101,10 +97,8 @@ a {
 #buttonLogin{
     margin-top: 50px;
     border: 1px, solid, rgb(212, 212, 212);
-    width: 130px;
+    width: 140px;
     border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -116,10 +110,8 @@ a {
 }
 #buttonEnviarVaga{
     border: 1px, solid, rgb(212, 212, 212);
-    width: 130px;
+    width: 140px;
     border-radius: 3px;
-    padding-left: 20px;
-    padding-right: 20px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -141,7 +133,11 @@ a:hover {
     font-size: 24px;
     cursor: pointer;
 }
-
+#Cadastro{
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+}
 @media screen and (max-width: 768px) {
     .btnss{
         display: none;

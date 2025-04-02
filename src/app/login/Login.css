@@ -1,0 +1,37 @@
+.Login{
+    margin-top: 50px;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-left: 80px;
+    padding-right: 80px;
+}
+.Formulario{
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+#TituloLogin{
+    color: #02539b;
+    text-align: center;
+    font-family: montserrat, poppins;
+    text-transform: uppercase;
+    font-size: 32px;
+}
+@media (max-width: 768px){
+    .Formulario{
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .Login{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

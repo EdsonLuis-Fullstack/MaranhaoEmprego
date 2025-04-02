@@ -1,0 +1,11 @@
+#BtnLogar{
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    font-family: montserrat, poppins;
+    text-transform: uppercase;
+}

@@ -1,0 +1,6 @@
+.ant-tabs-tab {
+    font-size: 14px !important; /* Aumenta o tamanho */
+    font-weight: bold !important; /* Adiciona peso */
+    font-family: montserrat, poppins;
+    text-transform: uppercase;
+}

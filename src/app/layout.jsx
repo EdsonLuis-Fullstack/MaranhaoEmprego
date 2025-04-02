@@ -7,11 +7,10 @@ export default function layout ({children}){
     return (
      <html>
     <body className="w-[100%] overflow-hidden">
-            <Header/>
-          <main>  {children}</main>
+          <Header/>
+          <main>{children}</main>
           <Footer />
     </body>
-
      </html>
     )
 }

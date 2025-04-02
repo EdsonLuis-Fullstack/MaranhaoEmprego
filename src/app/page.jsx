@@ -1,4 +1,5 @@
-import '@/components/css components/Home.css'
+import './Home.css'
+import AbasCards from '../components/AbasCards/AbasCards'
 import Image from 'next/image'
 function Home(){
     return(
@@ -19,10 +20,10 @@ function Home(){
                         <div className="PesquisaDeVaga"></div>
                     </div>
                 </section>
-                <section className="secondrySection">
-                    
+                <section className='AllVagas'>
+                    <AbasCards/>
                 </section>
-</>
+    </>
 
     )
 }
