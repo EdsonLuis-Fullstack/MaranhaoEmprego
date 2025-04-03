@@ -14,8 +14,8 @@ function Header() {
             <NavBar/>
         
         <div className="btnss">
-                <button id="buttonLogi"> <Image src='/icons/IconLogin.png' alt='dfasd' width={25} height={25}/>Cadastre-se</button>
-                <Link href="/login" id='Cadastro'><button id="buttonEnviarVag">Enviar vaga</button></Link>
+        <Link href="/cadastro" id='CadastroPage'><button id="buttonCadastr"> <Image src='/icons/IconLogin.png' alt='cadastrar' width={25} height={25}/>Cadastre-se</button></Link>
+                <Link href="/login" id='LoginPage'><button id="buttonLogi">Enviar vaga</button></Link>
         </div> 
         </header>
     );

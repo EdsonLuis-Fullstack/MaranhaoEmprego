@@ -29,12 +29,16 @@ a:hover{
 .mobile-buttons {
     display: none;
 }
+#LoginMobile{
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+}
 #CadastroMobile{
     text-decoration: none;
     list-style: none;
     cursor: pointer;
 }
-/* Mostrar os botões no menu mobile */
 @media (max-width: 768px) {
     #buttonLogin {
         background: #fff;

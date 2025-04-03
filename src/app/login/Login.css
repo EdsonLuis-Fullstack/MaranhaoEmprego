@@ -26,6 +26,21 @@
     text-transform: uppercase;
     font-size: 32px;
 }
+#FaçaCadastro{
+    font-family: montserrat, poppins;
+    color: black;
+    font-size: 12px;
+}
+#RecuperarSenha{
+    font-family: montserrat, poppins;
+    color: black;
+    font-size: 12px;
+}
+#CriarConta{
+    color: #02539b;
+    font-size: 12px;
+    font-family: montserrat, poppins;
+}
 @media (max-width: 768px){
     .Formulario{
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);

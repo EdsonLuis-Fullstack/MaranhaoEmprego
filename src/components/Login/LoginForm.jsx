@@ -12,8 +12,6 @@ const onFinishFailed = errorInfo => {
 const LoginForm = () => (
   <Form
     name="basic"
-    labelCol={{ span: 7 }}
-    wrapperCol={{ span: 17 }}
     style={{ Width: '600px',
         display: 'flex',
         flexDirection: 'column',
@@ -27,29 +25,24 @@ const LoginForm = () => (
     autoComplete="off"
   >
     <Form.Item
+      id='EmailInput'
       label="Email"
       name="email"
       rules={[{ required: true, message: 'Por favor, insira seu email!' }]}
-      style={{width: '100%',
-        display: 'flex',
-        justifyContent: 'start',
-        alignItems: 'start'
-      }}
+      labelCol={{ span: 6 }} 
+      wrapperCol={{ span: 17 }}
     >
-      <Input />
+      <Input/>
     </Form.Item>
 
     <Form.Item
-      label="Password"
+      label="Senha"
       name="password"
       rules={[{ required: true, message: 'Por favor, insira seu senha!' }]}
-      style={{width: '100%',
-        display: 'flex',
-        justifyContent: 'start',
-        alignItems: 'start'
-      }}
+      labelCol={{ span: 6 }} 
+      wrapperCol={{ span: 15 }}
     >
-      <Input.Password />
+      <Input.Password/>
     </Form.Item>
 
     <Form.Item name="remember" valuePropName="checked"  style={{width: '100%'}}>

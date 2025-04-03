@@ -13,8 +13,8 @@ function NavBar() {
             </div>
             <nav className={menuOpen ? "nav-active" : ""}>
             <div className="buttons">
-                    <button id="buttonLogin"> <Image src='/icons/IconLogin.png' alt="imagem butao login" width={25} height={25}/>Cadastre-se</button>
-                    <Link href="/login" id="CadastroMobile"><button id="buttonEnviarVaga">Enviar vaga</button></Link>
+            <Link href="/cadastro" id='CadastroMobile'><button id="buttonCadastro"> <Image src='/icons/IconLogin.png' alt="imagem butao login" width={25} height={25}/>Cadastre-se</button></Link>
+                    <Link href="/login" id="LoginMobile"><button id="buttonLogin">Enviar vaga</button></Link>
              </div> 
                 <ul>
                     <li><Link href="/">Home</Link></li>

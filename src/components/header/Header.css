@@ -60,7 +60,7 @@ a {
     align-items: center;
     gap: 0px;
 }
-#buttonLogi{
+#buttonCadastr{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
     border-radius: 3px;
@@ -73,7 +73,7 @@ a {
     font-family: montserrat, poppins;
     font-weight: 600;
 }
-#buttonEnviarVag{
+#buttonLogi{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
     border-radius: 3px;
@@ -94,7 +94,7 @@ a {
     gap: 0px;
     display: none;
 }
-#buttonLogin{
+#buttonCadastro{
     margin-top: 50px;
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
@@ -108,7 +108,7 @@ a {
     font-family: montserrat, poppins;
     font-weight: 600;
 }
-#buttonEnviarVaga{
+#buttonLogin{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
     border-radius: 3px;
@@ -133,7 +133,12 @@ a:hover {
     font-size: 24px;
     cursor: pointer;
 }
-#Cadastro{
+#LoginPage{
+    text-decoration: none;
+    list-style: none;
+    cursor: pointer;
+}
+#CadastroPage{
     text-decoration: none;
     list-style: none;
     cursor: pointer;

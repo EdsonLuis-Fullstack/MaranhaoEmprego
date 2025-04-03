@@ -9,7 +9,7 @@ function Home(){
                     <div className="overlayBlack">
                     </div>
                     <div className="headline">
-                        <h1 id="headline" className='text-4xl'>O maior portal  de emprego do  maranhão </h1>
+                        <h1 id="headline">O maior portal  de emprego do  maranhão </h1>
                     </div>
                     <div className="mapaMaranhao">
                         <Image src='/icons/mapaMaranhao.png' alt="ilustraçao mapa do maranhao" height={450} width={600}  />
