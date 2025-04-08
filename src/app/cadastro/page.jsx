@@ -69,21 +69,6 @@ const CadastroForm = () => {
                         required
                     />
                 </div>
-
-                <div className="form-group">
-                    <label htmlFor="whatsapp">Número do WhatsApp</label>
-                    <input
-                        type="tel"
-                        id="whatsapp"
-                        name="whatsapp"
-                        placeholder="Exemplo: 98999999999 (Para candidatos entrar em contato)"
-                        pattern="[0-9]{9}"
-                        value={formData.whatsapp}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
                 <div className="checkbox-group">
                     <input
                         type="checkbox"

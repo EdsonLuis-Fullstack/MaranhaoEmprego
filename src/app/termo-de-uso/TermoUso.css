@@ -1,0 +1,14 @@
+.TermoDeUso{
+    margin-top: 130px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    text-align: start;
+    padding-left: 80px;
+    padding-right: 80px;
+    font-family: montserrat, poppins;
+}
