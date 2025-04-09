@@ -1,12 +1,12 @@
 import Header from "@/components/header/Header"
 import Footer from "@/components/footer/Footer"
-import '@/styles/globals.css' 
+import './globals.css' 
 
 
 export default function layout ({children}){
     return (
      <html>
-    <body className="w-[100%] overflow-hidden">
+    <body>
           <Header/>
           <main>{children}</main>
           <Footer />
