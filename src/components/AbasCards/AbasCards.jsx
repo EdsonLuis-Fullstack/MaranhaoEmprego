@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Card } from 'antd';
-import Cards from './cards/Card'
+import Cards from './cards/jobList'; 
 import './AbasCardsStyle.css'
 
 const tabListNoTitle = [
