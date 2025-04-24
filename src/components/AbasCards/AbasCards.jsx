@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Card } from 'antd';
-import Cards from './cards/jobList'; 
+import { Cards, CardsHomeOffice, CardsDiarista, CardsEmprego } from './cards/jobList'; 
 import './AbasCardsStyle.css'
 
 const tabListNoTitle = [
@@ -44,10 +44,10 @@ const tabListNoTitle = [
 ];
 const contentListNoTitle = {
   todasvagas: <Cards/>,
-  diarista: <p>app content</p>,
-  emprego: <p>project content</p>,
+  diarista: <CardsDiarista/>,
+  emprego: <CardsEmprego/>,
   estagio: <p>project content</p>,
-  homeoffice: <p>project content</p>,
+  homeoffice: <CardsHomeOffice/>,
   jovemaprendiz: <p>project content</p>,
   pcd: <p>project content</p>,
   rca: <p>project content</p>,
