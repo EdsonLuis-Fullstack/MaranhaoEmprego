@@ -29,9 +29,10 @@ function Cards() {
       {vagas.map((jobs) => (
         <div className='CardVagas' key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
-          <div id="statusTempo">Recém publicado</div>
+          <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
           <p id='Categoria'><ShoppingFilled style={{ color: '#02539b' }} /> {jobs.categoria}</p>
+          <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
             <span id='SalarioP'>R${jobs.salario}</span>
@@ -64,9 +65,10 @@ function CardsHomeOffice() {
         .map((jobs) => (
           <div className='CardVagas' key={jobs.uuid}>
             <h1 id='tituloCard'>{jobs.titulo}</h1>
-            <div id="statusTempo">Recém publicado</div>
+            <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
             <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
             <p id='Categoria'><ShoppingFilled style={{ color: '#02539b' }} /> {jobs.categoria}</p>
+            <p id='SobreVaga'>{jobs.sobre}</p>
             <div id="SalarioPreço">
               <p id='Salario'>Salário:</p>
               <span id='SalarioP'>R${jobs.salario}</span>
@@ -99,9 +101,10 @@ function CardsDiarista() {
         .map((jobs) => (
           <div className='CardVagas' key={jobs.uuid}>
             <h1 id='tituloCard'>{jobs.titulo}</h1>
-            <div id="statusTempo">Recém publicado</div>
+            <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
             <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
             <p id='Categoria'><ShoppingFilled style={{ color: '#02539b' }} /> {jobs.categoria}</p>
+            <p id='SobreVaga'>{jobs.sobre}</p>
             <div id="SalarioPreço">
               <p id='Salario'>Salário:</p>
               <span id='SalarioP'>R${jobs.salario}</span>
@@ -134,9 +137,10 @@ function CardsEmprego() {
         .map((jobs) => (
           <div className='CardVagas' key={jobs.uuid}>
             <h1 id='tituloCard'>{jobs.titulo}</h1>
-            <div id="statusTempo">Recém publicado</div>
+            <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
             <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
             <p id='Categoria'><ShoppingFilled style={{ color: '#02539b' }} /> {jobs.categoria}</p>
+            <p id='SobreVaga'>{jobs.sobre}</p>
             <div id="SalarioPreço">
               <p id='Salario'>Salário:</p>
               <span id='SalarioP'>R${jobs.salario}</span>

@@ -1,6 +1,7 @@
 import './Home.css'
 import AbasCards from '../components/AbasCards/AbasCards'
 import Image from 'next/image'
+import FiltroVagas from '../components/filtro/Filtro'
 function Home(){
     return(
 <>
@@ -17,7 +18,9 @@ function Home(){
                     <div className="subheadline">
                         <h2 id="subheadline">Mantenha-se atualizado</h2>
                         <p id="paragrafHeadline">Notícias, pesquisa salariais e tudo sobre o mercado de trabalho</p>
-                        <div className="PesquisaDeVaga"></div>
+                        <div className="PesquisaDeVaga">
+                            <FiltroVagas/>
+                        </div>
                     </div>
                 </section>
                 <section className='AllVagas'>
