@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react';
 import { Card } from 'antd';
-import { Cards, CardsHomeOffice, CardsDiarista, CardsEmprego } from './cards/jobList'; 
+import { Cards, CardsHomeOffice, CardsDiarista, CardsEmprego, CardsEstagio, CardsJovemAprendiz, CardsRCA, CardsTRAINEE, CardsPCD } from './cards/jobList'; 
 import './AbasCardsStyle.css'
 
 const tabListNoTitle = [
@@ -46,12 +46,12 @@ const contentListNoTitle = {
   todasvagas: <Cards/>,
   diarista: <CardsDiarista/>,
   emprego: <CardsEmprego/>,
-  estagio: <p>project content</p>,
+  estagio: <CardsEstagio/>,
   homeoffice: <CardsHomeOffice/>,
-  jovemaprendiz: <p>project content</p>,
-  pcd: <p>project content</p>,
-  rca: <p>project content</p>,
-  trainee: <p>project content</p>,
+  jovemaprendiz: <CardsJovemAprendiz/>,
+  pcd: <CardsPCD/>,
+  rca: <CardsRCA/>,
+  trainee: <CardsTRAINEE/>,
 };
 const AbasCards = () => {
   const [activeTabKey2, setActiveTabKey2] = useState('todasvagas');

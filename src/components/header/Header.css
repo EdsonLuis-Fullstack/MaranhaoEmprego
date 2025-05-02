@@ -54,16 +54,15 @@ a {
     transition: 0.3s;
 }
 .btnss{
-
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0px;
+    gap: 10px;
 }
 #buttonCadastr{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
-    border-radius: 3px;
+    border-radius: 25px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -76,7 +75,7 @@ a {
 #buttonLogi{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
-    border-radius: 3px;
+    border-radius: 25px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -91,14 +90,14 @@ a {
 .buttons{
     justify-content: center;
     align-items: center;
-    gap: 0px;
+    gap: 10px;
     display: none;
 }
 #buttonCadastro{
     margin-top: 50px;
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
-    border-radius: 3px;
+    border-radius: 25px;
     height: 40px;
     text-align: center;
     display: flex;
@@ -111,7 +110,7 @@ a {
 #buttonLogin{
     border: 1px, solid, rgb(212, 212, 212);
     width: 140px;
-    border-radius: 3px;
+    border-radius: 25px;
     height: 40px;
     text-align: center;
     display: flex;

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Currículo Profissional</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #25539b;
+            --secondary-color: #ffffff;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .primary-bg {
+            background-color: var(--primary-color);
+        }
+        
+        .primary-text {
+            color: var(--primary-color);
+        }
+        
+        .primary-border {
+            border-color: var(--primary-color);
+        }
+        
+        .resume-preview {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-height: 842px;
+            width: 595px;
+            background-color: white;
+        }
+        
+        .resume-header {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .section-title {
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .form-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .template-option {
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        
+        .template-option:hover, .template-option.selected {
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        .qr-code-placeholder {
+            width: 200px;
+            height: 200px;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+        }
+        
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Step 1: Landing Page -->
+        <div id="step1" class="text-center py-12">
+            <h1 class="text-4xl font-bold primary-text mb-6">Gerador de Currículo Profissional</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                Crie um currículo impressionante em minutos! Nosso gerador ajuda você a destacar suas habilidades e experiências de forma profissional. Personalize o design e baixe em PDF por apenas R$ 5,00.
+            </p>
+            <button onclick="nextStep(2)" class="primary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-lg">
+                <i class="fas fa-file-alt mr-2"></i> Começar a criar meu currículo
+            </button>
+        </div>
+
+        <!-- Step 2: Resume Form -->
+        <div id="step2" class="hidden">
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Form Column -->
+                <div class="w-full lg:w-1/2">
+                    <div class="mb-8">
+                        <h2 class="text-2xl font-bold primary-text mb-6">Preencha suas informações</h2>
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Informações Pessoais</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Nome completo*</label>
+                                    <input type="text" id="fullName" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">E-mail*</label>
+                                    <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Telefone*</label>
+                                    <input type="tel" id="phone" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Endereço</label>
+                                    <input type="text" id="address" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Foto (URL)</label>
+                                    <input type="text" id="photoUrl" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Cole o link da sua foto" oninput="updateResume()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Objetivo Profissional</h3>
+                            <textarea id="objective" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" oninput="updateResume()"></textarea>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Formação Acadêmica</h3>
+                            <div id="educationContainer">
+                                <div class="education-item space-y-4 mb-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Curso*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-course" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Instituição*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-institution" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Período*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-period" placeholder="Ex: 2018 - 2022" oninput="updateResume()">
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="addEducation()" class="primary-text font-medium flex items-center mt-2">
+                                <i class="fas fa-plus-circle mr-2"></i> Adicionar outra formação
+                            </button>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Experiências Profissionais</h3>
+                            <div id="experienceContainer">
+                                <div class="experience-item space-y-4 mb-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Empresa*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-company" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Cargo*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-position" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Período*</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-period" placeholder="Ex: Jan 2020 - Presente" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Atividades</label>
+                                        <textarea class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-description" rows="2" oninput="updateResume()"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="addExperience()" class="primary-text font-medium flex items-center mt-2">
+                                <i class="fas fa-plus-circle mr-2"></i> Adicionar outra experiência
+                            </button>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Habilidades</h3>
+                            <div id="skillsContainer">
+                                <div class="flex items-center mb-2">
+                                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 skill-input" placeholder="Ex: Trabalho em equipe" oninput="updateResume()">
+                                    <button onclick="removeSkill(this)" class="ml-2 text-red-500">
+                                        <i class="fas fa-times-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button onclick="addSkill()" class="primary-text font-medium flex items-center mt-2">
+                                <i class="fas fa-plus-circle mr-2"></i> Adicionar outra habilidade
+                            </button>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Cursos e Certificações</h3>
+                            <div id="certificationsContainer">
+                                <div class="certification-item space-y-4 mb-4">
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Curso/Certificação</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-name" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Instituição</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-institution" oninput="updateResume()">
+                                    </div>
+                                    <div>
+                                        <label class="block text-gray-700 mb-1">Ano</label>
+                                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-year" oninput="updateResume()">
+                                    </div>
+                                </div>
+                            </div>
+                            <button onclick="addCertification()" class="primary-text font-medium flex items-center mt-2">
+                                <i class="fas fa-plus-circle mr-2"></i> Adicionar outro curso/certificação
+                            </button>
+                        </div>
+
+                        <div class="form-section p-6 mb-6">
+                            <h3 class="text-xl font-semibold primary-text mb-4">Redes Sociais Profissionais</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-gray-700 mb-1">LinkedIn</label>
+                                    <input type="text" id="linkedin" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="URL do seu perfil" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">GitHub (se aplicável)</label>
+                                    <input type="text" id="github" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="URL do seu perfil" oninput="updateResume()">
+                                </div>
+                                <div>
+                                    <label class="block text-gray-700 mb-1">Outras redes</label>
+                                    <input type="text" id="otherSocial" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="URL" oninput="updateResume()">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-8">
+                            <button onclick="prevStep(2)" class="text-gray-600 font-medium flex items-center">
+                                <i class="fas fa-arrow-left mr-2"></i> Voltar
+                            </button>
+                            <button onclick="nextStep(3)" class="primary-bg text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                                Próximo: Escolher modelo <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Column -->
+                <div class="w-full lg:w-1/2">
+                    <div class="sticky top-4">
+                        <h2 class="text-2xl font-bold primary-text mb-6">Pré-visualização do currículo</h2>
+                        <div class="resume-preview" id="resumePreview">
+                            <!-- Resume content will be dynamically inserted here -->
+                            <div class="resume-header p-6">
+                                <div class="flex items-center">
+                                    <div id="resumePhoto" class="w-20 h-20 rounded-full bg-gray-200 mr-4 overflow-hidden hidden">
+                                        <img id="photoImg" src="" alt="Foto" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <h1 id="resumeName" class="text-2xl font-bold text-white">Seu Nome</h1>
+                                        <p id="resumeTitle" class="text-white opacity-80">Seu Cargo/Profissão</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-6">
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Contato</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                        <p id="resumeEmail"><i class="fas fa-envelope mr-2 primary-text"></i> email@exemplo.com</p>
+                                        <p id="resumePhone"><i class="fas fa-phone mr-2 primary-text"></i> (00) 00000-0000</p>
+                                        <p id="resumeAddress"><i class="fas fa-map-marker-alt mr-2 primary-text"></i> Sua Cidade, Estado</p>
+                                        <div id="resumeSocial" class="flex space-x-4">
+                                            <!-- Social links will be added here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Objetivo</h2>
+                                    <p id="resumeObjective" class="text-gray-700">Descreva brevemente seus objetivos profissionais.</p>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Formação Acadêmica</h2>
+                                    <div id="resumeEducation">
+                                        <div class="mb-3">
+                                            <h3 class="font-semibold">Nome do Curso</h3>
+                                            <p class="text-gray-600">Instituição de Ensino • Período</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Experiência Profissional</h2>
+                                    <div id="resumeExperience">
+                                        <div class="mb-3">
+                                            <h3 class="font-semibold">Nome do Cargo</h3>
+                                            <p class="text-gray-600">Empresa • Período</p>
+                                            <p class="text-gray-700 mt-1">Descrição das atividades realizadas.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Habilidades</h2>
+                                    <div id="resumeSkills" class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Habilidade 1</span>
+                                        <span class="bg-gray-100 px-3 py-1 rounded-full text-sm">Habilidade 2</span>
+                                    </div>
+                                </div>
+
+                                <div class="mb-6">
+                                    <h2 class="section-title text-xl font-semibold primary-text pb-1 mb-3">Cursos e Certificações</h2>
+                                    <div id="resumeCertifications">
+                                        <div class="mb-3">
+                                            <h3 class="font-semibold">Nome do Curso/Certificação</h3>
+                                            <p class="text-gray-600">Instituição • Ano</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Choose Template -->
+        <div id="step3" class="hidden py-8">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-2xl font-bold primary-text mb-2">Escolha o modelo do seu currículo</h2>
+                <p class="text-gray-600 mb-8">Selecione um dos modelos abaixo para personalizar o visual do seu currículo</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="template-option p-4 rounded-lg cursor-pointer" onclick="selectTemplate(1)">
+                        <div class="resume-preview h-64 overflow-hidden mb-3">
+                            <div class="resume-header p-4">
+                                <h3 class="text-white font-bold">Modelo Clássico</h3>
+                            </div>
+                            <div class="p-4">
+                                <div class="h-4 bg-gray-200 mb-2"></div>
+                                <div class="h-4 bg-gray-200 mb-2 w-3/4"></div>
+                                <div class="h-4 bg-gray-200 mb-4 w-1/2"></div>
+                                <div class="h-4 bg-gray-200 mb-2"></div>
+                                <div class="h-4 bg-gray-200 mb-2 w-2/3"></div>
+                            </div>
+                        </div>
+                        <button class="w-full primary-bg text-white py-2 rounded-lg">Selecionar</button>
+                    </div>
+                    
+                    <div class="template-option p-4 rounded-lg cursor-pointer" onclick="selectTemplate(2)">
+                        <div class="resume-preview h-64 overflow-hidden mb-3">
+                            <div class="resume-header p-4 flex items-center">
+                                <div class="w-12 h-12 bg-gray-300 rounded-full mr-3"></div>
+                                <div>
+                                    <h3 class="text-white font-bold">Modelo Moderno</h3>
+                                    <p class="text-white text-sm">Cargo/Profissão</p>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="h-4 bg-gray-200 mb-2 w-2/3"></div>
+                                <div class="h-4 bg-gray-200 mb-4 w-1/2"></div>
+                                <div class="h-4 bg-gray-200 mb-2"></div>
+                                <div class="h-4 bg-gray-200 mb-2 w-3/4"></div>
+                            </div>
+                        </div>
+                        <button class="w-full primary-bg text-white py-2 rounded-lg">Selecionar</button>
+                    </div>
+                    
+                    <div class="template-option p-4 rounded-lg cursor-pointer" onclick="selectTemplate(3)">
+                        <div class="resume-preview h-64 overflow-hidden mb-3">
+                            <div class="p-4">
+                                <h3 class="primary-text font-bold border-b-2 border-blue-500 pb-1 mb-3">Modelo Colorido</h3>
+                                <div class="h-4 bg-gray-200 mb-2"></div>
+                                <div class="h-4 bg-gray-200 mb-4 w-1/2"></div>
+                                <div class="h-4 bg-gray-200 mb-2 w-2/3"></div>
+                                <div class="h-4 bg-gray-200 mb-2"></div>
+                            </div>
+                        </div>
+                        <button class="w-full primary-bg text-white py-2 rounded-lg">Selecionar</button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-between">
+                    <button onclick="prevStep(3)" class="text-gray-600 font-medium flex items-center">
+                        <i class="fas fa-arrow-left mr-2"></i> Voltar
+                    </button>
+                    <button onclick="nextStep(4)" class="primary-bg text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                        Próximo: Gerar PDF <i class="fas fa-arrow-right ml-2"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 4: Generate PDF -->
+        <div id="step4" class="hidden py-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold primary-text mb-4">Seu currículo está pronto!</h2>
+                <p class="text-lg text-gray-600 mb-8">Para fazer o download ou imprimir seu currículo, é necessário pagar R$ 5 via Pix.</p>
+                
+                <div class="bg-white rounded-lg shadow-lg p-8 max-w-md mx-auto">
+                    <h3 class="text-xl font-semibold primary-text mb-4">Pagamento via Pix</h3>
+                    <div class="qr-code-placeholder mx-auto mb-4">
+                        <div>
+                                            <i class="fas fa-qrcode text-4xl mb-2"></i>
+                                            <p>QR Code Pix</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-700 mb-2">Valor: <span class="font-bold">R$ 5,00</span></p>
+                                    <p class="text-gray-700 mb-4">Chave Pix: 123.456.789-00</p>
+                                    
+                                    <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                                        <p class="text-yellow-700">Após o pagamento, clique no botão abaixo para verificar e liberar o download.</p>
+                                    </div>
+                                    
+                                    <button onclick="verifyPayment()" class="primary-bg text-white w-full py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300 mb-4">
+                                        <i class="fas fa-check-circle mr-2"></i> Já efetuei o pagamento
+                                    </button>
+                                    
+                                    <button id="downloadBtn" class="hidden bg-green-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-green-700 transition duration-300 mb-2">
+                                        <i class="fas fa-download mr-2"></i> Baixar Currículo em PDF
+                                    </button>
+                                    
+                                    <button onclick="window.print()" id="printBtn" class="hidden bg-gray-600 text-white w-full py-3 rounded-lg font-semibold hover:bg-gray-700 transition duration-300">
+                                        <i class="fas fa-print mr-2"></i> Imprimir Currículo
+                                    </button>
+                                </div>
+                                
+                                <div class="mt-8">
+                                    <button onclick="prevStep(4)" class="text-gray-600 font-medium flex items-center mx-auto">
+                                        <i class="fas fa-arrow-left mr-2"></i> Voltar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Current step management
+        let currentStep = 1;
+        let selectedTemplate = 1;
+        
+        function nextStep(step) {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            
+            // Scroll to top when changing steps
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        function prevStep(step) {
+            document.getElementById(`step${currentStep}`).classList.add('hidden');
+            currentStep = step;
+            document.getElementById(`step${currentStep}`).classList.remove('hidden');
+            
+            // Scroll to top when changing steps
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        
+        // Template selection
+        function selectTemplate(template) {
+            selectedTemplate = template;
+            const options = document.querySelectorAll('.template-option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[template-1].classList.add('selected');
+            
+            // Apply template to resume preview
+            applyTemplate();
+        }
+        
+        function applyTemplate() {
+            const resumePreview = document.getElementById('resumePreview');
+            
+            // Reset all template classes
+            resumePreview.classList.remove('template1', 'template2', 'template3');
+            
+            // Apply selected template class
+            resumePreview.classList.add(`template${selectedTemplate}`);
+            
+            // Update template-specific styling
+            if (selectedTemplate === 1) {
+                // Classic template
+                document.querySelector('.resume-header').classList.remove('bg-gray-800');
+                document.querySelector('.resume-header').classList.add('primary-bg');
+            } else if (selectedTemplate === 2) {
+                // Modern template
+                document.querySelector('.resume-header').classList.remove('primary-bg');
+                document.querySelector('.resume-header').classList.add('bg-gray-800');
+            } else if (selectedTemplate === 3) {
+                // Colorful template
+                document.querySelector('.resume-header').classList.remove('primary-bg', 'bg-gray-800');
+                document.querySelector('.resume-header').classList.add('bg-gradient-to-r', 'from-blue-500', 'to-blue-700');
+            }
+        }
+        
+        // Form field management
+        function addEducation() {
+            const container = document.getElementById('educationContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'education-item space-y-4 mb-4';
+            newItem.innerHTML = `
+                <div>
+                    <label class="block text-gray-700 mb-1">Curso*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-course" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Instituição*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-institution" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Período*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 education-period" placeholder="Ex: 2018 - 2022" oninput="updateResume()">
+                </div>
+                <button onclick="removeEducation(this)" class="text-red-500 text-sm flex items-center">
+                    <i class="fas fa-trash-alt mr-1"></i> Remover formação
+                </button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        function removeEducation(button) {
+            const item = button.closest('.education-item');
+            item.remove();
+            updateResume();
+        }
+        
+        function addExperience() {
+            const container = document.getElementById('experienceContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'experience-item space-y-4 mb-4';
+            newItem.innerHTML = `
+                <div>
+                    <label class="block text-gray-700 mb-1">Empresa*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-company" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Cargo*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-position" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Período*</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-period" placeholder="Ex: Jan 2020 - Presente" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Atividades</label>
+                    <textarea class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 experience-description" rows="2" oninput="updateResume()"></textarea>
+                </div>
+                <button onclick="removeExperience(this)" class="text-red-500 text-sm flex items-center">
+                    <i class="fas fa-trash-alt mr-1"></i> Remover experiência
+                </button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        function removeExperience(button) {
+            const item = button.closest('.experience-item');
+            item.remove();
+            updateResume();
+        }
+        
+        function addSkill() {
+            const container = document.getElementById('skillsContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'flex items-center mb-2';
+            newItem.innerHTML = `
+                <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 skill-input" placeholder="Ex: Trabalho em equipe" oninput="updateResume()">
+                <button onclick="removeSkill(this)" class="ml-2 text-red-500">
+                    <i class="fas fa-times-circle"></i>
+                </button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        function removeSkill(button) {
+            const item = button.closest('div');
+            item.remove();
+            updateResume();
+        }
+        
+        function addCertification() {
+            const container = document.getElementById('certificationsContainer');
+            const newItem = document.createElement('div');
+            newItem.className = 'certification-item space-y-4 mb-4';
+            newItem.innerHTML = `
+                <div>
+                    <label class="block text-gray-700 mb-1">Curso/Certificação</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-name" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Instituição</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-institution" oninput="updateResume()">
+                </div>
+                <div>
+                    <label class="block text-gray-700 mb-1">Ano</label>
+                    <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 certification-year" oninput="updateResume()">
+                </div>
+                <button onclick="removeCertification(this)" class="text-red-500 text-sm flex items-center">
+                    <i class="fas fa-trash-alt mr-1"></i> Remover certificação
+                </button>
+            `;
+            container.appendChild(newItem);
+        }
+        
+        function removeCertification(button) {
+            const item = button.closest('.certification-item');
+            item.remove();
+            updateResume();
+        }
+        
+        // Update resume preview
+        function updateResume() {
+            // Personal information
+            const fullName = document.getElementById('fullName').value || 'Seu Nome';
+            const email = document.getElementById('email').value || 'email@exemplo.com';
+            const phone = document.getElementById('phone').value || '(00) 00000-0000';
+            const address = document.getElementById('address').value || 'Sua Cidade, Estado';
+            const photoUrl = document.getElementById('photoUrl').value;
+            const objective = document.getElementById('objective').value || 'Descreva brevemente seus objetivos profissionais.';
+            
+            // Update name and title
+            document.getElementById('resumeName').textContent = fullName;
+            
+            // Update photo
+            const photoElement = document.getElementById('resumePhoto');
+            const photoImg = document.getElementById('photoImg');
+            if (photoUrl) {
+                photoElement.classList.remove('hidden');
+                photoImg.src = photoUrl;
+            } else {
+                photoElement.classList.add('hidden');
+            }
+            
+            // Update contact info
+            document.getElementById('resumeEmail').innerHTML = `<i class="fas fa-envelope mr-2 primary-text"></i> ${email}`;
+            document.getElementById('resumePhone').innerHTML = `<i class="fas fa-phone mr-2 primary-text"></i> ${phone}`;
+            document.getElementById('resumeAddress').innerHTML = `<i class="fas fa-map-marker-alt mr-2 primary-text"></i> ${address}`;
+            
+            // Update objective
+            document.getElementById('resumeObjective').textContent = objective;
+            
+            // Update social links
+            const socialContainer = document.getElementById('resumeSocial');
+            socialContainer.innerHTML = '';
+            
+            const linkedin = document.getElementById('linkedin').value;
+            const github = document.getElementById('github').value;
+            const otherSocial = document.getElementById('otherSocial').value;
+            
+            if (linkedin) {
+                const link = document.createElement('a');
+                link.href = linkedin;
+                link.target = '_blank';
+                link.className = 'text-blue-500 hover:text-blue-700';
+                link.innerHTML = '<i class="fab fa-linkedin text-lg"></i>';
+                socialContainer.appendChild(link);
+            }
+            
+            if (github) {
+                const link = document.createElement('a');
+                link.href = github;
+                link.target = '_blank';
+                link.className = 'text-gray-700 hover:text-gray-900';
+                link.innerHTML = '<i class="fab fa-github text-lg"></i>';
+                socialContainer.appendChild(link);
+            }
+            
+            if (otherSocial) {
+                const link = document.createElement('a');
+                link.href = otherSocial;
+                link.target = '_blank';
+                link.className = 'text-blue-400 hover:text-blue-600';
+                link.innerHTML = '<i class="fas fa-globe text-lg"></i>';
+                socialContainer.appendChild(link);
+            }
+            
+            // Update education
+            const educationContainer = document.getElementById('resumeEducation');
+            educationContainer.innerHTML = '';
+            
+            const educationItems = document.querySelectorAll('.education-item');
+            educationItems.forEach(item => {
+                const course = item.querySelector('.education-course').value;
+                const institution = item.querySelector('.education-institution').value;
+                const period = item.querySelector('.education-period').value;
+                
+                if (course || institution || period) {
+                    const div = document.createElement('div');
+                    div.className = 'mb-3';
+                    
+                    if (course) {
+                        const h3 = document.createElement('h3');
+                        h3.className = 'font-semibold';
+                        h3.textContent = course;
+                        div.appendChild(h3);
+                    }
+                    
+                    if (institution || period) {
+                        const p = document.createElement('p');
+                        p.className = 'text-gray-600';
+                        
+                        let text = '';
+                        if (institution) text += institution;
+                        if (institution && period) text += ' • ';
+                        if (period) text += period;
+                        
+                        p.textContent = text;
+                        div.appendChild(p);
+                    }
+                    
+                    educationContainer.appendChild(div);
+                }
+            });
+            
+            if (educationContainer.children.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'mb-3';
+                
+                const h3 = document.createElement('h3');
+                h3.className = 'font-semibold';
+                h3.textContent = 'Nome do Curso';
+                div.appendChild(h3);
+                
+                const p = document.createElement('p');
+                p.className = 'text-gray-600';
+                p.textContent = 'Instituição de Ensino • Período';
+                div.appendChild(p);
+                
+                educationContainer.appendChild(div);
+            }
+            
+            // Update experience
+            const experienceContainer = document.getElementById('resumeExperience');
+            experienceContainer.innerHTML = '';
+            
+            const experienceItems = document.querySelectorAll('.experience-item');
+            experienceItems.forEach(item => {
+                const company = item.querySelector('.experience-company').value;
+                const position = item.querySelector('.experience-position').value;
+                const period = item.querySelector('.experience-period').value;
+                const description = item.querySelector('.experience-description').value;
+                
+                if (company || position || period || description) {
+                    const div = document.createElement('div');
+                    div.className = 'mb-3';
+                    
+                    if (position) {
+                        const h3 = document.createElement('h3');
+                        h3.className = 'font-semibold';
+                        h3.textContent = position;
+                        div.appendChild(h3);
+                    }
+                    
+                    if (company || period) {
+                        const p = document.createElement('p');
+                        p.className = 'text-gray-600';
+                        
+                        let text = '';
+                        if (company) text += company;
+                        if (company && period) text += ' • ';
+                        if (period) text += period;
+                        
+                        p.textContent = text;
+                        div.appendChild(p);
+                    }
+                    
+                    if (description) {
+                        const desc = document.createElement('p');
+                        desc.className = 'text-gray-700 mt-1';
+                        desc.textContent = description;
+                        div.appendChild(desc);
+                    }
+                    
+                    experienceContainer.appendChild(div);
+                }
+            });
+            
+            if (experienceContainer.children.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'mb-3';
+                
+                const h3 = document.createElement('h3');
+                h3.className = 'font-semibold';
+                h3.textContent = 'Nome do Cargo';
+                div.appendChild(h3);
+                
+                const p = document.createElement('p');
+                p.className = 'text-gray-600';
+                p.textContent = 'Empresa • Período';
+                div.appendChild(p);
+                
+                const desc = document.createElement('p');
+                desc.className = 'text-gray-700 mt-1';
+                desc.textContent = 'Descrição das atividades realizadas.';
+                div.appendChild(desc);
+                
+                experienceContainer.appendChild(div);
+            }
+            
+            // Update skills
+            const skillsContainer = document.getElementById('resumeSkills');
+            skillsContainer.innerHTML = '';
+            
+            const skillInputs = document.querySelectorAll('.skill-input');
+            skillInputs.forEach(input => {
+                if (input.value) {
+                    const span = document.createElement('span');
+                    span.className = 'bg-gray-100 px-3 py-1 rounded-full text-sm';
+                    span.textContent = input.value;
+                    skillsContainer.appendChild(span);
+                }
+            });
+            
+            if (skillsContainer.children.length === 0) {
+                const span1 = document.createElement('span');
+                span1.className = 'bg-gray-100 px-3 py-1 rounded-full text-sm';
+                span1.textContent = 'Habilidade 1';
+                skillsContainer.appendChild(span1);
+                
+                const span2 = document.createElement('span');
+                span2.className = 'bg-gray-100 px-3 py-1 rounded-full text-sm';
+                span2.textContent = 'Habilidade 2';
+                skillsContainer.appendChild(span2);
+            }
+            
+            // Update certifications
+            const certificationsContainer = document.getElementById('resumeCertifications');
+            certificationsContainer.innerHTML = '';
+            
+            const certificationItems = document.querySelectorAll('.certification-item');
+            certificationItems.forEach(item => {
+                const name = item.querySelector('.certification-name').value;
+                const institution = item.querySelector('.certification-institution').value;
+                const year = item.querySelector('.certification-year').value;
+                
+                if (name || institution || year) {
+                    const div = document.createElement('div');
+                    div.className = 'mb-3';
+                    
+                    if (name) {
+                        const h3 = document.createElement('h3');
+                        h3.className = 'font-semibold';
+                        h3.textContent = name;
+                        div.appendChild(h3);
+                    }
+                    
+                    if (institution || year) {
+                        const p = document.createElement('p');
+                        p.className = 'text-gray-600';
+                        
+                        let text = '';
+                        if (institution) text += institution;
+                        if (institution && year) text += ' • ';
+                        if (year) text += year;
+                        
+                        p.textContent = text;
+                        div.appendChild(p);
+                    }
+                    
+                    certificationsContainer.appendChild(div);
+                }
+            });
+            
+            if (certificationsContainer.children.length === 0) {
+                const div = document.createElement('div');
+                div.className = 'mb-3';
+                
+                const h3 = document.createElement('h3');
+                h3.className = 'font-semibold';
+                h3.textContent = 'Nome do Curso/Certificação';
+                div.appendChild(h3);
+                
+                const p = document.createElement('p');
+                p.className = 'text-gray-600';
+                p.textContent = 'Instituição • Ano';
+                div.appendChild(p);
+                
+                certificationsContainer.appendChild(div);
+            }
+        }
+        
+        // Payment verification
+        function verifyPayment() {
+            // In a real app, this would verify with Mercado Pago API
+            // For demo purposes, we'll just show the buttons after a delay
+            setTimeout(() => {
+                document.getElementById('downloadBtn').classList.remove('hidden');
+                document.getElementById('printBtn').classList.remove('hidden');
+                
+                // Show success message
+                alert('Pagamento verificado com sucesso! Agora você pode baixar ou imprimir seu currículo.');
+            }, 1500);
+        }
+        
+        // Initialize the resume preview
+        updateResume();
+    </script>
+</body>
+</html>
