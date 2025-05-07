@@ -34,6 +34,7 @@ function Cards() {
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
           <p id='Categoria'><ShoppingFilled style={{ color: '#02539b' }} /> {jobs.categoria}</p>
+          <p id='areas'>{jobs.area}</p>
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>

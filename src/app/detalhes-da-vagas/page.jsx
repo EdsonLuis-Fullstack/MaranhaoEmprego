@@ -12,6 +12,10 @@ export default function Detalhe(){
                          - Trabalhar em Teresina
                          - Trabalhar em Teresina
                 </p>
+                <h4 id='Descricao'>Descrição</h4>
+                <p id='DetalheDescricao'>
+                     - Receber, conferir e armazenar materiais; Controlar entradas e saídas de mercadorias; Realizar inventários e manter o estoque organizado; Auxiliar no abastecimento interno da empresa; Manter o local limpo e organizad; Dentre outras atividades inerentes a função.
+                </p>
                 <h4 id='Atividades'>Atividades</h4>
                 <p id='DetalheAtividades'>
                      - Receber, conferir e armazenar materiais; Controlar entradas e saídas de mercadorias; Realizar inventários e manter o estoque organizado; Auxiliar no abastecimento interno da empresa; Manter o local limpo e organizad; Dentre outras atividades inerentes a função.
