@@ -1,0 +1,62 @@
+.Detalhe{
+    margin-top: 100px;
+    padding-left: 80px;
+    padding-right: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 25px;
+    width: 100%;
+    font-family: montserrat, poppins;
+}
+.Detalhe .DetalheVaga{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 75%;
+    height: 100%;
+    gap: 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: start;
+}
+.Detalhe .DetalheVaga h3{
+    color: #02539b;
+    text-align: center;
+    font-family: montserrat, poppins;
+    text-transform: uppercase;
+    font-size: 24px;
+}
+.Detalhe .DetalheVaga h4{
+    color: #02539b;
+}
+.Detalhe .DetalheVaga a{
+    color: #02539b;
+}
+.Detalhe .SideBar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    height: 100%;
+    gap: 20px;
+}
+@media screen and (max-width: 768px) {
+    .Detalhe{
+        flex-direction: column;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .Detalhe .DetalheVaga{
+        width: 100%;
+    }
+    .Detalhe .SideBar{
+        width: 100%;
+    }
+}

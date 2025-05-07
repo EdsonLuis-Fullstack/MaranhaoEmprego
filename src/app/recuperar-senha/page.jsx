@@ -1,6 +1,7 @@
 import './RecuperarSenha.css'
 
 export default function RecuperarSenha(){
+
     return(
         <section className='RecuperarSenha'>
             <div>

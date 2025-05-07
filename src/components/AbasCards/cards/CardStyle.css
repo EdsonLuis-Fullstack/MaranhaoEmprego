@@ -1,107 +1,138 @@
-.Vagas{
+:root {
+    --azul-principal: #02539b;
+    --cinza-claro: #f5f5f5;
+    --sombra: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .Vagas {
     width: 100%;
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    gap: 15px;
-    justify-content: center; 
-    align-content: center; 
-    justify-items: center; 
-    align-items: center;
-
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  #linkID {
+    display: flex;
+    background-color: #02539b;
+    color: white;
+    width: 35%;
+    max-width: 250px; /* máxima largura */
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* centralização horizontal */
+    padding: 6px 10px; /* espaçamento interno */
+    text-align: center; /* fallback para texto */
+    transition: all 0.3s ease; /* animação suave */
 }
-.CardVagas{
-    height: 300px;
+
+
+  .CardVagas {
+    height: auto;
+    min-height: 300px;
     width: 100%;
     border-radius: 7px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    justify-content: center;
-    align-items: start;
-    flex-wrap: nowrap;
-    padding: 15px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    gap: 0.75rem;
+    padding: 1rem;
+    box-shadow: var(--sombra);
     cursor: pointer;
-}
-#tituloCard{
-    color: #02539b;
-    font-family: montserrat, poppins;
-    font-size: 12px;
+    transition: transform 0.3s ease;
+  }
+  
+  .CardVagas:hover {
+    transform: translateY(-3px);
+  }
+  
+  #tituloCard {
+    color: var(--azul-principal);
+    font-family: 'Montserrat', 'Poppins', sans-serif;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
     font-weight: 600;
-    text-align: start;
-}
-#statusTempo{
-    background: #02539b;
+    line-height: 1.4;
+    margin: 0;
+  }
+  
+  #statusTempo {
+    background: var(--azul-principal);
     color: white;
-    font-family: poppins, montserrat;
-    padding:5px;
-    font-size: 10px;
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.75rem;
     border-radius: 25px;
-}
-#Local{
-    font-size: 12px;
-    font-family: poppins, montserrat;
-    text-align: start;
+    width: fit-content;
+  }
+  
+  #Local,
+  #Categoria {
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+    font-family: 'Poppins', 'Montserrat', sans-serif;
     display: flex;
-    gap: 10px;
-}
-#Categoria{
-    font-size: 12px;
-    font-family: poppins, montserrat;
-    text-align: start;
-    display: flex;
-    gap: 10px;
-}
-#SobreVaga{
-    font-size: 11px;
-    font-family: poppins, montserrat;
-    text-align: start;
-}
-#SalarioPreço{
+    gap: 0.5rem;
+    align-items: center;
+    color: #444;
+  }
+  
+  #SobreVaga {
+    font-size: clamp(0.7rem, 1.1vw, 0.8rem);
+    font-family: 'Poppins', 'Montserrat', sans-serif;
+    line-height: 1.4;
+    color: #666;
+    flex-grow: 1;
+  }
+  
+  #SalarioPreço {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ccc;
-    padding: 5px;
-    width: 100%;
+    background: var(--cinza-claro);
+    padding: 0.5rem 1rem;
     border-radius: 25px;
-}
-#Salario{
-    font-family: montserrat, poppins;
-    color: black;
-    font-size: 12px;
+    margin-top: auto;
+  }
+  
+  #Salario,
+  #SalarioP {
+    font-family: 'Montserrat', 'Poppins', sans-serif;
+    font-size: clamp(0.75rem, 1.2vw, 0.875rem);
     font-weight: 600;
-    text-align: start;
-}
-#SalarioP{
-    font-family: montserrat, poppins;
-    color: #02539b;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: start;
-}
-
-@media screen and (max-width: 798px) {
-    .Vagas{
-        grid-template-columns: 55% 55%;
-        gap: 10px;
-    }
-    .CardVagas{
-        padding: 10px;
-    }
-    #statusTempo{
-        font-size: 8px;
-    }
-    #Local{
-        font-size: 10px;
-    }
-    #Categoria{
-        font-size: 10px;
-    }
-    #SobreVaga{
-        font-size: 10px;
-    }
-    #Salario{
-        font-size: 11px;
+  }
+  
+  #SalarioP {
+    color: var(--azul-principal);
+  }
+  @media screen and (max-width: 768px) {
+    #linkID {
+        width: 80%;
+        padding: 10px 15px;
     }
 }
+  @media screen and (max-width: 900px) {
+    .Vagas {
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 0.75rem;
+      padding: 0.75rem;
+    }
+    
+    .CardVagas {
+      padding: 0.75rem;
+      min-height: 280px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .Vagas {
+      grid-template-columns: minmax(280px, 1fr);
+      gap: 1rem;
+    }
+    
+    #tituloCard {
+      font-size: 0.875rem;
+    }
+    
+    #statusTempo {
+      font-size: 0.625rem;
+    }
+  }
