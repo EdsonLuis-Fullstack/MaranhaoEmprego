@@ -1,6 +1,8 @@
 'use server'
 
-export default async function enviarCartao(formData : FormData) {
+export default async function enviarCartao(formData : any) {
+
+    
     fetch("http://127.0.0.1:8080/accessv4/pagamentos/cartao",
         {
             method:"POST",
@@ -8,10 +10,17 @@ export default async function enviarCartao(formData : FormData) {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "x-api-key":"rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=",
-                "Authorization": `Bearer TOKEN`, // aqui vc vai passar o token de autenticacao
             }, 
-            body: JSON.stringify({formData})
+            body: JSON.stringify({
+                nome: formData.cardholderName,
+                tipo:formData.paymentMethodId, // tipo da bandeira, master visa etc
+                documentoTipo: formData.identificationType,
+                documentoNumero: formData.identificationNumber,
+                token_Pag : formData.token,
+                tipoId: formData.issuerId, // se necessário // identificador da bandeira do cartão
+                installments: formData.installments, // numero de parcelas 
+                planoEscolhido: "" // aqui vc vai passar o plano escolhido
         }
-    )
+    )})
     console.log("Dados do cartão enviados com sucesso");
 }

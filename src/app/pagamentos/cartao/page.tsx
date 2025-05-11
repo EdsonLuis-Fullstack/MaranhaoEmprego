@@ -30,7 +30,7 @@ export default function PaymentForm() {
             },
             cardholderEmail: {
               id: "form-checkout__cardholderEmail",
-              placeholder: "Email",
+              hidden: true,
             },
             cardNumber: {
               id: "form-checkout__cardNumber",
@@ -71,12 +71,10 @@ export default function PaymentForm() {
             try {
               const cardData = cardForm.getCardFormData();
               console.log("Dados do cartão/token:", cardData);
+              
               // Adiciona o valor ao objeto de dados do cartão
-              const paymentData = {
-                ...cardData,
-                amount: amount
-              };
-              enviarCartao(paymentData); // Enviando os dados do cartão para o servidor
+
+              enviarCartao(cardData); // Enviando os dados do cartão para o servidor
             } catch (error) {
               console.error("Erro ao processar pagamento:", error);
               alert("Ocorreu um erro ao processar o pagamento. Por favor, tente novamente.");
@@ -122,7 +120,7 @@ export default function PaymentForm() {
           <input id="form-checkout__cardholderName" />
         </div>
 
-        <div className="form-group">
+        <div style={{display:'none'}} className="form-group">
           <label htmlFor="form-checkout__cardholderEmail">Email</label>
           <input id="form-checkout__cardholderEmail" type="email" />
         </div>
