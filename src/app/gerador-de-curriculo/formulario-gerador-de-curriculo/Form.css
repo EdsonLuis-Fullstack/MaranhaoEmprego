@@ -1,0 +1,354 @@
+/* Estilos para o container principal */
+.FormGerador{
+    padding-right: 50px;
+    padding-left: 50px;
+    margin-top: 130px;
+    font-family: montserrat, poppins;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: start;
+    width: 100%;
+    gap: 40px;
+    margin-bottom: 25px;
+}
+.formularioForm{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    width: 50%;
+}
+.tituloForm{
+    text-align: start;
+    color: #02539b;
+}
+.form{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+    /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);*/
+    width: 100%;
+    border-radius: 5px;
+}
+.subtituloForm{
+    text-align: center;
+    color: #02539b;
+    font-size: 18px;
+    padding-bottom: 20px;
+    font-weight: 600;
+}
+.formulario {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario input, .formulario textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario02 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario02 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario02 input, .formulario02 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  .formulario03 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario03 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario03 input, .formulario03 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario03 button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .formulario03 button:hover {
+    background-color: #003f7a;
+  }
+  .formulario04 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario04 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario04 input, .formulario04 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario04 button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .formulario04 button:hover {
+    background-color: #003f7a;
+  }
+  .formulario05 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario05 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario05 input, .formulario05 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario05 button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .formulario05 button:hover {
+    background-color: #003f7a;
+  }
+  .formulario06 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario06 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario06 input, .formulario06 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario06 button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .formulario06 button:hover {
+    background-color: #003f7a;
+  }
+  .formulario07 {
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    border-radius: 10px;
+    padding: 20px;
+    font-family: montserrat,poppins;
+  }
+  
+  .formulario07 label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 400;
+    font-size: 14px;
+  }
+  
+  .formulario07 input, .formulario07 textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 9px;
+  }
+  
+  .formulario07 button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .formulario07 button:hover {
+    background-color: #003f7a;
+  }
+.btn-proximo{
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+/*/////////////////*/
+.tituloPreview{
+    text-align: start;
+    color: #02539b;
+}
+.FormPreview{
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: 50%;
+    font-family: montserrat, poppins;
+    color: black;
+}
+.preview{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}

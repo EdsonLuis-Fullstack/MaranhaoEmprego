@@ -9,6 +9,7 @@ export default function Footer(){
         </div>
         <div className="Anuncio"></div>
     </section>
+    <div className='Copyright'>© 2025 Emprego Maranhão<span>|</span><a href="https://github.com/EdsonLuis-Fullstack" className='Dev'>Feito por Edson luis - Dev Full Stack</a></div>
     </footer>
     )
 }

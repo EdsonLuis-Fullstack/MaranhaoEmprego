@@ -1,43 +1,66 @@
-'use client'
-import React, { useState } from 'react';
+'use client';
+import React, { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import './LoginForm.css'
+import { useRouter } from 'next/navigation';
+import './LoginForm.css';
+import Cookies from 'js-cookie';
 import realizarLogin from '@/components/services/auth/login';
 
 const LoginForm = () => {
-  // Estado para armazenar os dados do formulário
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: '',
     senha: '',
     remember: true
   });
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Manipulador para atualizar o estado quando os campos são alterados
+  useEffect(() => {
+    // Verifica se o usuário já está logado e redireciona automaticamente
+    const token = Cookies.get('authToken');
+    if (token) {
+      console.log('Token encontrado, redirecionando para área da empresa');
+      router.push('/area-da-empresa');
+    }
+  }, [router]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value
     }));
   };
 
-  // Manipulador específico para o checkbox
-  const handleCheckboxChange = (e) => {
-    setFormData(prevData => ({
-      ...prevData,
-      remember: e.target.checked
-    }));
-  };
-
-  // // Função para quando o formulário é submetido com sucesso
-  const onFinish = (values) => {
-    console.log('Sucesso:', values);
-  };
-
-  // Função para quando o formulário falha na validação
-  const onFinishFailed = (errorInfo) => {
-    console.log('Validação falhou:', errorInfo);
-    message.error('Por favor, verifique os campos obrigatórios.');
+  const onFinish = async () => {
+    setIsLoading(true);
+    try {
+      // Assumindo que realizarLogin retorna o token
+      const token = await realizarLogin(formData);
+      
+      // Garantir que o token seja armazenado nos cookies
+      Cookies.set('authToken', token, { expires: 7, secure: true });
+      
+      // Verificar se o cookie foi realmente definido
+      const storedToken = Cookies.get('authToken');
+      console.log('Token armazenado:', storedToken);
+      
+      if (storedToken) {
+        message.success('Login realizado com sucesso!');
+        
+        // Pequeno delay para garantir que o cookie seja processado
+        setTimeout(() => {
+          router.push('/area-da-empresa');
+        }, 300);
+      } else {
+        message.error('Erro ao armazenar dados de autenticação');
+      }
+    } catch (error) {
+      console.error('Erro no login:', error);
+      message.error('Falha no login. Verifique suas credenciais.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -47,25 +70,20 @@ const LoginForm = () => {
         maxWidth: '600px',
         display: 'flex',
         flexDirection: 'column',
-        flexWrap: 'nowrap',
         justifyContent: 'flex-start',
         alignItems: 'flex-start'
       }}
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
       <Form.Item
-        id="EmailInput"
         label="Email"
         name="email"
         rules={[
           { required: true, message: 'Por favor, insira seu email!' },
           { type: 'email', message: 'Por favor, insira um email válido!' }
         ]}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 17 }}
       >
         <Input 
           name="email"
@@ -79,10 +97,8 @@ const LoginForm = () => {
         name="senha"
         rules={[
           { required: true, message: 'Por favor, insira sua senha!' },
-          { min: 6, message: 'A senha deve ter pelo menos 6 caracteres!' }
+          { min: 8, message: 'A senha deve ter pelo menos 8 caracteres!' }
         ]}
-        labelCol={{ span: 6 }}
-        wrapperCol={{ span: 15 }}
       >
         <Input.Password 
           name="senha"
@@ -91,17 +107,17 @@ const LoginForm = () => {
         />
       </Form.Item>
 
-      <Form.Item name="remember" valuePropName="checked" style={{ width: '100%' }}>
+      <Form.Item name="remember" valuePropName="checked">
         <Checkbox 
           checked={formData.remember}
-          onChange={handleCheckboxChange}
+          onChange={(e) => setFormData({ ...formData, remember: e.target.checked })}
         >
           Me lembre
         </Checkbox>
       </Form.Item>
 
-      <Form.Item style={{ width: '100%' }}>
-        <Button onClick={() => {realizarLogin(formData)}} type="primary" htmlType="submit" id="BtnLogar">
+      <Form.Item>
+        <Button type="primary" htmlType="submit" id="BtnLogar">
           Logar
         </Button>
       </Form.Item>

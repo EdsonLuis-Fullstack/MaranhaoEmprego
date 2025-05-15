@@ -1,17 +1,18 @@
 'use client';
 import { useState } from 'react';
-import './Cadastro.css'
+import { useRouter } from 'next/navigation';
+import './Cadastro.css';
 import Link from "next/link";
-import cadastrarUsuario from "@/components/services/auth/cadastro";
+import { message } from 'antd'; // Para exibir mensagens de sucesso/erro
 
 const CadastroForm = () => {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     empresa: '',
     email: '',
     senha: '',
     telefone: '',
-    termos: false,
-    privacidade: false,
+    
   });
 
   const formatPhoneNumber = (value) => {
@@ -46,17 +47,61 @@ const CadastroForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // Limpa a formatação do telefone antes de enviar
-    const cleanedData = {
-      ...formData,
-      telefone: formData.telefone.replace(/\D/g, '')
-    };
-
-    cadastrarUsuario(cleanedData);
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  const cleanedData = {
+    nome: formData.empresa,
+    email: formData.email,
+    senha: formData.senha,
+    telefone: formData.telefone.replace(/\D/g, ''),
   };
+
+  console.log("Dados enviados:", cleanedData);
+
+  try {
+    const response = await fetch('http://localhost:8080/accessv4/cadastro', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
+      },
+      body: JSON.stringify(cleanedData),
+    });
+
+    console.log("Resposta da API:", response);
+
+    switch (response.status) {
+      case 200:
+        message.success('Cadastro realizado com sucesso! Redirecionando para o login...');
+        router.push('/login');
+        break;
+      case 201:
+        message.success('Cadastro criado com sucesso! Redirecionando para o login...');
+        router.push('/login');
+        break;
+      case 400:
+        const error400 = await response.json();
+        message.error(`Erro de validação: ${error400.message || 'Dados inválidos'}`);
+        break;
+      case 401:
+        message.error('Não autorizado. Verifique suas credenciais.');
+        break;
+      case 404:
+        message.error('Recurso não encontrado. Verifique a URL.');
+        break;
+      case 500:
+        message.error('Erro interno do servidor. Tente novamente mais tarde.');
+        break;
+      default:
+        message.error('Erro desconhecido. Tente novamente mais tarde.');
+    }
+  } catch (error) {
+    console.error("Erro de rede:", error);
+    message.error('Não foi possível realizar o cadastro. Verifique sua conexão.');
+  }
+};
+
 
   return (
     <section className='Cadastro'>
@@ -112,6 +157,9 @@ const CadastroForm = () => {
               value={formData.senha}
               onChange={handleChange}
               required
+              minLength={8} // Definindo o mínimo de 8 caracteres
+              pattern=".{8,}" // Garantindo que sejam no mínimo 8 caracteres
+              title="A senha deve ter pelo menos 8 caracteres"
             />
           </div>
 
@@ -120,8 +168,6 @@ const CadastroForm = () => {
               type="checkbox"
               id="privacidade"
               name="privacidade"
-              checked={formData.privacidade}
-              onChange={handleChange}
               required
             />
             <label htmlFor="privacidade">Aceito os Termos de Uso e a Política de Privacidade</label>
@@ -129,7 +175,7 @@ const CadastroForm = () => {
 
           <button type="submit" className="submit-btn">Cadastrar</button>
         </form>
-        <p id='LoginConta'>Ja tem conta? <Link href="/login" id="LogarConta">Faça seu Login.</Link></p>
+        <p id='LoginConta'>Já tem conta? <Link href="/login" id="LogarConta">Faça seu Login.</Link></p>
       </div>
     </section>
   );

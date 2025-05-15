@@ -9,14 +9,13 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(200px, 1fr));
     gap: 1rem;
-    padding: 1rem;
     box-sizing: border-box;
   }
   #linkID {
     display: flex;
     background-color: #02539b;
     color: white;
-    width: 35%;
+    width: 100%;
     max-width: 250px; /* máxima largura */
     border-radius: 10px;
     justify-content: center;

@@ -1,26 +1,26 @@
-'use server'
-export default async function cadastrarUsuario(FormData: any) {
-    const usuario = {
-        nome: FormData.empresa,
-        email: FormData.email,
-        senha: FormData.senha,
-        telefone: FormData.telefone,
-    };
-    console.log(usuario)
+'use server';
+
+export default async function cadastrarUsuario(FormData) {
+  const usuario = {
+    nome: FormData.empresa,
+    email: FormData.email,
+    senha: FormData.senha,
+    telefone: FormData.telefone,
+  };
+
   const response = await fetch('http://localhost:8080/accessv4/cadastro', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-api-key':'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c='
+      'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c='
     },
     body: JSON.stringify(usuario),
   });
-  console.log(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao cadastrar usuário');
+  
+  if (response.status === 201) {
+    return response;
+  } else {
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Erro ao cadastrar usuário');
   }
-
-
-  return response.json();
 }

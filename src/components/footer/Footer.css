@@ -25,6 +25,23 @@
     background-color: white;
     border-radius: 7px;
 }
+.Copyright{
+    background-color: #252525;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-size: 14px;
+    justify-content: center;
+    font-family: montserrat, poppins;
+}
+.Dev{
+    color: white;
+    font-size: 14px;
+    font-family: montserrat, poppins;
+}
 @media screen and (max-width: 798px){
     .Footer{
         flex-direction: column;

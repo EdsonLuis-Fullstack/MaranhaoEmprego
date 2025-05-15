@@ -1,0 +1,107 @@
+.Models{
+    margin-top: 130px;
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+    text-align: center;
+    padding-left: 80px;
+    padding-right: 80px;
+    font-family: montserrat, poppins;
+}
+.ModelsTitle{
+    font-size: 24px;
+    font-weight: 700;
+    color: #02539b;
+    text-transform: capitalize;
+    font-family: montserrat, poppins;
+    text-align: start;
+}
+.ModelsSubtitle{
+    font-size: 18px;
+    font-weight: 400;
+    color: #000;
+    text-transform: capitalize;
+    font-family: montserrat, poppins;
+    text-align: start;
+}
+.ModelsSection{
+    width: 100%;
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-wrap: wrap;
+    grid-template-rows: 1fr; 
+    gap: 20px 20px; 
+    justify-content: center; 
+    align-content: center; 
+    justify-items: center; 
+    align-items: center;
+    height: 100%;
+}
+.Model{
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 100%;
+    padding: 20px;
+    gap: 10px;
+    border: 0.5px solid #0000002f;
+    cursor: pointer;
+    transition: 1.5s;
+}
+.Model:hover{
+    box-shadow: 1px 1px 15px 0 rgba(0, 0, 0, 0.6);
+    border: 1px solid #02539b;
+    z-index: 100;
+    width: 100%;
+    transition: 1s;
+    padding: 20px;
+}
+.ModelImage{
+    position: relative;
+    background-color: #252525;
+    opacity: 1;
+    border-radius: 10px;
+    height: 80vh;
+    width: 100%;
+    transition: 1.5s;
+    overflow: hidden;
+}
+.ModelImage:hover{
+    height: 90vh;
+    transition: 1s;
+}
+.btn-proximo{
+    padding: 10px 50px;
+    margin-top: 10px;
+    background-color: #02539b;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+@media (max-width: 768px) {
+    .ModelsSection {
+        grid-template-columns: 1fr;
+    }
+    .Models{
+        padding-left: 20px;
+        padding-right: 20px;
+        gap: 15px;
+    }
+    .ModelsTitle{
+        font-size: 20px;
+    }
+    .ModelsSubtitle{
+        font-size: 14px;
+    }
+    .ModelImage{
+        height: 60vh;
+    }
+    .ModelImage:hover{
+        height: 70vh;
+        transition: 1s;
+    }
+}

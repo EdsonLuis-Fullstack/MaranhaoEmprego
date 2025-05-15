@@ -1,0 +1,230 @@
+/* Estilos para o formulário de cadastro de vagas */
+
+/* Container principal */
+.FormVaga {
+  width: 100%;
+  margin-top: 150px;
+  margin-bottom: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 80px;
+  padding-right: 80px;
+  font-family: montserrat, poppins;
+  gap: 20px;
+}
+
+/* Título da página */
+.titulo-pagina {
+  font-size: 24px;
+  font-weight: 700;
+  color: #02539b;
+  text-align: center;
+}
+
+/* Formulário */
+.formulario-vaga {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+/* Grupo de campo */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Labels */
+.campo-label {
+  font-size: 16px;
+  font-weight: 600;
+  color: black;
+  width: 100%;
+}
+
+/* Inputs de texto, email, telefone e número */
+.campo-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.campo-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  width: 100%;
+}
+
+/* Áreas de texto */
+.campo-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 15px;
+  resize: vertical;
+  min-height: 100px;
+  transition: border-color 0.3s;
+}
+
+.campo-textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+  width: 100%;
+}
+
+/* Opções de salário */
+.opcoes-salario {
+  display: flex;
+  margin-bottom: 10px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.opcao-radio {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
+.radio-input {
+  cursor: pointer;
+}
+
+.radio-label {
+  font-size: 15px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.campo-valor-salario {
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* Select para rede social */
+.campo-select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 15px;
+  background-color: #fff;
+  cursor: pointer;
+  width: 100%;
+}
+
+.campo-select:focus {
+  border-color: #4a90e2;
+  outline: none;
+  width: 100%;
+}
+
+/* Container para seleção de rede social */
+.selecao-rede-social {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+.tipo-rede-social {
+  width: 150px;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.valor-rede-social {
+  flex-grow: 1;
+  width: 100%;
+}
+
+/* Estilos de botões */
+.botoes {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.botao {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.1s;
+  width: 100%;
+}
+
+.botao:hover {
+  transform: translateY(-1px);
+}
+
+.botao:active {
+  transform: translateY(1px);
+}
+
+.botao-enviar {
+  background-color: #4caf50;
+  color: white;
+  flex-grow: 2;
+  width: 100%;
+}
+
+.botao-enviar:hover {
+  background-color: #45a049;
+}
+
+.botao-limpar {
+  background-color: #f5f5f5;
+  color: #666;
+  border: 1px solid #ddd;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.botao-limpar:hover {
+  background-color: #ebebeb;
+}
+
+/* Classes específicas para cada campo */
+.titulo-vaga {
+  font-weight: 500;
+  width: 100%;
+}
+
+.total-vagas {
+  width: 100%;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  .container-formulario {
+    padding: 20px 15px;
+  }
+  
+  .botoes {
+    flex-direction: column;
+  }
+  
+  .selecao-rede-social {
+    flex-direction: column;
+  }
+  
+  .tipo-rede-social {
+    width: 100%;
+  }
+}
