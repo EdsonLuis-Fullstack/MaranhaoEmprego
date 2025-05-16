@@ -10,6 +10,7 @@ export default async function enviarCartao(formData : any) {
                 "Content-Type": "application/json",
                 "Accept": "application/json",
                 "x-api-key":"rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=",
+                "authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiOTljYmZiZDMtYjVlNi00MjI5LTk0NzktMjM5ODA1NWNlZjViIiwiaWF0IjoxNzQ2OTcxNzcxLCJleHAiOjE3NDY5ODYxNzF9.4bPBRxmlKf4KnlPz179ELfJxW-TGrWX9QljBCYwa4yE`, // aqui vc vai passar o token de autenticacao
             }, 
             body: JSON.stringify({
                 nome: formData.cardholderName,

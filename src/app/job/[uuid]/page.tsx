@@ -37,6 +37,11 @@ export default async function Detalhe({ params }: { params: { uuid: string } }) 
         
         <h4 id='Horarios'>Horários</h4>
         <p id='DetalheHorarios'>- {vaga.horarios}</p>
+        <h4 id='TotalVagas'>Localização</h4>
+        <p id='DetalheVagas'>- Cidade : {vaga.cidade} </p>
+        <p id='DetalheVagas'>- {vaga.endereco} </p>
+        <p id='DetalheVagas'>- Bairro : {vaga.bairro} </p>
+        
         
         <h4 id='Observacoes'>Observações</h4>
         <p id='DetalheObservacoes'>– {vaga.tipo} | {vaga.endereco || 'Não informado'}</p>
