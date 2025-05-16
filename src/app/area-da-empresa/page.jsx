@@ -32,7 +32,7 @@ export default function AreaDaEmpresa() {
             <div className="DivulgarVaga">
                 <h2>Encontre os melhores talentos do Maranhão para sua empresa</h2>
                 <p>Conecte sua vaga aos profissionais mais qualificados do estado em poucos cliques.</p>
-                <ButtonDivulgarVaga />
+                <Link href="/area-da-empresa/area-da-empresa/formularioVaga"><ButtonDivulgarVaga /></Link>
             </div>
             <div className="VagasDivulgadas">
                 <h2>Vagas divulgadas</h2>

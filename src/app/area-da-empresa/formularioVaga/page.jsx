@@ -1,6 +1,8 @@
 'use client'
 import './FormVaga.css'
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState('valor');
@@ -38,6 +40,21 @@ export default function FormVaga() {
     // Aqui você pode implementar a lógica para enviar os dados, como uma requisição HTTP
     console.log('Dados enviados:', dados);
   };
+  const router = useRouter();
+      const [loading, setLoading] = useState(true);
+  
+      useEffect(() => {
+          const token = Cookies.get('authToken');
+          if (!token) {
+              router.push('/login');
+          } else {
+              setLoading(false); // Libera o acesso
+          }
+      }, [router]);
+  
+      if (loading) {
+          return <p>Verificando autenticação...</p>;
+      }
 
   return (
     <div className="FormVaga">

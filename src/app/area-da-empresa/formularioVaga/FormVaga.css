@@ -142,12 +142,12 @@
 .tipo-rede-social {
   width: 150px;
   flex-shrink: 0;
-  width: 100%;
+  width: 50%;
 }
 
 .valor-rede-social {
   flex-grow: 1;
-  width: 100%;
+  width: 50%;
 }
 
 /* Estilos de botões */
@@ -226,5 +226,9 @@
   
   .tipo-rede-social {
     width: 100%;
+  }
+  .FormVaga{
+    padding-left: 20px;
+    padding-right: 20px;
   }
 }
