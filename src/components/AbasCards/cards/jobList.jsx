@@ -38,7 +38,10 @@ function Cards() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -73,7 +76,10 @@ function CardsHomeOffice() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -108,7 +114,10 @@ function CardsDiarista() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -143,7 +152,10 @@ function CardsEmprego() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -180,7 +192,10 @@ function CardsJovemAprendiz() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -217,7 +232,10 @@ function CardsEstagio() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -254,7 +272,10 @@ function CardsPcd() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -291,7 +312,10 @@ function CardsRca() {
           <p id='SobreVaga'>{jobs.sobre}</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
@@ -328,7 +352,10 @@ function CardsTrainee() {
           <p id='SobreVaga'>{jobs.sobre}44</p>
           <div id="SalarioPreço">
             <p id='Salario'>Salário:</p>
-            <span id='SalarioP'>R${jobs.salario}</span>
+            <span id='SalarioP'>
+  {jobs.salario === 'A combinar' ? jobs.salario : `R$${jobs.salario}`}
+</span>
+
           </div>
           <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>Saiba mais</Link>
         </div>
