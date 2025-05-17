@@ -1,6 +1,6 @@
 'use server';
 
-export default async function cadastrarUsuario(FormData) {
+export default async function cadastrarUsuario(FormData:any) {
   const usuario = {
     nome: FormData.empresa,
     email: FormData.email,

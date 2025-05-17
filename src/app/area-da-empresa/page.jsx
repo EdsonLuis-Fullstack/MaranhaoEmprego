@@ -9,6 +9,7 @@ import {
     EnvironmentFilled,
     ShoppingFilled
 } from '@ant-design/icons';
+import Link from 'next/link';
 
 export default function AreaDaEmpresa() {
     const router = useRouter();
@@ -32,7 +33,7 @@ export default function AreaDaEmpresa() {
             <div className="DivulgarVaga">
                 <h2>Encontre os melhores talentos do Maranhão para sua empresa</h2>
                 <p>Conecte sua vaga aos profissionais mais qualificados do estado em poucos cliques.</p>
-                <Link href="/area-da-empresa/area-da-empresa/formularioVaga"><ButtonDivulgarVaga /></Link>
+                <Link href="/area-da-empresa/formularioVaga"><ButtonDivulgarVaga /></Link>
             </div>
             <div className="VagasDivulgadas">
                 <h2>Vagas divulgadas</h2>

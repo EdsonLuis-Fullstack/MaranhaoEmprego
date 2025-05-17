@@ -3,10 +3,24 @@ import './FormVaga.css'
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
+import cadastroVagas from '../../../components/services/auth/cadastroVagas';
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState('valor');
   const [redeSocialTipo, setRedeSocialTipo] = useState('instagram');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [notification, setNotification] = useState({ type: '', message: '' });
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = Cookies.get('authToken');
+    if (!token) {
+      router.push('/login');
+    } else {
+      setLoading(false); // Libera o acesso
+    }
+  }, [router]);
 
   const handleTipoSalarioChange = (e) => {
     setTipoSalario(e.target.value);
@@ -16,49 +30,68 @@ export default function FormVaga() {
     setRedeSocialTipo(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Evita o comportamento padrão de recarregar a página
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setNotification({ type: '', message: '' });
 
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    try {
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData.entries());
 
-    // Converte os valores numéricos para números
-    if (data['valor-salario']) {
-      data['valor-salario'] = Number(data['valor-salario']);
-    }
-    if (data['total-vagas']) {
-      data['total-vagas'] = Number(data['total-vagas']);
-    }
-
-    console.log(data); // Exibe os dados no console (apenas para teste)
-
-    // Chama a função com os dados do formulário
-    enviarDadosFormulario(data);
-  };
-
-  const enviarDadosFormulario = (dados) => {
-    // Aqui você pode implementar a lógica para enviar os dados, como uma requisição HTTP
-    console.log('Dados enviados:', dados);
-  };
-  const router = useRouter();
-      const [loading, setLoading] = useState(true);
-  
-      useEffect(() => {
-          const token = Cookies.get('authToken');
-          if (!token) {
-              router.push('/login');
-          } else {
-              setLoading(false); // Libera o acesso
-          }
-      }, [router]);
-  
-      if (loading) {
-          return <p>Verificando autenticação...</p>;
+      // Converte os valores numéricos para números
+      if (data['valor-salario']) {
+        data['valor-salario'] = Number(data['valor-salario']);
       }
+      if (data['total-vagas']) {
+        data['total-vagas'] = Number(data['total-vagas']);
+      }
+
+      console.log('Dados do formulário a serem enviados:', data);
+      
+      // Chama a função com os dados do formulário
+      const result = await cadastroVagas(data);
+      console.log('Cadastro realizado com sucesso:', result);
+      
+      setNotification({
+        type: 'success',
+        message: 'Vaga cadastrada com sucesso!'
+      });
+      
+      // Limpa o formulário após sucesso
+      e.target.reset();
+      setTipoSalario('valor');
+      setRedeSocialTipo('instagram');
+      
+      // Opcional: redirecionar após alguns segundos
+      setTimeout(() => {
+        router.push('/dashboard/vagas');
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Erro ao cadastrar vaga:', error);
+      setNotification({
+        type: 'error',
+        message: error.message || 'Erro ao cadastrar vaga. Tente novamente.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (loading) {
+    return <p>Verificando autenticação...</p>;
+  }
 
   return (
     <div className="FormVaga">
       <h1 className="titulo-pagina">Cadastro de Vaga</h1>
+      
+      {notification.message && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
       
       <form className="formulario-vaga" onSubmit={handleSubmit}>
         <div className="campo-grupo">
@@ -75,12 +108,13 @@ export default function FormVaga() {
           <textarea id="requisitos" name="requisitos" className="campo-textarea requisitos-vaga" rows="4" required></textarea>
         </div>
         <div className="campo-grupo">
-          <label htmlFor="endereco" className="campo-label">Endereco</label>
-          <textarea id="endereco" name="endereco" className="campo-textarea endereco-vaga" rows="3" required></textarea>
+          <label htmlFor="Cep" className="campo-label">Cep</label>
+          <input type="number" id="cep" name="cep" className="campo-input cep-vaga" required />
         </div>
         <div className="campo-grupo">
-          <label htmlFor="bairro" className="campo-label">Bairro</label>
-          <textarea id="bairro" name="bairro" className="campo-textarea bairro-vaga" rows="3" required></textarea>
+          <label htmlFor="Sobre_empresa" className="campo-label">Sobre a Empresa</label>
+          <input type="text" id="Sobre_empresa" name="sobre" className="campo-input Sobre_empresa-vaga" required />
+          <textarea name="sobre" id="Sobre_empresa" className='campo-input Sobre_empresa-vaga' rows="4" required></textarea>
         </div>
         
         <div className="campo-grupo">
@@ -143,11 +177,11 @@ export default function FormVaga() {
           <select id="tipo" name="tipo" className="campo-select tipo-vaga" required>
             <option value="">Selecione um Tipo de vaga</option>
             <option value="estagio">Estágio</option>
-            <option value="temporario">CLT</option>
-            <option value="efetivo">PCD</option>
-            <option value="freelancer">Trainee</option>
-            <option value="efetivo">Diarista</option>
-            <option value="efetivo">Home Office</option>
+            <option value="clt">CLT</option>
+            <option value="pcd">PCD</option>
+            <option value="trainee">Trainee</option>
+            <option value="diarista">Diarista</option>
+            <option value="home_office">Home Office</option>
           </select>
         </div>
         
@@ -170,12 +204,12 @@ export default function FormVaga() {
         
         <div className="campo-grupo">
           <label htmlFor="total-vagas" className="campo-label">Total de Vagas</label>
-          <input type="number" id="total-vagas" name="total-vagas" className="campo-input total-vagas" min="1" defaultValue="1" required />
+          <input type="number" id="total-vagas" name="vagas" className="campo-input total-vagas" min="1" defaultValue="1" required />
         </div>
         
         <div className="campo-grupo">
           <label htmlFor="email-contato" className="campo-label">Email de Contato</label>
-          <input type="email" id="email-contato" name="email-contato" className="campo-input email-contato" required />
+          <input type="email" id="email-contato" name="email" className="campo-input email-contato" required />
         </div>
         
         <div className="campo-grupo">
@@ -186,6 +220,8 @@ export default function FormVaga() {
         <div className="campo-grupo">
           <label htmlFor="categoria" className="campo-label">Categoria</label>
           <select id="categoria" name="categoria" className="campo-select categoria-vaga" required>
+          <option value="">Selecione uma categoria</option>
+
             <option value="tecnologia">Tecnologia</option>
             <option value="saude">Saúde</option>
             <option value="educacao">Educação</option>
@@ -211,7 +247,7 @@ export default function FormVaga() {
             <input 
               type="text" 
               id="valor-rede-social" 
-              name="valor-rede-social" 
+              name="rede_social" 
               className="campo-input valor-rede-social" 
               placeholder={redeSocialTipo === 'instagram' ? '@seuinstagram' : 'facebook.com/suapagina'}
               required
@@ -220,8 +256,14 @@ export default function FormVaga() {
         </div>
         
         <div className="campo-grupo botoes">
-          <button type="submit" className="botao botao-enviar">Cadastrar Vaga</button>
-          <button type="reset" className="botao botao-limpar">Limpar</button>
+          <button 
+            type="submit" 
+            className="botao botao-enviar" 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Enviando...' : 'Cadastrar Vaga'}
+          </button>
+          <button type="reset" className="botao botao-limpar" disabled={isSubmitting}>Limpar</button>
         </div>
       </form>
     </div>
