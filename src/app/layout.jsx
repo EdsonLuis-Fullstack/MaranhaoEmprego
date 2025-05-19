@@ -1,6 +1,7 @@
 import Header from "@/components/header/Header"
 import Footer from "@/components/footer/Footer"
-import './globals.css' 
+import './globals.css'
+import ScrollToTopButton from './ScrollToTopButton'
 
 
 export default function layout ({children}){
@@ -10,6 +11,7 @@ export default function layout ({children}){
           <Header/>
           <main>{children}</main>
           <Footer />
+          <ScrollToTopButton />
     </body>
      </html>
     )

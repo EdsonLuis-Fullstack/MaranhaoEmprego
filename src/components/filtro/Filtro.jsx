@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import './filtro.css';
 
@@ -58,22 +58,22 @@ export default function FiltroVagas({ onFiltrar }) {
         placeholder="Cargo ou profissão"
         value={cargo}
         onChange={(e) => setCargo(e.target.value)}
+        className="filtro-input"
       />
-      <select value={cidade} onChange={(e) => setCidade(e.target.value)}>
+      <select value={cidade} onChange={(e) => setCidade(e.target.value)} className="filtro-select">
         <option value="">Todas as cidades</option>
         {cidadesMaranhao.map((c) => (
           <option key={c} value={c}>{c}</option>
         ))}
       </select>
-      <select value={area} onChange={(e) => setArea(e.target.value)}>
+      <select value={area} onChange={(e) => setArea(e.target.value)} className="filtro-select">
         <option value="">Todas as áreas</option>
         <option value="Comercial">Comercial</option>
         <option value="Tecnologia">Tecnologia</option>
         <option value="Educação">Educação</option>
         <option value="Saúde">Saúde</option>
-        {/* Adicione mais áreas conforme necessário */}
       </select>
-      <button type="submit">Filtrar</button>
+      <button type="submit" className="filtro-button">Filtrar</button>
     </form>
   );
 }

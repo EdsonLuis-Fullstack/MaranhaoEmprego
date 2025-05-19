@@ -89,7 +89,7 @@
     background: var(--cinza-claro);
     padding: 0.5rem 1rem;
     border-radius: 25px;
-    margin-top: auto;
+    width: 100%;
   }
   
   #Salario,
