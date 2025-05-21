@@ -1,29 +1,59 @@
 .Footer{
-    height: 60vh;
     background-color: var(--color-blue);
     padding-left: 80px;
     padding-right: 80px;
+    padding-bottom: 50px;
+    padding-top: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 20px;
 }
 .LogoFooter{
-    width: 50%;
-    height: 150px;
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.Anuncio{
-    width: 50%;
-    height: 150px;
+.RodapeRedirect{
+    width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: start;
+    align-items: flex-start;
+    flex-direction: column;
+    font-family: montserrat, poppins;
+    gap: 10px;
+    font-size: 14px;
+}
+.RodapeRedirect a{
+    text-decoration: none;
+    color: white;
+}
+.RodapeRedeSocial{
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    flex-direction: column;
+    font-family: montserrat, poppins;
+    gap: 10px;
+    font-size: 14px;
+}
+.RodapeRedeSocial a{
+    text-decoration: none;
+    color: white;
+    display: flex;
     align-items: center;
+    gap: 10px;
+}
+#LinhaFooter{
+    width: 70%;
+    height: 1px;
     background-color: white;
-    border-radius: 7px;
+    rotate: 90deg;
 }
 .Copyright{
     background-color: #252525;
@@ -49,11 +79,16 @@
         align-items: flex-start;
         padding-left: 20px;
         padding-right: 20px;
+        flex-wrap: wrap;
     }
     .Anuncio{
         width: 100%;
     }
     .LogoFooter{
         width: 100%;
+    }
+    #LinhaFooter{
+        rotate: 0deg;
+        width: 80%;
     }
 }

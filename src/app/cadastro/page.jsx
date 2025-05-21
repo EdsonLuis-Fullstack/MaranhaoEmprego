@@ -219,7 +219,7 @@ const CadastroForm = () => {
               name="privacidade"
               required
             />
-            <label htmlFor="privacidade">Aceito os Termos de Uso e a Política de Privacidade</label>
+            <label htmlFor="privacidade">Aceito os <Link href="/termo-de-uso" id="LogarConta">Termos de Uso </Link> e a <Link href="/politica-de-privacidade" id="LogarConta">Política de Privacidade</Link></label>
           </div>
 
           <button 

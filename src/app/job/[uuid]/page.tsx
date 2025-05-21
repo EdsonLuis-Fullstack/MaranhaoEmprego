@@ -56,9 +56,6 @@ export default async function Detalhe({ params }: { params: { uuid: string } }) 
           <strong>Email: <Link href={`mailto:${vaga.email}`}>{vaga.email}</Link></strong><br />
         </p>
       </div>
-      <div className='SideBar'>
-        <h1>Detalhes</h1>
-      </div>
     </section>
   );
 }

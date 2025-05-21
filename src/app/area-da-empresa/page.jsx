@@ -7,7 +7,8 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import {
     EnvironmentFilled,
-    ShoppingFilled
+    ShoppingFilled,
+    LogoutOutlined
 } from '@ant-design/icons';
 import Link from 'next/link';
 
@@ -20,9 +21,14 @@ export default function AreaDaEmpresa() {
         if (!token) {
             router.push('/login');
         } else {
-            setLoading(false); // Libera o acesso
+            setLoading(false);
         }
     }, [router]);
+
+    const handleLogout = () => {
+        Cookies.remove('authToken');
+        router.push('/login');
+    };
 
     if (loading) {
         return <p>Verificando autenticação...</p>;
@@ -52,6 +58,9 @@ export default function AreaDaEmpresa() {
                     </div>
                 </div>
             </div>
+            <button className="LogoutButton" onClick={handleLogout}>
+                <LogoutOutlined /> Sair
+            </button>
         </section>
     );
 }
