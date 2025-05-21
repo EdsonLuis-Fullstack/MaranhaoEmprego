@@ -1,6 +1,6 @@
 'use client'
 import './FormVaga.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import cadastroVagas from '../../../components/services/auth/cadastroVagas';
@@ -13,6 +13,9 @@ export default function FormVaga() {
   const router = useRouter();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  
+  // Ref para o componente de erro para rolagem automática
+  const errorRef = useRef(null);
 
   useEffect(() => {
     const token = Cookies.get('authToken');
@@ -23,16 +26,27 @@ export default function FormVaga() {
     }
   }, [router]);
 
-  // Limpa a notificação após 5 segundos
+  // Limpa a notificação após 4 segundos
   useEffect(() => {
     if (notification.message) {
       const timer = setTimeout(() => {
         setNotification({ type: '', message: '' });
-      }, 5000);
+      }, 4000);
       
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  // Efeito para rolar até o erro quando ele aparecer
+  useEffect(() => {
+    if (error && errorRef.current) {
+      // Rola suavemente até o componente de erro
+      errorRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start'
+      });
+    }
+  }, [error]);
 
   const handleTipoSalarioChange = (e) => {
     setTipoSalario(e.target.value);
@@ -40,6 +54,22 @@ export default function FormVaga() {
 
   const handleRedeSocialTipoChange = (e) => {
     setRedeSocialTipo(e.target.value);
+  };
+
+  // Função para formatar as mensagens de erro
+  const formatErrorMessage = (errorMsg) => {
+    // Se for um array de erros, formata como lista
+    if (Array.isArray(errorMsg)) {
+      return errorMsg;
+    }
+    
+    // Se for um objeto, extrai as mensagens
+    if (typeof errorMsg === 'object' && errorMsg !== null) {
+      return Object.values(errorMsg).flat();
+    }
+    
+    // Se for uma string, retorna como array para consistência
+    return [errorMsg];
   };
 
   const handleSubmit = async (e) => {
@@ -55,8 +85,8 @@ export default function FormVaga() {
       if (data['valor-salario']) {
         data['valor-salario'] = Number(data['valor-salario']);
       }
-      if (data['total-vagas']) {
-        data['total-vagas'] = Number(data['total-vagas']);
+      if (data.vagas) {
+        data.vagas = Number(data.vagas);
       }
       if (data.cep) {
         data.cep = data.cep;  // Manter como string para preservar zeros iniciais
@@ -69,7 +99,7 @@ export default function FormVaga() {
       console.log('Resultado da requisição:', result);
       
       if (result.code === 201) {
-        // Sucesso
+        // Sucesso - somente mostra a notificação de sucesso
         setNotification({
           type: 'success',
           message: result.msg
@@ -86,28 +116,24 @@ export default function FormVaga() {
         }, 2000);
       } else {
         // Trata o erro retornado pelo backend
+        const errorMessages = formatErrorMessage(result.msg);
+        
+        // Para erros, somente mostra o card de erro, sem notificação adicional
         setError({
           message: 'Erro ao cadastrar vaga',
-          details: result.msg 
-        });
-        
-        setNotification({
-          type: 'error',
-          message: result.msg 
+          details: errorMessages
         });
       }
     } catch (err) {
       console.error('Erro na requisição:', err);
       
       // Trata erros de requisição ou outros erros não previstos
+      const errorMessages = err.msg ? formatErrorMessage(err.msg) : ['Ocorreu um erro inesperado. Tente novamente mais tarde.'];
+      
+      // Para erros, somente mostra o card de erro, sem notificação adicional
       setError({
         message: 'Erro ao cadastrar vaga',
-        details: err.msg || 'Ocorreu um erro inesperado. Tente novamente mais tarde.'
-      });
-      
-      setNotification({
-        type: 'error',
-        message: err.msg || 'Erro ao cadastrar vaga. Tente novamente.'
+        details: errorMessages
       });
     } finally {
       setIsSubmitting(false);
@@ -124,16 +150,53 @@ export default function FormVaga() {
       
       {/* Exibe o Alert de erro se houver um erro */}
       {error && (
-        <div className="error-alert">
-          <h4>{error.message}</h4>
-          <p>{error.details}</p>
+        <div className="error-alert" ref={errorRef}>
+          <div className="error-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+          </div>
+          <div className="error-content">
+            <h4 className="error-title">{error.message}</h4>
+            {Array.isArray(error.details) ? (
+              <ul className="error-details-list">
+                {error.details.map((detail, index) => (
+                  <li key={index}>{detail}</li>
+                ))}
+              </ul>
+            ) : (
+              <p className="error-details">{error.details}</p>
+            )}
+          </div>
+          <button 
+            className="error-close-btn"
+            onClick={() => setError(null)}
+            aria-label="Fechar alerta de erro"
+          >
+            ×
+          </button>
         </div>
       )}
       
-      {/* Exibe a notificação se houver uma mensagem */}
-      {notification.message && (
+      {/* Exibe a notificação SOMENTE quando não houver erro e tiver uma mensagem */}
+      {!error && notification.message && (
         <div className={`notification ${notification.type}`}>
-          {notification.message}
+          {notification.type === 'success' && (
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          )}
+          <span>{notification.message}</span>
+          <button 
+            onClick={() => setNotification({ type: '', message: '' })}
+            className="notification-close"
+            aria-label="Fechar notificação"
+          >
+            ×
+          </button>
         </div>
       )}
       
@@ -156,7 +219,6 @@ export default function FormVaga() {
           <input type="text" id="cep" name="cep" className="campo-input cep-vaga" maxLength="8" required />
         </div>
         
-        {/* Corrigido: removido o campo duplicado e unificado o campo de Sobre a Empresa */}
         <div className="campo-grupo">
           <label htmlFor="sobre" className="campo-label">Sobre a Empresa</label>
           <textarea id="sobre" name="sobre" className="campo-textarea sobre-vaga" rows="4" required></textarea>

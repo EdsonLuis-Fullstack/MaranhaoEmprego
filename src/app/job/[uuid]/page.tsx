@@ -2,9 +2,10 @@ import './Detalhe.css';
 import Link from "next/link";
 import getUuid from "@/components/services/allJob/getUuid";
 
-export default async function Detalhe({ params }: { params: { uuid: string } }) {
-  // Usando sem desestruturação direta
-  const resolvedParams = await Promise.resolve(params);
+
+export default async function Detalhe({ params }: { params: Promise<{ uuid: string }> }) {
+  const resolvedParams = await params;
+
   const uuid = resolvedParams.uuid;
   
   const vaga = await getUuid(uuid);
