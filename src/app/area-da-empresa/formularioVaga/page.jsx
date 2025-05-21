@@ -126,10 +126,16 @@ export default function FormVaga() {
       {error && (
         <div className="error-alert">
           <h4>{error.message}</h4>
+          <p>{error.details}</p>
         </div>
       )}
       
-
+      {/* Exibe a notificação se houver uma mensagem */}
+      {notification.message && (
+        <div className={`notification ${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
       
       <form className="formulario-vaga" onSubmit={handleSubmit}>
         <div className="campo-grupo">
