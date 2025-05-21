@@ -11,12 +11,7 @@ export default async function realizarLogin(FormData) {
       senha: FormData.senha
     }),
   });
+  const data = await response.json();
+  return data;
 
-  if (response.status === 200) {
-    const data = await response.json();
-    console.log('Login response:', data.token);
-    return data.token;
-  } else {
-    throw new Error('Login failed');
-  }
 }

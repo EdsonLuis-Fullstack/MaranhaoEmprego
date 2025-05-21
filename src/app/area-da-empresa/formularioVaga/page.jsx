@@ -11,6 +11,7 @@ export default function FormVaga() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ type: '', message: '' });
   const router = useRouter();
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,6 +22,17 @@ export default function FormVaga() {
       setLoading(false); // Libera o acesso
     }
   }, [router]);
+
+  // Limpa a notificação após 5 segundos
+  useEffect(() => {
+    if (notification.message) {
+      const timer = setTimeout(() => {
+        setNotification({ type: '', message: '' });
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   const handleTipoSalarioChange = (e) => {
     setTipoSalario(e.target.value);
@@ -34,11 +46,11 @@ export default function FormVaga() {
     e.preventDefault();
     setIsSubmitting(true);
     setNotification({ type: '', message: '' });
+    setError(null);
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
 
     try {
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData.entries());
-
       // Converte os valores numéricos para números
       if (data['valor-salario']) {
         data['valor-salario'] = Number(data['valor-salario']);
@@ -46,33 +58,56 @@ export default function FormVaga() {
       if (data['total-vagas']) {
         data['total-vagas'] = Number(data['total-vagas']);
       }
+      if (data.cep) {
+        data.cep = data.cep;  // Manter como string para preservar zeros iniciais
+      }
 
       console.log('Dados do formulário a serem enviados:', data);
       
       // Chama a função com os dados do formulário
       const result = await cadastroVagas(data);
-      console.log('Cadastro realizado com sucesso:', result);
+      console.log('Resultado da requisição:', result);
       
-      setNotification({
-        type: 'success',
-        message: 'Vaga cadastrada com sucesso!'
+      if (result.code === 201) {
+        // Sucesso
+        setNotification({
+          type: 'success',
+          message: result.msg
+        });
+        
+        // Limpa o formulário após sucesso
+        e.target.reset();
+        setTipoSalario('valor');
+        setRedeSocialTipo('instagram');
+        
+        // Opcional: redirecionar após alguns segundos
+        setTimeout(() => {
+          router.push('/dashboard/vagas');
+        }, 2000);
+      } else {
+        // Trata o erro retornado pelo backend
+        setError({
+          message: 'Erro ao cadastrar vaga',
+          details: result.msg 
+        });
+        
+        setNotification({
+          type: 'error',
+          message: result.msg 
+        });
+      }
+    } catch (err) {
+      console.error('Erro na requisição:', err);
+      
+      // Trata erros de requisição ou outros erros não previstos
+      setError({
+        message: 'Erro ao cadastrar vaga',
+        details: err.msg || 'Ocorreu um erro inesperado. Tente novamente mais tarde.'
       });
       
-      // Limpa o formulário após sucesso
-      e.target.reset();
-      setTipoSalario('valor');
-      setRedeSocialTipo('instagram');
-      
-      // Opcional: redirecionar após alguns segundos
-      setTimeout(() => {
-        router.push('/dashboard/vagas');
-      }, 2000);
-      
-    } catch (error) {
-      console.error('Erro ao cadastrar vaga:', error);
       setNotification({
         type: 'error',
-        message: error.message || 'Erro ao cadastrar vaga. Tente novamente.'
+        message: err.msg || 'Erro ao cadastrar vaga. Tente novamente.'
       });
     } finally {
       setIsSubmitting(false);
@@ -87,11 +122,14 @@ export default function FormVaga() {
     <div className="FormVaga">
       <h1 className="titulo-pagina">Cadastro de Vaga</h1>
       
-      {notification.message && (
-        <div className={`notification ${notification.type}`}>
-          {notification.message}
+      {/* Exibe o Alert de erro se houver um erro */}
+      {error && (
+        <div className="error-alert">
+          <h4>{error.message}</h4>
         </div>
       )}
+      
+
       
       <form className="formulario-vaga" onSubmit={handleSubmit}>
         <div className="campo-grupo">
@@ -108,13 +146,14 @@ export default function FormVaga() {
           <textarea id="requisitos" name="requisitos" className="campo-textarea requisitos-vaga" rows="4" required></textarea>
         </div>
         <div className="campo-grupo">
-          <label htmlFor="Cep" className="campo-label">Cep</label>
-          <input type="number" id="cep" name="cep" className="campo-input cep-vaga" required />
+          <label htmlFor="cep" className="campo-label">CEP</label>
+          <input type="text" id="cep" name="cep" className="campo-input cep-vaga" maxLength="8" required />
         </div>
+        
+        {/* Corrigido: removido o campo duplicado e unificado o campo de Sobre a Empresa */}
         <div className="campo-grupo">
-          <label htmlFor="Sobre_empresa" className="campo-label">Sobre a Empresa</label>
-          <input type="text" id="Sobre_empresa" name="sobre" className="campo-input Sobre_empresa-vaga" required />
-          <textarea name="sobre" id="Sobre_empresa" className='campo-input Sobre_empresa-vaga' rows="4" required></textarea>
+          <label htmlFor="sobre" className="campo-label">Sobre a Empresa</label>
+          <textarea id="sobre" name="sobre" className="campo-textarea sobre-vaga" rows="4" required></textarea>
         </div>
         
         <div className="campo-grupo">
@@ -203,13 +242,13 @@ export default function FormVaga() {
         </div>
         
         <div className="campo-grupo">
-          <label htmlFor="total-vagas" className="campo-label">Total de Vagas</label>
-          <input type="number" id="total-vagas" name="vagas" className="campo-input total-vagas" min="1" defaultValue="1" required />
+          <label htmlFor="vagas" className="campo-label">Total de Vagas</label>
+          <input type="number" id="vagas" name="vagas" className="campo-input total-vagas" min="1" defaultValue="1" required />
         </div>
         
         <div className="campo-grupo">
-          <label htmlFor="email-contato" className="campo-label">Email de Contato</label>
-          <input type="email" id="email-contato" name="email" className="campo-input email-contato" required />
+          <label htmlFor="email" className="campo-label">Email de Contato</label>
+          <input type="email" id="email" name="email" className="campo-input email-contato" required />
         </div>
         
         <div className="campo-grupo">
@@ -220,8 +259,7 @@ export default function FormVaga() {
         <div className="campo-grupo">
           <label htmlFor="categoria" className="campo-label">Categoria</label>
           <select id="categoria" name="categoria" className="campo-select categoria-vaga" required>
-          <option value="">Selecione uma categoria</option>
-
+            <option value="">Selecione uma categoria</option>
             <option value="tecnologia">Tecnologia</option>
             <option value="saude">Saúde</option>
             <option value="educacao">Educação</option>
@@ -246,7 +284,7 @@ export default function FormVaga() {
             
             <input 
               type="text" 
-              id="valor-rede-social" 
+              id="rede_social" 
               name="rede_social" 
               className="campo-input valor-rede-social" 
               placeholder={redeSocialTipo === 'instagram' ? '@seuinstagram' : 'facebook.com/suapagina'}
@@ -263,7 +301,20 @@ export default function FormVaga() {
           >
             {isSubmitting ? 'Enviando...' : 'Cadastrar Vaga'}
           </button>
-          <button type="reset" className="botao botao-limpar" disabled={isSubmitting}>Limpar</button>
+          <button 
+            type="button" 
+            className="botao botao-limpar" 
+            disabled={isSubmitting}
+            onClick={() => {
+              document.querySelector('.formulario-vaga').reset();
+              setTipoSalario('valor');
+              setRedeSocialTipo('instagram');
+              setError(null);
+              setNotification({ type: '', message: '' });
+            }}
+          >
+            Limpar
+          </button>
         </div>
       </form>
     </div>

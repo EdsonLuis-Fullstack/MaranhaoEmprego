@@ -3,7 +3,6 @@
 import { cookies } from "next/headers";
 
 async function cadastroVagas(formData: any) {
-    try {
         // Transform form data to match backend expected structure
         const payload = {
             titulo: formData.titulo,
@@ -50,16 +49,8 @@ async function cadastroVagas(formData: any) {
             credentials: 'include', // Include cookies for authentication
         });
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.erro || 'Erro ao cadastrar vaga');
-        }
-
         return await response.json();
-    } catch (error) {
-        console.error('Erro no serviço de cadastro de vagas:', error);
-        throw error;
-    }
+
 }
 
 export default cadastroVagas;

@@ -16,11 +16,6 @@ export default async function cadastrarUsuario(FormData:any) {
     },
     body: JSON.stringify(usuario),
   });
-  
-  if (response.status === 201) {
-    return response;
-  } else {
-    const errorData = await response.json();
-    throw new Error(errorData.message || 'Erro ao cadastrar usuário');
-  }
+  return response;
+
 }
