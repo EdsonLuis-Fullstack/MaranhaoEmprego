@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './Cadastro.css';
 import Link from "next/link";
-import { message, Alert } from 'antd'; // Adicionando Alert para exibir erros
 
 const CadastroForm = () => {
   const router = useRouter();
@@ -46,60 +45,45 @@ const CadastroForm = () => {
       ...prev,
       [name]: type === 'checkbox' ? checked : processedValue,
     }));
-    
-    // Limpa o erro quando o usuário começa a digitar novamente
+
     if (error) setError(null);
   };
 
   const processErrorResponse = async (response) => {
-    // Tenta extrair informações detalhadas do erro da resposta
+    const errorData = await response.json();
+    if (errorData.msg) {
+      return { message: 'Erro no cadastro', details: errorData.msg };
+    }
 
-      const errorData = await response.json();
-      
-      // Verifica diferentes formatos possíveis de erro
-      if (errorData.msg) {
-        return {
-          message: 'Erro no cadastro',
-          details: errorData.msg,
-          code: response.status
-        };
-
-
-      }
-
-    // Mapeamento de códigos de erro para mensagens amigáveis
     const errorMessages = {
-      400: 'Dados inválidos. Verifique as informações fornecidas.',
-      401: 'Não autorizado. Verifique suas credenciais.',
-      403: 'Acesso negado. Você não tem permissão para realizar esta operação.',
-      404: 'Recurso não encontrado. Verifique a URL.',
-      409: 'Conflito. Este email já pode estar cadastrado.',
-      422: 'Dados inválidos. Verifique as informações fornecidas.',
-      429: 'Muitas solicitações. Tente novamente mais tarde.',
-      500: 'Erro interno do servidor. Tente novamente mais tarde.',
-      503: 'Serviço indisponível no momento. Tente novamente mais tarde.'
+      400: 'Dados inválidos.',
+      401: 'Não autorizado.',
+      403: 'Acesso negado.',
+      404: 'Recurso não encontrado.',
+      409: 'Este e-mail já está cadastrado.',
+      422: 'Dados inválidos.',
+      429: 'Muitas solicitações.',
+      500: 'Erro interno do servidor.',
+      503: 'Serviço indisponível.',
     };
-    
+
     return {
       message: errorMessages[response.status] || 'Erro desconhecido',
-      details: `Código de status: ${response.status}`,
-      code: response.status
+      details: `Código: ${response.status}`,
     };
   };
 
-  const handleSubmit = async (e) => {
+  const handle = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    
+
     const cleanedData = {
       nome: formData.empresa,
       email: formData.email,
       senha: formData.senha,
       telefone: formData.telefone.replace(/\D/g, ''),
     };
-
-    console.log("Dados enviados:", cleanedData);
 
     try {
       const response = await fetch('http://localhost:8080/accessv4/cadastro', {
@@ -111,52 +95,36 @@ const CadastroForm = () => {
         body: JSON.stringify(cleanedData),
       });
 
-      console.log("Resposta da API:", response);
-
       if (response.ok) {
-        // Sucesso (200, 201)
-        message.success('Cadastro realizado com sucesso! Redirecionando para o login...');
-        setTimeout(() => {
-          router.push('/login');
-        }, 1500);
+        alert('Cadastro realizado com sucesso!');
+        router.push('/login');
       } else {
-        // Resposta de erro do servidor
         const errorData = await processErrorResponse(response);
         setError(errorData);
-        message.error(errorData.message);
       }
     } catch (error) {
-      console.error("Erro de rede:", error);
-      
       setError({
         message: 'Erro de conexão',
-        details: 'Não foi possível conectar ao servidor. Verifique sua conexão com a internet.',
-        code: 'network-error'
+        details: 'Verifique sua conexão com a internet.',
       });
-      
-      message.error('Não foi possível realizar o cadastro. Verifique sua conexão.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <section className='Cadastro'>
-      <div className='FormularioCadastro'>
+    <section className="Cadastro">
+      <div className="FormularioCadastro">
         <h1 id="TituloCadastro">Cadastro</h1>
-        
+
         {error && (
-          <Alert
-            message={error.message}
-            description={error.details}
-            type="error"
-            showIcon
-            closable
-            style={{ marginBottom: '15px', width: '85%', height: '15%', fontSize: '0.9rem' }}
-          />
+          <div className="custom-alert">
+            <strong>{error.message}</strong>
+            <p>{error.details}</p>
+          </div>
         )}
-        
-        <form onSubmit={handleSubmit} className="form">
+
+        <form onSubmit={handle} className="form">
           <div className="form-group">
             <label htmlFor="empresa">Nome da Empresa</label>
             <input
@@ -206,31 +174,28 @@ const CadastroForm = () => {
               value={formData.senha}
               onChange={handleChange}
               required
-              minLength={8} // Definindo o mínimo de 8 caracteres
-              pattern=".{8,}" // Garantindo que sejam no mínimo 8 caracteres
+              minLength={8}
+              pattern=".{8,}"
               title="A senha deve ter pelo menos 8 caracteres"
             />
           </div>
 
           <div className="checkbox-group">
-            <input
-              type="checkbox"
-              id="privacidade"
-              name="privacidade"
-              required
-            />
-            <label htmlFor="privacidade">Aceito os <Link href="/termo-de-uso" id="LogarConta">Termos de Uso </Link> e a <Link href="/politica-de-privacidade" id="LogarConta">Política de Privacidade</Link></label>
+            <input type="checkbox" id="privacidade" name="privacidade" required />
+            <label htmlFor="privacidade">
+              Aceito os <Link href="/termo-de-uso">Termos de Uso</Link> e a{' '}
+              <Link href="/politica-de-privacidade">Política de Privacidade</Link>
+            </label>
           </div>
 
-          <button 
-            type="submit" 
-            className="submit-btn" 
-            disabled={isLoading}
-          >
+          <button type="submit" className="submit-btn" disabled={isLoading}>
             {isLoading ? 'Cadastrando...' : 'Cadastrar'}
           </button>
         </form>
-        <p id='LoginConta'>Já tem conta? <Link href="/login" id="LogarConta">Faça seu Login.</Link></p>
+
+        <p id="LoginConta">
+          Já tem conta? <Link href="/login">Faça seu Login.</Link>
+        </p>
       </div>
     </section>
   );
