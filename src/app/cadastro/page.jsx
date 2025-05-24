@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './Cadastro.css';
 import Link from "next/link";
+import cadastrarUsuario from '@/components/services/auth/cadastro';
 import { message, Alert } from 'antd'; // Adicionando Alert para exibir erros
 
 const CadastroForm = () => {
@@ -100,44 +101,28 @@ const CadastroForm = () => {
     };
 
     console.log("Dados enviados:", cleanedData);
-
-    try {
-      const response = await fetch('http://localhost:8080/accessv4/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
-        },
-        body: JSON.stringify(cleanedData),
-      });
-
-      console.log("Resposta da API:", response);
-
+      let response = await cadastrarUsuario(cleanedData);
       if (response.ok) {
         // Sucesso (200, 201)
         message.success('Cadastro realizado com sucesso! Redirecionando para o login...');
         setTimeout(() => {
           router.push('/login');
-        }, 1500);
+        }, 1200);
       } else {
         // Resposta de erro do servidor
         const errorData = await processErrorResponse(response);
         setError(errorData);
         message.error(errorData.message);
       }
-    } catch (error) {
-      console.error("Erro de rede:", error);
+       if(response.code == 500) {
       
       setError({
         message: 'Erro de conexão',
         details: 'Não foi possível conectar ao servidor. Verifique sua conexão com a internet.',
         code: 'network-error'
-      });
+      });}
       
-      message.error('Não foi possível realizar o cadastro. Verifique sua conexão.');
-    } finally {
-      setIsLoading(false);
-    }
+
   };
 
   return (

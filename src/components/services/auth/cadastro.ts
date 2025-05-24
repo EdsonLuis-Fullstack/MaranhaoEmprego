@@ -8,7 +8,7 @@ export default async function cadastrarUsuario(FormData:any) {
     telefone: FormData.telefone,
   };
 
-  const response = await fetch('http://localhost:8080/accessv4/cadastro', {
+  const response = await fetch('http://127.0.0.1:8080/accessv4/cadastro', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

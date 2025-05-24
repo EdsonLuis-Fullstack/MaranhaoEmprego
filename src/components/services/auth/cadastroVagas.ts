@@ -30,7 +30,7 @@ async function cadastroVagas(formData: any) {
         console.log('Processed payload:', payload);
 
         // Get the auth token from cookies
-        const cookieStore = cookies();
+        const cookieStore = await cookies();
         const authToken = cookieStore.get('authToken')?.value;
 
         if (!authToken) {
