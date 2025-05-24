@@ -18,7 +18,7 @@ function NavBar() {
              </div> 
                 <ul>
                     <li><Link href="/">Home</Link></li>
-                    <li><Link href="/job">Vagas</Link></li>
+                    <li><Link href="/allvagas">Vagas</Link></li>
                     <li><Link href="/news">Noticias</Link></li>
                     <li><Link href="/courses">Cursos</Link></li>
                 </ul>
