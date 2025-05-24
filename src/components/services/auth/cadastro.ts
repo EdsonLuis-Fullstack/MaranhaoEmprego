@@ -1,6 +1,13 @@
 'use server';
 
-export default async function cadastrarUsuario(FormData:any) {
+interface UsuarioFormData {
+  empresa: string;
+  email: string;
+  senha: string;
+  telefone: string;
+}
+
+export default async function cadastrarUsuario(FormData: UsuarioFormData) {
   const usuario = {
     nome: FormData.empresa,
     email: FormData.email,
@@ -8,7 +15,7 @@ export default async function cadastrarUsuario(FormData:any) {
     telefone: FormData.telefone,
   };
 
-  const response = await fetch('http://localhost:8080/accessv4/cadastro', {
+  const response = await fetch('http://127.0.0.1:8080/accessv4/cadastro', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

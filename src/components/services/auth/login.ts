@@ -1,5 +1,11 @@
 "use server";
-export default async function realizarLogin(FormData) {
+interface LoginFormData {
+  email: string;
+  senha: string;
+}
+
+
+export default async function realizarLogin(FormData: LoginFormData) {
   const response = await fetch('http://127.0.0.1:8080/accessv4/login', {
     method: 'POST',
     headers: {
