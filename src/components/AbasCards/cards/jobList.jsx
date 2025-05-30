@@ -1,5 +1,4 @@
 'use client'
-
 import './CardStyle.css'
 import {
   EnvironmentFilled,
@@ -8,7 +7,7 @@ import {
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import getAllJobs from '@/components/services/allJob/getJobs';
-import {getParamet} from '@/components/services/allJob/getJobs';
+import { getJobsFiltros } from '@/components/services/allJob/getjobsFiltros';
 
 function Cards() {
   const [vagas, setVagas] = useState([]);
@@ -363,4 +362,44 @@ function CardsTrainee() {
     </div>
   );
 }
-export  { Cards, CardsHomeOffice, CardsDiarista, CardsEmprego, CardsJovemAprendiz, CardsEstagio,CardsPcd,CardsRca,CardsTrainee };
+
+
+export function Card_Filtros({ vagas = [] }) {
+
+  return (
+    <div className="Vagas">
+      {vagas.length === 0 ? (
+        <div className="no-results">
+          <p>Nenhuma vaga encontrada com os filtros aplicados.</p>
+        </div>
+      ) : (
+        vagas.map((jobs) => (
+          <div className='CardVagas' key={jobs.uuid}>
+            <h1 id='tituloCard'>{jobs.titulo}</h1>
+            <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
+            <p id='Local'>
+              <EnvironmentFilled style={{ color: '#02539b' }} /> 
+              {jobs.cidade} - MA
+            </p>
+            <p id='Categoria'>
+              <ShoppingFilled style={{ color: '#02539b' }} /> 
+              {jobs.categoria}
+            </p>
+            <p id='areas'>{jobs.area}</p>
+            <p id='SobreVaga'>{jobs.sobre}</p>
+            <div id="SalarioPreço">
+              <p id='Salario'>Salário:</p>
+              <span id='SalarioP'>
+                {jobs.salario === 'A combinar' ? jobs.salario : `R${jobs.salario}`}
+              </span>
+            </div>
+            <Link className='LinkClass' id='linkID' href={`/job/${jobs.uuid}`}>
+              Saiba mais
+            </Link>
+          </div>
+        ))
+      )}
+    </div>
+  );
+}
+export  { Cards, CardsHomeOffice, CardsDiarista, CardsEmprego, CardsJovemAprendiz, CardsEstagio,CardsPcd,CardsRca,CardsTrainee,Card_Filtros };
