@@ -7,7 +7,7 @@ import cadastroVagas from '../../../components/services/auth/cadastroVagas';
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState('valor');
-  const [redeSocialTipo, setRedeSocialTipo] = useState('instagram');
+  const [redeSocialTipo, setRedeSocialTipo] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState({ type: '', message: '' });
   const router = useRouter();
@@ -229,7 +229,7 @@ export default function FormVaga() {
               <input 
                 type="radio" 
                 id="salario-valor" 
-                name="tipo-salario" 
+                name="tipoSalario" 
                 value="valor" 
                 checked={tipoSalario === 'valor'} 
                 onChange={handleTipoSalarioChange} 
@@ -242,7 +242,7 @@ export default function FormVaga() {
               <input 
                 type="radio" 
                 id="salario-combinar" 
-                name="tipo-salario" 
+                name="tipoSalario" 
                 value="combinar" 
                 checked={tipoSalario === 'combinar'} 
                 onChange={handleTipoSalarioChange} 
@@ -330,11 +330,11 @@ export default function FormVaga() {
         </div>
         <div className="campo-grupo">
           <label htmlFor="Endereco" className="campo-label">Endereco</label>
-          <input type="text" id="Endereco" name="Endereco" className="campo-input Endereco-contato" required maxLength={40} placeholder='Ex.: Rua das Flores, 123 - Centro' />
+          <input type="text" id="Endereco" name="endereco" className="campo-input Endereco-contato" required maxLength={40} placeholder='Ex.: Rua das Flores, 123 - Centro' />
         </div>
         <div className="campo-grupo">
           <label htmlFor="Bairro" className="campo-label">Bairro</label>
-          <input type="text" id="Bairro" name="Bairro" className="campo-input Bairro-contato" required maxLength={40} placeholder='"Ex.: Centro"' />
+          <input type="text" id="Bairro" name="bairro" className="campo-input Bairro-contato" required maxLength={40} placeholder='"Ex.: Centro"' />
         </div>
         
         <div className="campo-grupo">
@@ -345,8 +345,9 @@ export default function FormVaga() {
               className="campo-select tipo-rede-social"
               value={redeSocialTipo}
               onChange={handleRedeSocialTipoChange}
-              required
+              
             >
+              <option value="">Selecione uma Rede Social</option>
               <option value="instagram">Instagram</option>
               <option value="facebook">Facebook</option>
             </select>
@@ -357,7 +358,7 @@ export default function FormVaga() {
               name="rede_social" 
               className="campo-input valor-rede-social" 
               placeholder={redeSocialTipo === 'instagram' ? '@seuinstagram' : 'facebook.com/suapagina'}
-              required
+              
             />
           </div>
         </div>

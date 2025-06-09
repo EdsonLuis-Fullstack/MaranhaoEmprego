@@ -7,7 +7,6 @@ import {
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import getAllJobs from '@/components/services/allJob/getJobs';
-import { getJobsFiltros } from '@/components/services/allJob/getjobsFiltros';
 
 function Cards() {
   const [vagas, setVagas] = useState([]);
