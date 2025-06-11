@@ -1,75 +1,206 @@
-/* style_cartao.css */
+/* style_cartao.css atualizado com suporte a tabs */
+.conteinerPay {
+  min-height: 100vh;
+  padding-top: 130px;
+  padding-bottom: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  font-family: montserrat, poppins;
+}
+
+.tab-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.tab-btn.active {
+  background-color: #007bff;
+  color: white;
+}
 
 .form-checkout {
-    max-width: 500px;
-    margin-top: 100px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .form-checkout h2 {
-    text-align: center;
-    margin-bottom: 1.5rem;
-    color: #333;
-  }
-  
-  .form-group {
-    margin-bottom: 1rem;
-    display: flex;
+  min-width: 350px;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  font-family: montserrat, poppins;
+}
+
+.form-checkout h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+.Preço {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 7px;
+  gap: 10px;
+  font-family: montserrat, poppins;
+  margin-bottom: 1.25rem;
+}
+
+.PrecoPlano {
+  color: #0056b3;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.payment-method-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  font-family: montserrat, poppins;
+}
+
+.payment-method {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+.form-pix {
+  min-width: 350px;
+  max-width: 420px;
+  background-color: #f9f9f9;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: montserrat, poppins;
+}
+
+.form-pix h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.form-pix .form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-pix .form-group label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  color: #444;
+}
+
+.form-pix .form-group input {
+  padding: 0.6rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.form-pix .form-group input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-pix .btn-submit {
+  width: 100%;
+  padding: 0.8rem;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1.5rem;
+  transition: background-color 0.2s;
+}
+
+.form-pix .btn-submit:hover {
+  background-color: #0056b3;
+}
+
+/* Responsivo */
+@media (max-width: 500px) {
+  .form-row {
     flex-direction: column;
   }
-  
-  .form-group label {
-    margin-bottom: 0.3rem;
-    font-weight: 500;
-    color: #444;
+
+  .tabs {
+    flex-direction: row;
+    align-items: stretch;
   }
-  
-  .form-group input,
-  .form-group select {
-    padding: 0.6rem;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: border-color 0.2s;
-  }
-  
-  .form-group input:focus,
-  .form-group select:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .btn-submit {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #007bff;
-    color: white;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    transition: background-color 0.2s;
-  }
-  
-  .btn-submit:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Responsivo */
-  @media (max-width: 500px) {
-    .form-row {
-      flex-direction: column;
-    }
-  }
-  
+}
