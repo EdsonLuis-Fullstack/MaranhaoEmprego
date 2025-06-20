@@ -16,12 +16,13 @@ async function cadastroVagas(formData: any) {
             sobre: formData.sobre,
             requisitos: formData.requisitos,
             atividades: formData.atividades,
-            cep: formData.cep,
             beneficios: formData.beneficios,
             tipo: formData.tipo,
-            'tipo-salario': formData['tipo-salario'],
-            'tipo-rede-social': formData['tipo-rede-social'],
+            'tipoSalario': formData['tipoSalario'],
+            'tipoRedeSocial': formData['tipo-rede-social'],
             rede_social: formData.rede_social,
+            endereco: formData.endereco,
+            bairro: formData.bairro,
             // Handle salary based on type
             salario: formData['tipo-salario'] === 'valor' ? formData['valor-salario'] : 'A combinar',
             // Add missing fields that backend expects with default values
