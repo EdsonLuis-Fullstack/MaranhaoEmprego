@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import './style_cartao.css';
+import Cookies from 'js-cookie';
 import enviarCartao from '@/components/services/payment/sendcardPayment';
 
 export default function PaymentForm() {
@@ -47,7 +48,36 @@ export default function PaymentForm() {
             onFetching: (resource) => console.log(`Buscando recurso: ${resource}`),
             onError: (error) => console.error('Erro no formulário:', error),
           },
+<<<<<<< Updated upstream
         });
+=======
+          onSubmit: (event) => {
+            event.preventDefault();
+            try {
+              const nome = document.getElementById("form-checkout__cardholderName").value;
+              const token = Cookies.get("authToken") // Verifica se o token de autenticação está presente
+              const cardData = cardForm.getCardFormData();
+              cardData.cardholderName = nome; // Adiciona o nome do titular do cartão
+              cardData.tokenAuth = token; // Adiciona o token de autenticação aos dados do cartão
+              console.log("Dados do cartão/token:", cardData);
+              
+              // Adiciona o valor ao objeto de dados do cartão
+
+              enviarCartao(cardData); // Enviando os dados do cartão para o servidor
+            } catch (error) {
+              console.error("Erro ao processar pagamento:", error);
+              alert("Ocorreu um erro ao processar o pagamento. Por favor, tente novamente.");
+            }
+          },
+          onFetching: (resource) => {
+            console.log(`Buscando recurso: ${resource}`);
+          },
+          onError: (error) => {
+            console.error("Erro no formulário:", error);
+          }
+        }
+      });
+>>>>>>> Stashed changes
       } catch (error) {
         console.error('Erro ao inicializar MercadoPago:', error);
       }
@@ -81,11 +111,18 @@ export default function PaymentForm() {
         </button>
       </div>
 
+<<<<<<< Updated upstream
       {/* Formulário de Cartão */}
       {selectedTab === 'cartao' && (
         <form id="form-checkout" className="form-checkout">
           <h2>Cartão</h2>
           <div className="Preço">Preço do plano: <span className="PrecoPlano">R$ {amount}</span></div>
+=======
+        <div className="form-group">
+          <label htmlFor="form-checkout__cardholderName">Nome no cartão</label>
+          <input id="form-checkout__cardholderName" name='nome_completo' />
+        </div>
+>>>>>>> Stashed changes
 
           <div className="form-group">
             <label htmlFor="form-checkout__cardholderName">Nome no cartão</label>

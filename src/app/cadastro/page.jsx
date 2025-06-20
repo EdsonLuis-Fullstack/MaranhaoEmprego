@@ -55,7 +55,7 @@ const CadastroForm = () => {
   const processErrorResponse = async (response) => {
     // Tenta extrair informações detalhadas do erro da resposta
 
-      const errorData = await response.json();
+      const errorData = response;
       
       // Verifica diferentes formatos possíveis de erro
       if (errorData.msg) {
@@ -209,10 +209,8 @@ const CadastroForm = () => {
 
           <button 
             type="submit" 
-            className="submit-btn" 
-            disabled={isLoading}
-          >
-            {isLoading ? 'Cadastrando...' : 'Cadastrar'}
+            className="submit-btn" >
+              Cadastrar
           </button>
         </form>
         <p id='LoginConta'>Já tem conta? <Link href="/login" id="LogarConta">Faça seu Login.</Link></p>
