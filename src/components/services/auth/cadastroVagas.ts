@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function cadastroVagas(formData: any) {
         // Transform form data to match backend expected structure
         const payload = {

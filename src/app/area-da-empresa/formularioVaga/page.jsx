@@ -88,9 +88,6 @@ export default function FormVaga() {
       if (data.vagas) {
         data.vagas = Number(data.vagas);
       }
-      if (data.cep) {
-        data.cep = data.cep;  // Manter como string para preservar zeros iniciais
-      }
 
       console.log('Dados do formulário a serem enviados:', data);
       
@@ -112,7 +109,7 @@ export default function FormVaga() {
         
         // Opcional: redirecionar após alguns segundos
         setTimeout(() => {
-          router.push('/dashboard/vagas');
+          router.push('/area-da-empresa');
         }, 2000);
       } else {
         // Trata o erro retornado pelo backend
@@ -213,10 +210,6 @@ export default function FormVaga() {
         <div className="campo-grupo">
           <label htmlFor="requisitos" className="campo-label">Requisitos</label>
           <textarea id="requisitos" name="requisitos" className="campo-textarea requisitos-vaga" rows="4" required></textarea>
-        </div>
-        <div className="campo-grupo">
-          <label htmlFor="cep" className="campo-label">CEP</label>
-          <input type="text" id="cep" name="cep" className="campo-input cep-vaga" maxLength="8" required />
         </div>
         
         <div className="campo-grupo">
