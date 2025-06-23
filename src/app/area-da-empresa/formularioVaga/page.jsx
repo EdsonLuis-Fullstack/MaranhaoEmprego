@@ -18,7 +18,7 @@ export default function FormVaga() {
   const errorRef = useRef(null);
 
   useEffect(() => {
-    const token = Cookies.get('authToken');
+    const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
     if (!token) {
       router.push('/login');
     } else {

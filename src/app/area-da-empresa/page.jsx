@@ -6,19 +6,22 @@ import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Perfil from '../../components/botoes/perfil';
 import AlterarDados from '../../components/botoes/AlterarDados';
 import Planos from '../../components/botoes/Planos';
 
 export default function AreaDaEmpresa() {
   const router = useRouter();
+    var nome = Cookies.get(`${process.env.NEXT_PUBLIC_NOME_PERFIL}`);
+    var email = Cookies.get(`${process.env.NEXT_PUBLIC_EMAIL_PERFIL}`);
   const [mostrarPerfil, setMostrarPerfil] = useState(false);
 
   const handleLogout = () => {
-    Cookies.remove('authToken');
+    Cookies.remove(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
     router.push('/login');
   };
+
 
   const togglePerfil = () => {
     setMostrarPerfil((prev) => !prev);
@@ -38,8 +41,8 @@ export default function AreaDaEmpresa() {
         </div>
         {mostrarPerfil && (
           <div className="PerfilInfo">
-            <p><strong>Nome:</strong> João Silva</p>
-            <p><strong>Email:</strong> joao.silva@empresa.com</p>
+            <p><strong>Nome:</strong> {nome}</p>
+            <p><strong>Email:</strong> {email}</p>
             <Link href="/area-da-empresa/alterarPerfil"><AlterarDados /></Link>
           </div>
         )}

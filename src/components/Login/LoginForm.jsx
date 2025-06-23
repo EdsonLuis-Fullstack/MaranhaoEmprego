@@ -18,9 +18,8 @@ const LoginForm = () => {
 
   useEffect(() => {
     // Verifica se o usuário já está logado e redireciona automaticamente
-    const token = Cookies.get('authToken');
+    const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
     if (token) {
-      console.log('Token encontrado, redirecionando para área da empresa');
       router.push('/area-da-empresa');
     }
   }, [router]);
@@ -78,10 +77,14 @@ const LoginForm = () => {
         const token = response.User.Token;
         
         // Garantir que o token seja armazenado nos cookies
-        Cookies.set('authToken', token, { expires: 7, secure: true });
+        Cookies.set(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`, token, { expires: 7, secure: false });
+        Cookies.set(`${process.env.NEXT_PUBLIC_NOME_PERFIL}`, response.User.nome, { expires: 7, secure: false });
+        Cookies.set(`${process.env.NEXT_PUBLIC_EMAIL_PERFIL}`, response.User.email, { expires: 7, secure: false });
+
+
         
         // Verificar se o cookie foi realmente definido
-        const storedToken = Cookies.get('authToken');
+        const storedToken = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
         console.log('Token armazenado:', storedToken);
         
         if (storedToken) {

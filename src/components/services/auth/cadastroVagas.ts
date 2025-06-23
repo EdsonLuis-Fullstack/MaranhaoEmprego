@@ -33,18 +33,18 @@ async function cadastroVagas(formData: any) {
 
         // Get the auth token from cookies
         const cookieStore = await cookies();
-        const authToken = cookieStore.get('authToken')?.value;
+        const authToken = cookieStore.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)?.value;
 
         if (!authToken) {
             throw new Error('Token de autenticação não encontrado nos cookies');
         }
 
         // Make API request to backend
-        const response = await fetch('http://127.0.0.1:8080/accessv4/dash/vagas/cadastrar', {
+        const response = await fetch(`${process.env.URL_API_SECRET}/dash/vagas/cadastrar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
+                'x-api-key': `${process.env.API_KEY_SECRET}`,
                 'Authorization': `Bearer ${authToken}`,
             },
             body: JSON.stringify(payload),

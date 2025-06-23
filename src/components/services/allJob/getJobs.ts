@@ -1,10 +1,10 @@
 'use server'
 export default async function getAllJobs() {
   //C:\Users\User\Documents\GitHub\API_Maranhaoempregos
-    const res = await fetch("http://127.0.0.1:8080/accessv4/", {
+    const res = await fetch(`${process.env.URL_API_SECRET}`, {
       headers:{
         'Content-Type': 'application/json',
-        'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
+        'x-api-key': `${process.env.API_KEY_SECRET}`,
       },
       method: 'GET',
       cache: 'force-cache',
@@ -12,8 +12,13 @@ export default async function getAllJobs() {
         revalidate: 60,
       }
     });
-  
+
+    if(res.status == 404){
+      return [];
+    }
     if (!res.ok) {
+      console.log(res)
+      
       throw new Error('Erro ao buscar as vagas');
     }
   
@@ -23,10 +28,10 @@ export default async function getAllJobs() {
   
 export async function getParamet(parametro: string, valor:string) {
     //C:\Users\User\Documents\GitHub\API_Maranhaoempregos
-      const res = await fetch(`http://127.0.0.1:8080/accessv4/?${parametro}=${valor}`, {
+      const res = await fetch(`${process.env.URL_API_SECRET}/?${parametro}=${valor}`, {
         headers:{
           'Content-Type': 'application/json',
-          'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
+          'x-api-key': `${process.env.API_KEY_SECRET}`,
         },
         method: 'GET',
         cache: 'force-cache',

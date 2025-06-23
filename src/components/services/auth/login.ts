@@ -6,11 +6,11 @@ interface LoginFormData {
 
 
 export default async function realizarLogin(FormData: LoginFormData) {
-  const response = await fetch('http://127.0.0.1:8080/accessv4/login', {
+  const response = await fetch(`${process.env.URL_API_SECRET}/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      "x-api-key": "rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c="
+      "x-api-key": `${process.env.API_KEY_SECRET}`
     },
     body: JSON.stringify({
       email: FormData.email, 

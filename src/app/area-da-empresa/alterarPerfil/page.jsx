@@ -8,15 +8,19 @@ export default function AlterarDadosPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const nome = formData.get('nome');
+    const email = formData.get('email');
+    if (!nome && !email) {
+      alert('Por favor, preencha pelo menos um campo para atualizar.');
+      return;
+    }
 
     if (!captchaValidado) {
       alert('Por favor, valide o CAPTCHA antes de enviar.');
       return;
     }
 
-    const formData = new FormData(e.target);
-    const nome = formData.get('nome');
-    const email = formData.get('email');
 
     console.log('Dados atualizados:', { nome, email });
     alert('Dados atualizados com sucesso!');
@@ -29,12 +33,12 @@ export default function AlterarDadosPage() {
         <form onSubmit={handleSubmit} className="alterar-dados-form">
           <div className="form-group">
             <label htmlFor="nome">Novo nome</label>
-            <input type="text" id="nome" name="nome" required />
+            <input type="text" id="nome" name="nome"  />
           </div>
 
           <div className="form-group">
             <label htmlFor="email">Novo e-mail</label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email"  />
           </div>
 
           <div className="captcha-simulado">
