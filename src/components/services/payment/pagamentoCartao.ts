@@ -7,6 +7,7 @@ interface dadosForm {
   identificationType: string;
   identificationNumber: string;
   token: string;
+  token_AUTH: string; // token de autenticação
   issuerId: string;
   installments: number;
 }
@@ -21,7 +22,7 @@ export default async function enviarCartao(formData: dadosForm) {
         "Content-Type": "application/json",
         Accept: "application/json",
         "x-api-key": `${process.env.API_KEY_SECRET}`, // aqui vc vai passar a chave da api
-        authorization: `Bearer ${formData.token}`, // aqui vc vai passar o token de autenticacao
+        authorization: `Bearer ${formData.token_AUTH}`, // aqui vc vai passar o token de autenticacao
       },
       body: JSON.stringify({
         nome_completo: formData.cardholderName,

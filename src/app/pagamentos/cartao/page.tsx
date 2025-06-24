@@ -5,6 +5,7 @@ import "./style_cartao.css";
 import Cookies from "js-cookie";
 import enviarCartao from "@/components/services/payment/pagamentoCartao";
 import { enviarPix } from "@/components/services/payment/pagamentoPix";
+import { pegarInfomacao } from "@/components/services/planos/informacaoPlanos";
 
 export default function PaymentForm() {
   const [mpLoaded, setMpLoaded] = useState(false);
@@ -28,14 +29,18 @@ export default function PaymentForm() {
   const closePopup = () => {
     setShowPopup(false);
     setPopupMessage("");
+    window.location.reload(); // Recarrega a página para limpar o formulário
   };
 
   useEffect(() => {
-    if (selectedTab === "cartao" && mpLoaded && window.MercadoPago) {
-      try {
-        const mp = new window.MercadoPago(
-          "TEST-0c82a5f0-f1de-47ca-9020-8324dd0120b2"
-        );
+    pegarInfomacao().then((response) => {
+      var resposta = response[0];
+    })
+      if (selectedTab === "cartao" && mpLoaded && window.MercadoPago) {
+        try {
+          const mp = new window.MercadoPago(
+            process.env.NEXT_PUBLIC_MP_KEY
+          );
 
         cardFormRef.current = mp.cardForm({
           amount,
@@ -115,8 +120,8 @@ export default function PaymentForm() {
                   return;
                 }
 
-                const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
-                completeData.token = token;
+                const token_AUTH = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
+                completeData.token_AUTH = token_AUTH;
 
                 // Enviar dados do cartão e tratar resposta
                 const response = await enviarCartao(completeData);
@@ -206,7 +211,7 @@ export default function PaymentForm() {
         <form id="form-checkout" className="form-checkout">
           <h2>Cartão</h2>
           <div className="Preço">
-            Preço do plano: <span className="PrecoPlano">R$ {amount}</span>
+            Preço do plano: <span className="PrecoPlano">R$ {resposta.valor}</span>
           </div>
 
           <div className="form-group">
