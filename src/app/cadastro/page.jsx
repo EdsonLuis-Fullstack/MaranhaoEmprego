@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import './Cadastro.css';
 import Link from "next/link";
 import cadastrarUsuario from '@/components/services/auth/cadastro';
-import { message, Alert } from 'antd'; // Adicionando Alert para exibir erros
+import { message, Alert, notification } from 'antd'; // Adicionando notification
 
 const CadastroForm = () => {
   const router = useRouter();
@@ -102,8 +102,10 @@ const CadastroForm = () => {
 
     console.log("Dados enviados:", cleanedData);
       let response = await cadastrarUsuario(cleanedData);
-      if (response.code == 201) {
-        // Sucesso (200, 201)
+      
+      
+      if (response.code == 201 || response.code == 200) {
+
         message.success('Cadastro realizado com sucesso! Redirecionando para o login...');
         setTimeout(() => {
           router.push('/login');
