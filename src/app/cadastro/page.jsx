@@ -62,7 +62,7 @@ const CadastroForm = () => {
         return {
           message: 'Erro no cadastro',
           details: errorData.msg,
-          code: response.status
+          code: response.code
         };
 
 
@@ -102,7 +102,7 @@ const CadastroForm = () => {
 
     console.log("Dados enviados:", cleanedData);
       let response = await cadastrarUsuario(cleanedData);
-      if (response.ok) {
+      if (response.code == 201) {
         // Sucesso (200, 201)
         message.success('Cadastro realizado com sucesso! Redirecionando para o login...');
         setTimeout(() => {
