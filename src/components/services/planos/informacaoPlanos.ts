@@ -8,7 +8,11 @@ export async function pegarInfomacao() {
             "Content-Type": "application/json",
             Accept: "application/json",
             "x-api-key": `${process.env.API_KEY_SECRET}`,
-        }
+        },
+        cache:"force-cache",
+        next: {
+            revalidate:  7200, // Revalidar a cada 2 horas
+        },
     
 })
 

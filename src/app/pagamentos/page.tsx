@@ -6,15 +6,19 @@ import Cookies from "js-cookie";
 import enviarCartao from "@/components/services/payment/pagamentoCartao";
 import { enviarPix } from "@/components/services/payment/pagamentoPix";
 import { pegarInfomacao } from "@/components/services/planos/informacaoPlanos";
+import { useRouter } from "next/navigation";
 
 export default function PaymentForm() {
+  const router = useRouter();
+  
   const [mpLoaded, setMpLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("credit");
   const [selectedTab, setSelectedTab] = useState<"cartao" | "pix">("cartao");
-  const [amount] = useState("100.00"); // Preço fixo por enquanto
+  const [amount, setAmount] = useState("10"); // Agora é um state
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("error"); // "error" ou "success"
+  const [isLoading, setIsLoading] = useState(true); // Estado para controlar carregamento
 
   const cardFormRef = useRef<any>(null); // Referência para o cardForm
 
@@ -29,21 +33,48 @@ export default function PaymentForm() {
   const closePopup = () => {
     setShowPopup(false);
     setPopupMessage("");
-    window.location.reload(); // Recarrega a página para limpar o formulário
+    router.refresh(); // Recarrega a página para limpar o formulário
   };
 
+  // UseEffect para buscar o valor do plano apenas uma vez
   useEffect(() => {
-    pegarInfomacao().then((response) => {
-      var resposta = response[0];
-    })
-      if (selectedTab === "cartao" && mpLoaded && window.MercadoPago) {
-        try {
-          const mp = new window.MercadoPago(
-            process.env.NEXT_PUBLIC_MP_KEY
-          );
+    const fetchPlanValue = async () => {
+      try {
+        setIsLoading(true);
+        const response = await pegarInfomacao();
+        const valor = response.valor;
+        
+        setAmount(valor);
+        
+        // Atualizar o elemento do DOM se existir
+        const plano = document.getElementById("valor_plano");
+        if (plano) {
+          plano.textContent = `R$ ${valor}`;
+        }
+      } catch (error) {
+        console.error("Erro ao buscar informações do plano:", error);
+        showPopupMessage("Erro ao carregar informações do plano");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPlanValue();
+  }, []); // Executa apenas uma vez na montagem do componente
+
+  // UseEffect para inicializar o MercadoPago
+  useEffect(() => {
+    if (selectedTab === "cartao" && mpLoaded && window.MercadoPago && !isLoading) {
+      try {
+        const mp = new window.MercadoPago(
+          process.env.NEXT_PUBLIC_MP_KEY
+        );
+        if(cardFormRef.current) {
+          cardFormRef.current.unmount(); // Desmonta o formulário anterior, se existir
+        }
 
         cardFormRef.current = mp.cardForm({
-          amount,
+          amount: `${parseFloat(amount)}`,
           autoMount: true,
           paymentMethod: { id: paymentMethod },
           form: {
@@ -130,6 +161,9 @@ export default function PaymentForm() {
                 if (response && typeof response === 'object') {
                   if (response.code === 200) {
                     showPopupMessage(response.msg || "Pagamento processado com sucesso!", "success");
+                    setInterval(() => {
+                      router.push("/")
+                    }, 3000);
                   } else {
                     showPopupMessage(response.msg || "Erro no processamento do pagamento");
                   }
@@ -151,15 +185,25 @@ export default function PaymentForm() {
           },
         });
       } catch (error) {
-        console.error("Erro ao inicializar MercadoPago:", error);
-        showPopupMessage("Erro ao carregar o sistema de pagamento");
+        router.refresh();
       }
     }
-  }, [mpLoaded, paymentMethod, amount, selectedTab]);
+  }, [mpLoaded, paymentMethod, amount, selectedTab, isLoading]);
 
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
   };
+
+  // Mostrar loading enquanto busca as informações
+  if (isLoading) {
+    return (
+      <div className="conteinerPay">
+        <div style={{ textAlign: 'center', padding: '20px' }}>
+          <p>Carregando informações do plano...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="conteinerPay">
@@ -211,7 +255,7 @@ export default function PaymentForm() {
         <form id="form-checkout" className="form-checkout">
           <h2>Cartão</h2>
           <div className="Preço">
-            Preço do plano: <span className="PrecoPlano">R$ {resposta.valor}</span>
+            Preço do plano: <span id="valor_plano" className="PrecoPlano">R$ {amount}</span>
           </div>
 
           <div className="form-group">
@@ -222,7 +266,6 @@ export default function PaymentForm() {
               id="form-checkout__cardholderName"
               name="cardholderName"
               type="text"
-              
               placeholder="Nome completo como no cartão"
             />
           </div>
