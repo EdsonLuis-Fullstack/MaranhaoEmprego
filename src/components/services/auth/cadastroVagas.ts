@@ -12,17 +12,13 @@ async function cadastroVagas(formData: any) {
             vagas: formData.vagas,
             contato: formData.whatsapp, // Frontend uses "whatsapp", backend expects "contato"
             email: formData.email,
-            nome_Empresa: formData.nome_Empresa,
-            sobre: formData.sobre,
+            nome_Empresa: formData.nome_Empresa || null, // Handle optional field
+            sobre: formData.sobre || null, // Handle optional field
             requisitos: formData.requisitos,
-            atividades: formData.atividades,
-            beneficios: formData.beneficios,
+            atividades: formData.atividades || null,
+            beneficios: formData.beneficios || null,
             tipo: formData.tipo,
             'tipoSalario': formData['tipoSalario'],
-            'tipoRedeSocial': formData['tipo-rede-social'],
-            rede_social: formData.rede_social,
-            endereco: formData.endereco,
-            bairro: formData.bairro,
             // Handle salary based on type
             salario: formData['tipo-salario'] === 'valor' ? formData['valor-salario'] : 'A combinar',
             // Add missing fields that backend expects with default values
@@ -33,18 +29,18 @@ async function cadastroVagas(formData: any) {
 
         // Get the auth token from cookies
         const cookieStore = await cookies();
-        const authToken = cookieStore.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)?.value;
+        const authToken = cookieStore.get('authToken')?.value;
 
         if (!authToken) {
             throw new Error('Token de autenticação não encontrado nos cookies');
         }
 
         // Make API request to backend
-        const response = await fetch(`${process.env.URL_API_SECRET}/dash/vagas/cadastrar`, {
+        const response = await fetch('http://127.0.0.1:8080/accessv4/dash/vagas/cadastrar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': `${process.env.API_KEY_SECRET}`,
+                'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
                 'Authorization': `Bearer ${authToken}`,
             },
             body: JSON.stringify(payload),

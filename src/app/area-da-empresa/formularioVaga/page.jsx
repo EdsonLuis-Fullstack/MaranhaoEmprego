@@ -18,7 +18,7 @@ export default function FormVaga() {
   const errorRef = useRef(null);
 
   useEffect(() => {
-    const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
+    const token = Cookies.get('authToken');
     if (!token) {
       router.push('/login');
     } else {
@@ -214,12 +214,12 @@ export default function FormVaga() {
         
         <div className="campo-grupo">
           <label htmlFor="sobre" className="campo-label">Sobre a Empresa</label>
-          <textarea id="sobre" name="sobre" className="campo-textarea sobre-vaga" rows="4" required></textarea>
+          <textarea id="sobre" name="sobre" className="campo-textarea sobre-vaga" rows="4" ></textarea>
         </div>
         
         <div className="campo-grupo">
           <label htmlFor="atividades" className="campo-label">Atividades</label>
-          <textarea id="atividades" name="atividades" className="campo-textarea atividades-vaga" rows="4" required></textarea>
+          <textarea id="atividades" name="atividades" className="campo-textarea atividades-vaga" rows="4"></textarea>
         </div>
         
         <div className="campo-grupo">
@@ -269,7 +269,7 @@ export default function FormVaga() {
         
         <div className="campo-grupo">
           <label htmlFor="beneficios" className="campo-label">Benefícios</label>
-          <textarea id="beneficios" name="beneficios" className="campo-textarea beneficios-vaga" rows="3" required placeholder='Ex.: Vale alimentação, Vale transporte, Plano de saúde'></textarea>
+          <textarea id="beneficios" name="beneficios" className="campo-textarea beneficios-vaga" rows="3" placeholder='Ex.: Vale alimentação, Vale transporte, Plano de saúde'></textarea>
         </div>
         
         <div className="campo-grupo">
@@ -327,40 +327,6 @@ export default function FormVaga() {
             <option value="comercio">Comércio</option>
             <option value="servicos">Serviços</option>
           </select>
-        </div>
-        <div className="campo-grupo">
-          <label htmlFor="Endereco" className="campo-label">Endereco</label>
-          <input type="text" id="Endereco" name="endereco" className="campo-input Endereco-contato" required maxLength={40} placeholder='Ex.: Rua das Flores, 123 - Centro' />
-        </div>
-        <div className="campo-grupo">
-          <label htmlFor="Bairro" className="campo-label">Bairro</label>
-          <input type="text" id="Bairro" name="bairro" className="campo-input Bairro-contato" required maxLength={40} placeholder='"Ex.: Centro"' />
-        </div>
-        
-        <div className="campo-grupo">
-          <label className="campo-label">Rede Social</label>
-          <div className="selecao-rede-social">
-            <select 
-              name="tipo-rede-social" 
-              className="campo-select tipo-rede-social"
-              value={redeSocialTipo}
-              onChange={handleRedeSocialTipoChange}
-              
-            >
-              <option value="">Selecione uma Rede Social</option>
-              <option value="instagram">Instagram</option>
-              <option value="facebook">Facebook</option>
-            </select>
-            
-            <input 
-              type="text" 
-              id="rede_social" 
-              name="rede_social" 
-              className="campo-input valor-rede-social" 
-              placeholder={redeSocialTipo === 'instagram' ? '@seuinstagram' : 'facebook.com/suapagina'}
-              
-            />
-          </div>
         </div>
         
         <div className="campo-grupo botoes">

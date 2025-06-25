@@ -194,6 +194,43 @@ export default function PaymentForm() {
     setPaymentMethod(event.target.value);
   };
 
+  // Função para gerar QR Code usando canvas
+  const generateQRCode = (text, size = 200) => {
+    return new Promise((resolve, reject) => {
+      // Importar QRCode.js dinamicamente
+      if (typeof window !== 'undefined' && !window.QRCode) {
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js';
+        script.onload = () => {
+          generateQR();
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+      } else {
+        generateQR();
+      }
+
+      function generateQR() {
+        const canvas = document.createElement('canvas');
+        window.QRCode.toCanvas(canvas, text, {
+          width: size,
+          height: size,
+          margin: 2,
+          color: {
+            dark: '#000000',
+            light: '#FFFFFF'
+          }
+        }, (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(canvas.toDataURL());
+          }
+        });
+      }
+    });
+  };
+
   // Mostrar loading enquanto busca as informações
   if (isLoading) {
     return (
@@ -210,6 +247,11 @@ export default function PaymentForm() {
       <Script
         src="https://sdk.mercadopago.com/js/v2"
         onLoad={() => setMpLoaded(true)}
+      />
+      
+      {/* Script do QRCode.js */}
+      <Script
+        src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"
       />
 
       {/* Popup de Mensagem */}
@@ -361,53 +403,111 @@ export default function PaymentForm() {
                 return;
               }
               
-              if (data.qr_code) {
+              if (data.pixData.qr_code) {
                 // Remover QR code anterior se existir
                 const existingQR = document.querySelector('.qr-code-container');
                 if (existingQR) {
                   existingQR.remove();
                 }
                 
-                // Criar container para o QR code
-                const qrContainer = document.createElement("div");
-                qrContainer.className = "qr-code-container";
-                qrContainer.style.cssText = `
-                  position: fixed;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  background: white;
-                  padding: 20px;
-                  border-radius: 12px;
-                  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                  z-index: 1001;
-                  text-align: center;
-                `;
-                
-                const qrCodeImage = document.createElement("img");
-                qrCodeImage.src = data.qr_code;
-                qrCodeImage.alt = "QR Code Pix";
-                qrCodeImage.style.width = "200px";
-                qrCodeImage.style.height = "200px";
-                
-                const closeBtn = document.createElement("button");
-                closeBtn.textContent = "Fechar";
-                closeBtn.style.cssText = `
-                  margin-top: 10px;
-                  padding: 8px 16px;
-                  background: #007bff;
-                  color: white;
-                  border: none;
-                  border-radius: 4px;
-                  cursor: pointer;
-                `;
-                closeBtn.onclick = () => qrContainer.remove();
-                
-                qrContainer.appendChild(qrCodeImage);
-                qrContainer.appendChild(closeBtn);
-                document.body.appendChild(qrContainer);
-                
-                showPopupMessage(data.msg || "QR Code PIX gerado com sucesso!", "success");
+                try {
+                  // Gerar QR Code usando a string retornada do backend
+                  const qrCodeDataURL = await generateQRCode(data.pixData.qr_code, 250);
+                  
+                  // Criar container para o QR code
+                  const qrContainer = document.createElement("div");
+                  qrContainer.className = "qr-code-container";
+                  qrContainer.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: white;
+                    padding: 30px;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                    z-index: 1001;
+                    text-align: center;
+                    max-width: 90vw;
+                    max-height: 90vh;
+                  `;
+                  
+                  // Título
+                  const title = document.createElement("h3");
+                  title.textContent = "Escaneie o QR Code para pagar";
+                  title.style.marginBottom = "15px";
+                  title.style.color = "#333";
+                  
+                  // QR Code gerado
+                  const qrCodeImage = document.createElement("img");
+                  qrCodeImage.src = qrCodeDataURL;
+                  qrCodeImage.alt = "QR Code Pix";
+                  qrCodeImage.style.cssText = `
+                    width: 250px;
+                    height: 250px;
+                    border: 2px solid #ddd;
+                    border-radius: 8px;
+                    margin-bottom: 15px;
+                  `;
+                  
+                  // Instruções
+                  const instructions = document.createElement("p");
+                  instructions.textContent = "Use o app do seu banco para escanear o código";
+                  instructions.style.cssText = `
+                    color: #666;
+                    margin-bottom: 20px;
+                    font-size: 14px;
+                  `;
+                  
+                  // Botão de copiar código PIX
+                  const copyBtn = document.createElement("button");
+                  copyBtn.textContent = "Copiar código PIX";
+                  copyBtn.style.cssText = `
+                    margin-right: 10px;
+                    padding: 10px 20px;
+                    background: #32BCAD;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 14px;
+                  `;
+                  copyBtn.onclick = () => {
+                    navigator.clipboard.writeText(data.pixData.qr_code);
+                    copyBtn.textContent = "Copiado!";
+                    setTimeout(() => {
+                      copyBtn.textContent = "Copiar código PIX";
+                    }, 2000);
+                  };
+                  
+                  // Botão de fechar
+                  const closeBtn = document.createElement("button");
+                  closeBtn.textContent = "Fechar";
+                  closeBtn.style.cssText = `
+                    padding: 10px 20px;
+                    background: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 14px;
+                  `;
+                  closeBtn.onclick = () => qrContainer.remove();
+                  
+                  // Montar o modal
+                  qrContainer.appendChild(title);
+                  qrContainer.appendChild(qrCodeImage);
+                  qrContainer.appendChild(instructions);
+                  qrContainer.appendChild(copyBtn);
+                  qrContainer.appendChild(closeBtn);
+                  document.body.appendChild(qrContainer);
+                  
+                  showPopupMessage(data.msg || "QR Code PIX gerado com sucesso!", "success");
+                  
+                } catch (qrError) {
+                  console.error("Erro ao gerar QR Code:", qrError);
+                  showPopupMessage("QR Code gerado, mas houve erro na exibição. Use o código PIX copiado.");
+                }
               } else {
                 showPopupMessage(data.msg || "PIX processado com sucesso!", "success");
               }
