@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import Script from "next/script";
 import "./style_cartao.css";
 import Cookies from "js-cookie";
@@ -7,23 +8,106 @@ import enviarCartao from "@/components/services/payment/pagamentoCartao";
 import { enviarPix } from "@/components/services/payment/pagamentoPix";
 import { pegarInfomacao } from "@/components/services/planos/informacaoPlanos";
 import { useRouter } from "next/navigation";
+import QRCode from "qrcode";
+import "./PagamentoPix.css";
+
+export function PixQrCode({ Pix_code, value, Onback }) {
+  const [pixCode, setPixCode] = useState(null);
+  const [valor, setValor] = useState(`R$ ${parseFloat(value).toFixed(2)}`);
+  const [copy, setCopy] = useState("");
+
+  useEffect(() => {
+    setCopy(Pix_code);
+    setValor(`R$ ${parseFloat(value).toFixed(2)}`);
+    async function generateQRCode() {
+      const data_QRCODE = await QRCode.toDataURL(Pix_code);
+      setPixCode(data_QRCODE);
+    }
+    generateQRCode();
+  }, [Pix_code]);
+
+  const copiarCodigo = async () => {
+    try {
+      await navigator.clipboard.writeText(copy);
+      const botao = document.getElementById("botao_copiar");
+      if (botao) {
+        botao.innerText = "Copiado Com sucesso!";
+        setTimeout(() => {
+          botao.innerText = "Copiar código";
+        }, 2000);
+      }
+    } catch (err) {
+      alert("Erro ao copiar o código.");
+    }
+  };
+
+  return (
+    <div className="pagina-pix">
+      <div className="pix-box">
+        <h2 className="titulo">Pagamento via Pix</h2>
+        <p className="descricao">
+          Valor a pagar: <strong>{valor}</strong>
+        </p>
+
+        <div className="qrcode-container">
+          {pixCode ? (
+            <Image
+              src={pixCode}
+              alt="QR Code Pix"
+              className="qrcode-img"
+              width={240}
+              height={240}
+            />
+          ) : (
+            <p>Gerando QR Code...</p>
+          )}
+        </div>
+
+        <div className="codigo-container">
+          <label htmlFor="pixCode">Código Pix (copia e cola):</label>
+          <textarea
+            id="pixCode"
+            readOnly
+            value={copy}
+            rows={4}
+            className="pix-textarea"
+          />
+          <button
+            id="botao_copiar"
+            className="btn-copiar"
+            onClick={copiarCodigo}
+          >
+            Copiar código
+          </button>
+          <button id="botao_voltar" className="btn-voltar" onClick={Onback}>
+            Voltar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PaymentForm() {
   const router = useRouter();
-  
   const [mpLoaded, setMpLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("credit");
   const [selectedTab, setSelectedTab] = useState<"cartao" | "pix">("cartao");
-  const [amount, setAmount] = useState("10"); // Agora é um state
+  const [amount, setAmount] = useState("7"); // Agora é um state
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [popupType, setPopupType] = useState("error"); // "error" ou "success"
-  const [isLoading, setIsLoading] = useState(true); // Estado para controlar carregamento
+  const [isLoading, setIsLoading] = useState(false); // Estado para controlar 
+  const [uuid_plano,setUuid_Plano] = useState("")
+  const [qrCodeData, setQrCodeData] = useState(null); // Estado para QR Code
 
   const cardFormRef = useRef<any>(null); // Referência para o cardForm
 
   // Função para mostrar popup
-  const showPopupMessage = (message: string, type: "error" | "success" = "error") => {
+  const showPopupMessage = (
+    message: string,
+    type: "error" | "success" = "error"
+  ) => {
     setPopupMessage(message);
     setPopupType(type);
     setShowPopup(true);
@@ -31,9 +115,21 @@ export default function PaymentForm() {
 
   // Função para fechar popup
   const closePopup = () => {
+
     setShowPopup(false);
     setPopupMessage("");
-    router.refresh(); // Recarrega a página para limpar o formulário
+    setTimeout(() => {
+
+            window.location.reload()
+
+    
+
+    }, 100);
+  };
+
+  // Função para voltar ao formulário PIX
+  const handleBackToForm = () => {
+    setQrCodeData(null);
   };
 
   // UseEffect para buscar o valor do plano apenas uma vez
@@ -43,16 +139,17 @@ export default function PaymentForm() {
         setIsLoading(true);
         const response = await pegarInfomacao();
         const valor = response.valor;
-        
+
+        setUuid_Plano(response.uuid)
+
         setAmount(valor);
-        
+
         // Atualizar o elemento do DOM se existir
         const plano = document.getElementById("valor_plano");
         if (plano) {
           plano.textContent = `R$ ${valor}`;
         }
       } catch (error) {
-        console.error("Erro ao buscar informações do plano:", error);
         showPopupMessage("Erro ao carregar informações do plano");
       } finally {
         setIsLoading(false);
@@ -64,12 +161,15 @@ export default function PaymentForm() {
 
   // UseEffect para inicializar o MercadoPago
   useEffect(() => {
-    if (selectedTab === "cartao" && mpLoaded && window.MercadoPago && !isLoading) {
+    if (
+      selectedTab === "cartao" &&
+      mpLoaded &&
+      window.MercadoPago &&
+      !isLoading
+    ) {
       try {
-        const mp = new window.MercadoPago(
-          process.env.NEXT_PUBLIC_MP_KEY
-        );
-        if(cardFormRef.current) {
+        const mp = new window.MercadoPago(process.env.NEXT_PUBLIC_MP_KEY);
+        if (cardFormRef.current) {
           cardFormRef.current.unmount(); // Desmonta o formulário anterior, se existir
         }
 
@@ -115,6 +215,7 @@ export default function PaymentForm() {
             onSubmit: async (event) => {
               event.preventDefault();
               try {
+                setIsLoading(true)
                 // Capturar dados do formulário diretamente dos inputs
                 const formElement = document.getElementById(
                   "form-checkout"
@@ -151,27 +252,42 @@ export default function PaymentForm() {
                   return;
                 }
 
-                const token_AUTH = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
+                const token_AUTH = Cookies.get(
+                  `${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`
+                );
                 completeData.token_AUTH = token_AUTH;
+                completeData.uuid_plan = uuid_plano
+
 
                 // Enviar dados do cartão e tratar resposta
                 const response = await enviarCartao(completeData);
-                
+
                 // Verificar se a resposta tem o formato esperado
-                if (response && typeof response === 'object') {
+
+                if(response.code == 407){
+                    showPopupMessage(
+                      "Seu cartao foi Recusado pelo provedor"
+                    );
+                }
+                if (response && typeof response === "object") {
                   if (response.code === 200) {
-                    showPopupMessage(response.msg || "Pagamento processado com sucesso!", "success");
+                    showPopupMessage(
+                      response.msg || "Pagamento processado com sucesso!",
+                      "success"
+                    );
                     setInterval(() => {
                       router.push("/")
                     }, 3000);
                   } else {
-                    showPopupMessage(response.msg || "Erro no processamento do pagamento");
+                    showPopupMessage(
+                      response.msg || "Erro no processamento do pagamento"
+                    );
                   }
                 } else {
                   showPopupMessage("Erro inesperado na resposta do servidor");
                 }
-
               } catch (error) {
+                setIsLoading(false)
                 console.error("Erro ao processar pagamento:", error);
                 showPopupMessage("Erro no pagamento. Tente novamente.");
               }
@@ -180,12 +296,15 @@ export default function PaymentForm() {
               console.log(`Buscando recurso: ${resource}`),
             onError: (error) => {
               console.error("Erro no formulário:", error);
-              showPopupMessage("Erro no formulário. Verifique os dados inseridos.");
+              showPopupMessage(
+                "Erro no formulário. Verifique os dados inseridos."
+              );
             },
           },
         });
       } catch (error) {
-        router.refresh();
+              window.location.reload()
+;
       }
     }
   }, [mpLoaded, paymentMethod, amount, selectedTab, isLoading]);
@@ -194,53 +313,6 @@ export default function PaymentForm() {
     setPaymentMethod(event.target.value);
   };
 
-  // Função para gerar QR Code usando canvas
-  const generateQRCode = (text, size = 200) => {
-    return new Promise((resolve, reject) => {
-      // Importar QRCode.js dinamicamente
-      if (typeof window !== 'undefined' && !window.QRCode) {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js';
-        script.onload = () => {
-          generateQR();
-        };
-        script.onerror = reject;
-        document.head.appendChild(script);
-      } else {
-        generateQR();
-      }
-
-      function generateQR() {
-        const canvas = document.createElement('canvas');
-        window.QRCode.toCanvas(canvas, text, {
-          width: size,
-          height: size,
-          margin: 2,
-          color: {
-            dark: '#000000',
-            light: '#FFFFFF'
-          }
-        }, (error) => {
-          if (error) {
-            reject(error);
-          } else {
-            resolve(canvas.toDataURL());
-          }
-        });
-      }
-    });
-  };
-
-  // Mostrar loading enquanto busca as informações
-  if (isLoading) {
-    return (
-      <div className="conteinerPay">
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-          <p>Carregando informações do plano...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="conteinerPay">
@@ -248,16 +320,14 @@ export default function PaymentForm() {
         src="https://sdk.mercadopago.com/js/v2"
         onLoad={() => setMpLoaded(true)}
       />
-      
-      {/* Script do QRCode.js */}
-      <Script
-        src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.3/qrcode.min.js"
-      />
 
       {/* Popup de Mensagem */}
       {showPopup && (
         <div className="popup-overlay" onClick={closePopup}>
-          <div className={`popup-content ${popupType}`} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={`popup-content ${popupType}`}
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="popup-header">
               <h3>{popupType === "error" ? "Erro" : "Sucesso"}</h3>
               <button className="popup-close" onClick={closePopup}>
@@ -297,7 +367,10 @@ export default function PaymentForm() {
         <form id="form-checkout" className="form-checkout">
           <h2>Cartão</h2>
           <div className="Preço">
-            Preço do plano: <span id="valor_plano" className="PrecoPlano">R$ {amount}</span>
+            Preço do plano:{" "}
+            <span id="valor_plano" className="PrecoPlano">
+              R$ {amount}
+            </span>
           </div>
 
           <div className="form-group">
@@ -374,183 +447,120 @@ export default function PaymentForm() {
           </div>
 
           <button type="submit" className="btn-submit">
-            Pagar
+            {isLoading == true ? ("Carregando Pagamento...") : ("Pagar")}
           </button>
         </form>
       )}
 
-      {/* Formulário de Pix */}
+      {/* Seção PIX - Formulário ou QR Code */}
       {selectedTab === "pix" && (
-        <form
-          className="form-pix"
-          onSubmit={async (e) => {
-            e.preventDefault();
-            try {
-              const nome = e.target.nome.value;
-              const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
-              const tipo_documento = e.target.tipo_documento.value;
-              const documento_numero = e.target.documento_numero.value;
-              
-              const data = await enviarPix({
-                nome, 
-                documento_tipo: tipo_documento, 
-                documento_numero, 
-                token: token
-              });
-              
-              if (data.code !== 200) {
-                showPopupMessage(data.msg || "Erro ao processar pagamento via PIX");
-                return;
-              }
-              
-              if (data.pixData.qr_code) {
-                // Remover QR code anterior se existir
-                const existingQR = document.querySelector('.qr-code-container');
-                if (existingQR) {
-                  existingQR.remove();
-                }
-                
-                try {
-                  // Gerar QR Code usando a string retornada do backend
-                  const qrCodeDataURL = await generateQRCode(data.pixData.qr_code, 250);
-                  
-                  // Criar container para o QR code
-                  const qrContainer = document.createElement("div");
-                  qrContainer.className = "qr-code-container";
-                  qrContainer.style.cssText = `
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: white;
-                    padding: 30px;
-                    border-radius: 12px;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-                    z-index: 1001;
-                    text-align: center;
-                    max-width: 90vw;
-                    max-height: 90vh;
-                  `;
-                  
-                  // Título
-                  const title = document.createElement("h3");
-                  title.textContent = "Escaneie o QR Code para pagar";
-                  title.style.marginBottom = "15px";
-                  title.style.color = "#333";
-                  
-                  // QR Code gerado
-                  const qrCodeImage = document.createElement("img");
-                  qrCodeImage.src = qrCodeDataURL;
-                  qrCodeImage.alt = "QR Code Pix";
-                  qrCodeImage.style.cssText = `
-                    width: 250px;
-                    height: 250px;
-                    border: 2px solid #ddd;
-                    border-radius: 8px;
-                    margin-bottom: 15px;
-                  `;
-                  
-                  // Instruções
-                  const instructions = document.createElement("p");
-                  instructions.textContent = "Use o app do seu banco para escanear o código";
-                  instructions.style.cssText = `
-                    color: #666;
-                    margin-bottom: 20px;
-                    font-size: 14px;
-                  `;
-                  
-                  // Botão de copiar código PIX
-                  const copyBtn = document.createElement("button");
-                  copyBtn.textContent = "Copiar código PIX";
-                  copyBtn.style.cssText = `
-                    margin-right: 10px;
-                    padding: 10px 20px;
-                    background: #32BCAD;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 14px;
-                  `;
-                  copyBtn.onclick = () => {
-                    navigator.clipboard.writeText(data.pixData.qr_code);
-                    copyBtn.textContent = "Copiado!";
-                    setTimeout(() => {
-                      copyBtn.textContent = "Copiar código PIX";
-                    }, 2000);
-                  };
-                  
-                  // Botão de fechar
-                  const closeBtn = document.createElement("button");
-                  closeBtn.textContent = "Fechar";
-                  closeBtn.style.cssText = `
-                    padding: 10px 20px;
-                    background: #007bff;
-                    color: white;
-                    border: none;
-                    border-radius: 6px;
-                    cursor: pointer;
-                    font-size: 14px;
-                  `;
-                  closeBtn.onclick = () => qrContainer.remove();
-                  
-                  // Montar o modal
-                  qrContainer.appendChild(title);
-                  qrContainer.appendChild(qrCodeImage);
-                  qrContainer.appendChild(instructions);
-                  qrContainer.appendChild(copyBtn);
-                  qrContainer.appendChild(closeBtn);
-                  document.body.appendChild(qrContainer);
-                  
-                  showPopupMessage(data.msg || "QR Code PIX gerado com sucesso!", "success");
-                  
-                } catch (qrError) {
-                  console.error("Erro ao gerar QR Code:", qrError);
-                  showPopupMessage("QR Code gerado, mas houve erro na exibição. Use o código PIX copiado.");
-                }
-              } else {
-                showPopupMessage(data.msg || "PIX processado com sucesso!", "success");
-              }
-              
-            } catch (error) {
-              console.error("Erro ao processar PIX:", error);
-              showPopupMessage("Erro ao processar pagamento via PIX. Tente novamente.");
-            }
-          }} 
-        >
-          <h2>Pagamento via Pix</h2>
-          <div className="Preço">
-            Preço do plano: <span className="PrecoPlano">R$ {amount}</span>
-          </div>
-          <div className="form-group">
-            <label htmlFor="nome">Nome completo</label>
-            <input id="nome" name="nome" required placeholder="Insira seu nome completo" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="form-checkout__identificationType">
-              Tipo de documento
-            </label>
-            <select
-              id="form-checkout__identificationType"
-              name="tipo_documento"
-              required
-            >
-              <option value="cpf">CPF</option>
-              <option value="cnpj">CNPJ</option>
-            </select>
-            <label id="documento-texto" htmlFor="form-checkout__identificationNumber">Insira seu Documento aqui</label>
-            <input
-              id="form-checkout__identificationNumber"
-              name="documento_numero"
-              placeholder="Número do documento"
-              required
+        <>
+          {qrCodeData ? (
+            <PixQrCode
+              Pix_code={qrCodeData}
+              value={amount}
+              Onback={handleBackToForm}
             />
-          </div>
-          <button type="submit" className="btn-submit">
-            Gerar QR Code Pix
-          </button>
-        </form>
+          ) : (
+            <form
+              className="form-pix"
+              onSubmit={async (e) => {
+                e.preventDefault();
+                try {
+                  setIsLoading(true); // Inicia o carregamento
+                  const nome = e.target.nome.value;
+                  const token = Cookies.get(
+                    `${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`
+                  );
+                  const tipo_documento = e.target.tipo_documento.value;
+                  const documento_numero = e.target.documento_numero.value;
+
+
+                  const data = await enviarPix({
+                    nome,
+                    documento_tipo: tipo_documento,
+                    documento_numero,
+                    token: token,
+                  });
+
+                  if (data.code !== 200) {
+                    showPopupMessage(
+                      data.msg || "Erro ao processar pagamento via PIX"
+                    );
+                    return;
+                  }
+
+                  if (data.pixData.qr_code) {
+                    // Define o QR code no estado para renderizar o componente
+                    setQrCodeData(data.pixData.qr_code);
+
+                  } else {
+                    showPopupMessage(
+                      "Erro ao gerar QR Code. Tente novamente."
+                    );
+                    return;
+                  }
+                  setIsLoading(false)
+                } catch (error) {
+                  console.error("Erro ao processar PIX:", error);
+                  showPopupMessage(
+                    "Erro ao processar pagamento via PIX. Tente novamente."
+                  );
+                }
+              }}
+            >
+              <h2>Pagamento via Pix</h2>
+              <div className="Preço">
+                Preço do plano: <span className="PrecoPlano">R$ {amount}</span>
+              </div>
+              <div className="form-group">
+                <label htmlFor="nome">Nome completo</label>
+                <input
+                  id="nome"
+                  name="nome"
+                  required
+                  placeholder="Insira seu nome completo"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="form-checkout__identificationType">
+                  Tipo de documento
+                </label>
+                <select
+                  id="form-checkout__identificationType"
+                  name="tipo_documento"
+                  required
+                >
+                  <option value="cpf">CPF</option>
+                  <option value="cnpj">CNPJ</option>
+                </select>
+                <label
+                  id="documento-texto"
+                  htmlFor="form-checkout__identificationNumber"
+                >
+                  Insira seu Documento aqui
+                </label>
+                <input
+                  id="form-checkout__identificationNumber"
+                  name="documento_numero"
+                  placeholder="Número do documento"
+                  required
+                />
+              </div>
+
+                <button
+                  type="submit"
+                  className="btn-submit" 
+                >
+
+                  {isLoading ? "Carregando..." : "Gerar QR Code"}
+                </button>
+
+
+            </form>
+          )}
+        </>
       )}
     </div>
   );

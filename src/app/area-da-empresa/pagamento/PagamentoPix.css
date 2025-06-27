@@ -1,0 +1,336 @@
+/* Container principal do PIX */
+.pagina-pix {
+  min-height: 100vh;
+
+  margin-top: -2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  position: relative;
+}
+
+/* Caixa do PIX */
+.pix-box {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.05);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Título */
+.titulo {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  position: relative;
+}
+
+.titulo::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #667eea, #764ba2);
+  margin: 8px auto 0;
+  border-radius: 2px;
+}
+
+/* Descrição */
+.descricao {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  color: #5a6c7d;
+  font-weight: 500;
+}
+
+.descricao strong {
+  color: #2a43b1;
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+/* Container do QR Code */
+.qrcode-container {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 16px;
+  border: 2px dashed #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.qrcode-container:hover {
+  background: #ffffff;
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+/* Imagem do QR Code */
+.qrcode-img {
+  width: 200px !important;
+  height: 200px !important;
+  object-fit: contain;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+.qrcode-img:hover {
+  transform: scale(1.05);
+}
+
+/* Container do código */
+.codigo-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.codigo-container label {
+  font-weight: 600;
+  text-align: left;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Textarea do código PIX */
+.pix-textarea {
+  resize: none;
+  padding: 1rem;
+  font-size: 0.9rem;
+  font-family: "Courier New", monospace;
+  border: 2px solid #e9ecef;
+  border-radius: 12px;
+  background: #f8f9fa;
+  color: #495057;
+  transition: all 0.3s ease;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.pix-textarea:focus {
+  outline: none;
+  border-color: #667eea;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Botões */
+.btn-copiar {
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Botão copiar código */
+.btn-copiar:first-of-type {
+  background: #2a43b1;
+  color: white;
+  margin-bottom: 0.75rem;
+}
+
+.btn-copiar:first-of-type:hover {
+  background: #112479;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+}
+
+/* Botão voltar */
+.btn-copiar:last-of-type {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+}
+
+.btn-copiar:last-of-type:hover {
+  background: linear-gradient(135deg, #5a6268, #495057);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+}
+
+/* Efeito de clique */
+.btn-copiar:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estado de sucesso para o botão copiar */
+.btn-copiar.copiado {
+  background: linear-gradient(135deg, #28a745, #20c997) !important;
+  animation: pulse 0.6s ease-in-out;
+}
+
+
+/* Botões */
+.btn-voltar {
+  padding: 0.875rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.btn-voltar:first-of-type:hover {
+  background: #112479;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(39, 174, 96, 0.3);
+}
+
+/* Botão voltar */
+.btn-voltar:last-of-type {
+  background: #112479;
+  color: white; 
+}
+
+.btn-voltar:last-of-type:hover {
+  background: #112479;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+}
+
+/* Efeito de clique */
+.btn-voltar:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estado de sucesso para o botão copiar */
+.btn-voltar.copiado {
+  background: #1d3cc9 !important;
+  animation: pulse 0.6s ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Loading state */
+.qrcode-container p {
+  color: #6c757d;
+  font-style: italic;
+  padding: 2rem;
+  margin: 0;
+}
+
+/* Responsividade aprimorada */
+@media (max-width: 768px) {
+  .pagina-pix {
+    padding: 15px;
+    min-height: 100vh;
+  }
+
+  .pix-box {
+    padding: 1.5rem;
+    max-width: 95%;
+    margin: 0 auto;
+  }
+
+  .titulo {
+    font-size: 1.5rem;
+  }
+
+  .qrcode-img {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  .pix-textarea {
+    font-size: 0.85rem;
+    padding: 0.875rem;
+  }
+
+  .btn-copiar {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pix-box {
+    padding: 1.25rem;
+  }
+
+  .titulo {
+    font-size: 1.35rem;
+  }
+
+  .descricao {
+    font-size: 1rem;
+  }
+
+  .qrcode-img {
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  .pix-textarea {
+    font-size: 0.8rem;
+    rows: 3;
+  }
+}
+
+/* Melhorias de acessibilidade */
+.btn-copiar:focus {
+  outline: 3px solid rgba(102, 126, 234, 0.5);
+  outline-offset: 2px;
+}
+
+.pix-textarea:focus {
+  outline: none;
+}
+
+/* Animação sutil para o container do QR */
+.qrcode-container {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

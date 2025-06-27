@@ -40,7 +40,7 @@ async function cadastroVagas(formData: any) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'x-api-key': 'rUOEHZ2EwFiBXOQHgI8aHJQxiE3Y+fp9J0XOgrs7s7c=',
+                'x-api-key': `${process.env.API_KEY_SECRET}`,
                 'Authorization': `Bearer ${authToken}`,
             },
             body: JSON.stringify(payload),

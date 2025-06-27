@@ -13,6 +13,7 @@ export async function middleware(request: NextRequest) {
   ) {
     return NextResponse.next();
   }
+
   
   if (pathname.startsWith("/login") || pathname.startsWith("/cadastro")) {
     if (token) {
@@ -21,7 +22,7 @@ export async function middleware(request: NextRequest) {
       );
     }
   }
-  if (pathname.startsWith("/area-da-empresa/") || pathname.startsWith("/pagamentos")) {
+  if (pathname.startsWith("/area-da-empresa/") || pathname.startsWith("/area-da-empresa")) {
     if (!token) {
       return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
     }

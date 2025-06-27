@@ -10,6 +10,7 @@ interface dadosForm {
   token_AUTH: string; // token de autenticação
   issuerId: string;
   installments: number;
+  uuid_plan:string
 }
 
 export default async function enviarCartao(formData: dadosForm) {
@@ -32,7 +33,7 @@ export default async function enviarCartao(formData: dadosForm) {
         token_Pag: formData.token,
         bandeiraID: formData.issuerId, // se necessário // identificador da bandeira do cartão
         parcelas: formData.installments, // numero de parcelas
-        planoEscolhido: "416f9b1c-645c-465b-9991-b7c5300d609f", // aqui vc vai passar o plano escolhido
+        planoEscolhido: formData.uuid_plan, // aqui vc vai passar o plano escolhido
       }),
     }
   ); 

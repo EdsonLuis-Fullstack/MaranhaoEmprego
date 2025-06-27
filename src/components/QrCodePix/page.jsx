@@ -1,11 +1,22 @@
-'use client'
+'use client';
 import { useEffect, useState } from 'react';
+import QRCode from 'qrcode';
 import './PagamentoPix.css';
 
-export default function PagamentoPix() {
-  const [pixCode, setPixCode] = useState('00020126580014br.gov.bcb.pix0136email@seudominio.com.br...');
-  const [qrCodeUrl, setQrCodeUrl] = useState('/img/qrcode-exemplo.png'); // Substituir com URL gerada
-  const [valor, setValor] = useState('R$ 10,00'); // Substituir com valor dinâmico
+
+export default function PagamentoPix({ Pix_code, value }) {
+  const [pixCode, setPixCode] = useState(Pix_code);
+  const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [valor, setValor] = useState(`R$ ${parseFloat(value).toFixed(2)}`);
+
+  useEffect(() => {
+    // Gera QR Code assim que Pix_code estiver disponível
+    if (Pix_code) {
+      QRCode.toDataURL(Pix_code)
+        .then((url) => setQrCodeUrl(url))
+        .catch((err) => console.error('Erro ao gerar QR Code:', err));
+    }
+  }, [Pix_code]);
 
   const copiarCodigo = async () => {
     try {
@@ -23,7 +34,11 @@ export default function PagamentoPix() {
         <p className="descricao">Valor a pagar: <strong>{valor}</strong></p>
 
         <div className="qrcode-container">
-          <img src={qrCodeUrl} alt="QR Code Pix" className="qrcode-img" />
+          {qrCodeUrl ? (
+            <img src={qrCodeUrl} alt="QR Code Pix" className="qrcode-img" />
+          ) : (
+            <p>Gerando QR Code...</p>
+          )}
         </div>
 
         <div className="codigo-container">
@@ -32,7 +47,7 @@ export default function PagamentoPix() {
             id="pixCode"
             readOnly
             value={pixCode}
-            rows="4"
+            rows={4}
             className="pix-textarea"
           />
           <button className="btn-copiar" onClick={copiarCodigo}>Copiar código</button>
