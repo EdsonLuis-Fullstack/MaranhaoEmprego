@@ -9,7 +9,7 @@ export default function Login(){
             <div className='Formulario'>
                 <h1 id='TituloLogin'>Login</h1>
                 <LoginForm />
-                <p id="RecuperarSenha">Esqueceu a senha? Recupere aqui.</p>
+                <p id="RecuperarSenha">Esqueceu a senha? <Link href="/recuperar" id='CriarConta'>Recupere aqui.</Link></p>
                 <p id="FaçaCadastro">Não tem login? <Link href="/cadastro" id="CriarConta">Faça seu cadastro.</Link></p>
             </div>
         </section>

@@ -100,6 +100,7 @@ export default function RecuperarSenha() {
       return popupMessage("newPassword",response.msg)
     }
     setIsLoading(false); 
+    setCodigoVerificado(true);
     return setShowSuccessPopup(true);   
 
   };
@@ -118,15 +119,21 @@ export default function RecuperarSenha() {
   const fecharPaginaLogin = () => {
     setShowSuccessPopup(false);
     setShowCodeSentPopup(false);
-    router.push("/login");
+    router.push("/login"); // Redireciona para a página de login
   }
 
   const resendCode = async () => {
     setIsLoading(true);
-    setTimeout(() => {
+    const response = await EnviarCodigo_Senha(email,newPassword,code)
+    if(response.code == 400){
+      popupMessage("code",response.msg);}
+    if(response.code == 401){
+      popupMessage("email",response.msg);}
+    if(response.code == 402){
+      popupMessage("newPassword",response.msg);}
       setIsLoading(false);
       setShowCodeSentPopup(true);
-    }, 1000);
+
   };
 
   return (
@@ -283,7 +290,7 @@ export default function RecuperarSenha() {
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Digite sua nova senha"
-                    className={`input-field ${
+                    className={`input-field code-input ${
                       errors.newPassword ? "error" : ""
                     }`}
                     onKeyPress={(e) => e.key === "Enter" && handleCodeSubmit(e)}
