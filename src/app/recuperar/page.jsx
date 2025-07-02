@@ -2,6 +2,7 @@
 import { useState } from "react";
 import "./RecuperarSenha.css";
 import { SolicitarCodigo,EnviarCodigo_Senha } from "@/components/services/auth/redefinirDados";
+import { useRouter } from "next/navigation";
 
 export default function RecuperarSenha() {
   const [step, setStep] = useState("email"); // 'email' ou 'code'
@@ -13,6 +14,8 @@ export default function RecuperarSenha() {
   const [isLoading, setIsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [senha_visivel, setVisivel] = useState(false);
+  const [codigoVerificado, setCodigoVerificado] = useState(false);
+  const router = useRouter();
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -112,6 +115,11 @@ export default function RecuperarSenha() {
     setShowSuccessPopup(false);
     setShowCodeSentPopup(false);
   };
+  const fecharPaginaLogin = () => {
+    setShowSuccessPopup(false);
+    setShowCodeSentPopup(false);
+    router.push("/login");
+  }
 
   const resendCode = async () => {
     setIsLoading(true);
@@ -390,7 +398,7 @@ export default function RecuperarSenha() {
               Código verificado com sucesso! Você pode agora redefinir sua
               senha.
             </p>
-            <button onClick={closePopup} className="popup-button green">
+            <button onClick={codigoVerificado ? fecharPaginaLogin : closePopup} className="popup-button green">
               Continuar
             </button>
           </div>
