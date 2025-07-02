@@ -3,7 +3,7 @@ import './FormVaga.css'
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import cadastroVagas from '../../../components/services/auth/cadastroVagas';
+import cadastroVagas from '@/components/services/auth/cadastroVagas';
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState('valor');

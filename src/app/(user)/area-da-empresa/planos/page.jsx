@@ -1,5 +1,5 @@
 'use client';
-import PlanoStart from '../../../components/botoes/planos/PlanoStart';
+import PlanoStart from '@/components/botoes/planos/PlanoStart';
 import './planos.css';
 import { CheckCircleTwoTone, HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
 
@@ -13,9 +13,9 @@ export default function PlanosSimples() {
                     <span className='plano-desconto'>de R$ 97,99</span>
                     <div className='plano-price-container'>
                         por <span className='plano-price'>R$ 20,00</span>
-                        <div className='plano-price-off'>79,6% OFF</div>
+                        <div className='plano-price-off'>90% OFF</div>
                     </div>
-                    <p>Ganhe 1 credito para impulsionar sua vaga</p>
+                    <p style={{textAlign: 'center', padding: '10px'}}>Ganhe 1 credito para impulsionar sua vaga por 7 dias </p>
                 <div className='plano-header-footer'>
                     <span className='plano-features'>Suporte 24h</span>
                 </div>

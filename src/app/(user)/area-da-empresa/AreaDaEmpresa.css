@@ -110,6 +110,97 @@
     width: 100%;
     font-family: montserrat, poppins;
 }
+#CardVagasDivulgadas .titulo-vaga {
+  font-size: 20px;
+  font-weight: bold;
+  color: #02539b;
+}
+
+#CardVagasDivulgadas .descricao-vaga {
+  font-size: 16px;
+  color: #333;
+}
+
+#CardVagasDivulgadas .status-vaga {
+  font-size: 14px;
+  color: #555;
+  margin-top: 5px;
+}
+
+.botoes-vaga {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-vaga {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  font-family: montserrat, poppins;
+}
+
+.btn-vaga.editar {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-vaga.editar:hover {
+  background-color: #0056b3;
+}
+
+.btn-vaga.impulsionar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-vaga.impulsionar:hover {
+  background-color: #1c7c32;
+}
+
+.btn-vaga.deletar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-vaga.deletar:hover {
+  background-color: #a71d2a;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.popup-box {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-align: center;
+  font-family: montserrat, poppins;
+}
+
+.popup-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
 @media screen and (max-width: 798px) {
     .AreaEmpresa{
         padding-left: 20px;

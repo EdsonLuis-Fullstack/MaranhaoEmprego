@@ -1,10 +1,9 @@
 'use client';
+import './email.css'
 import { useState } from 'react';
 import Link from 'next/link';
-import './alterar-dados.css';
-
-export default function AlterarDadosPage() {
-  const [captchaValidado, setCaptchaValidado] = useState(false);
+export default function AlterarNome(){
+    const [captchaValidado, setCaptchaValidado] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,22 +24,15 @@ export default function AlterarDadosPage() {
     console.log('Dados atualizados:', { nome, email });
     alert('Dados atualizados com sucesso!');
   };
-
-  return (
-    <main className="alterar-dados-wrapper">
+    return(
+        <main className="alterar-dados-wrapper">
       <section className="alterar-dados-box">
-        <h1>Alterar Dados da Conta</h1>
+        <h1>Alterar nome da conta</h1>
         <form onSubmit={handleSubmit} className="alterar-dados-form">
           <div className="form-group">
-            <label htmlFor="nome">Novo nome</label>
+            <label htmlFor="nome">Novo Email</label>
             <input type="text" id="nome" name="nome"  />
           </div>
-
-          <div className="form-group">
-            <label htmlFor="email">Novo e-mail</label>
-            <input type="email" id="email" name="email"  />
-          </div>
-
           <div className="captcha-simulado">
             <input
               type="checkbox"
@@ -54,5 +46,5 @@ export default function AlterarDadosPage() {
         </form>
       </section>
     </main>
-  );
+    )
 }

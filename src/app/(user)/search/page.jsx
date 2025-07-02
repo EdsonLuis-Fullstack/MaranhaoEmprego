@@ -1,7 +1,7 @@
 'use client';
-import { Card_Filtros } from '../../components/AbasCards/cards/jobList';
-import FiltroVagas from '../../components/filtro/Filtro';
-import { getJobsFiltros } from '../../components/services/allJob/getjobsFiltros'; // Ajuste o caminho conforme sua estrutura
+import { Card_Filtros } from '@/components/AbasCards/cards/jobList';
+import FiltroVagas from '@/components/filtro/Filtro';
+import { getJobsFiltros } from '@/components/services/allJob/getjobsFiltros'; // Ajuste o caminho conforme sua estrutura
 import './search.css';
 import { useState } from 'react';
 

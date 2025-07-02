@@ -1,7 +1,7 @@
 import './Home.css'
-import AbasCards from '../components/AbasCards/AbasCards'
+import AbasCards from '@/components/AbasCards/AbasCards'
 import Image from 'next/image'
-import FiltroVagas from '../components/filtro/Filtro'
+import FiltroVagas from '@/components/filtro/Filtro'
 
 function Home(){
     return(
