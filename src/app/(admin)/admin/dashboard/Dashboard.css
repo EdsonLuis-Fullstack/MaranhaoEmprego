@@ -1,13 +1,250 @@
-.MainContainer{
-    width: 100%;
-    height: 100%;
-    margin-top: 100px;
-    padding: 32px;
-    box-sizing: border-box;
+/* Dashboard.css atualizado e responsivo */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #fff;
+  overflow-x: hidden;
 }
-.AnalysisContainer{
-    background-color: white;
-    padding: 32px;
-    box-shadow: #00000020 0px 0px 25px 1px ;
-    border-radius: 10px ;
+
+.MainContainer {
+  padding: 40px 5%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+}
+
+.DashboardGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.AnalysisContainer, .ConfigContainer {
+  flex: 1 1 100%;
+  max-width: 100%;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.AnalysisContainer h2, .ConfigContainer h2 {
+  margin-bottom: 25px;
+  font-size: 1.5rem;
+  color: #02539b;
+}
+
+.ChartResponsive {
+  width: 100%;
+  height: 300px;
+}
+
+.SubTittle {
+  color: #333;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.InputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.InputGroup label {
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.InputGroup input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fefefe;
+  transition: border 0.3s;
+}
+
+.InputGroup input:focus {
+  border-color: #02539b;
+  outline: none;
+}
+
+.VagasContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Card de vaga para validação e publicação */
+.CardVaga {
+  background: #fff;
+  border-left: 5px solid #02539b;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  font-family: 'Montserrat', 'Poppins', sans-serif;
+  color: #333;
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: box-shadow 0.3s ease;
+}
+
+.CardVaga:hover {
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+.CardVaga h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: #02539b;
+}
+
+.CardVaga p {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0 0 15px;
+  color: #555;
+}
+
+.CardVaga a {
+  color: #02539b;
+  text-decoration: none;
+}
+
+.CardVaga a:hover {
+  text-decoration: underline;
+}
+
+.BotoesVaga {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.BotoesVaga button {
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.btn-ver {
+  background-color: #02539b;
+  color: white;
+}
+
+.btn-ver:hover {
+  background-color: #023f75;
+}
+
+.btn-validar {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-validar:hover {
+  background-color: #1e7e34;
+}
+.btn-rejeitar {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  flex: 1;
+  min-width: 120px;
+}
+
+.btn-rejeitar:hover {
+  background-color: #d9363e;
+}
+
+/* Ajuste para os botões ficarem mais harmoniosos no espaço */
+.BotoesVaga button {
+  /* mantém estilos anteriores */
+  margin-bottom: 8px; /* para espaçamento vertical em mobile */
+}
+.ContainerVagas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 20px;
+  width: 100%;
+}
+
+.CardVaga {
+  flex: 1 1 45%;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border-left: 4px solid #02539b;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  max-width: 100%;
+}
+
+.CardVaga:hover {
+  box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.2);
+}
+.btn-enviar {
+  width: 40%;
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #02539b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-enviar:hover {
+  background-color: #013f76;
+}
+
+@media (max-width: 768px) {
+  .CardVaga {
+    flex: 1 1 100%;
+  }
+}
+
+
+/* Responsividade */
+@media (max-width: 480px) {
+  .CardVaga {
+    max-width: 100%;
+    padding: 16px;
+  }
+
+  .BotoesVaga {
+    flex-direction: column;
+  }
+
+  .BotoesVaga button {
+    width: 100%;
+    min-width: unset;
+  }
 }
