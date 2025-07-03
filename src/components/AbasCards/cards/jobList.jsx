@@ -11,16 +11,16 @@ import {getParamet} from '@/components/services/allJob/getJobs';
 
 function Cards() {
   const [vagas, setVagas] = useState([]);
-
-  useEffect(() => {
-    async function fetchVagas() {
-      try {
-        const data = await getAllJobs();
-        setVagas(data);
-      } catch (error) {
-        console.error('Erro ao buscar vagas:', error);
-      }
+  async function fetchVagas() {
+    try {
+      const data = await getAllJobs();
+      setVagas(data);
+    } catch (error) {
+      console.error('Erro ao buscar vagas:', error);
     }
+  }
+  
+  useEffect(() => {
 
     fetchVagas();
   }, []);
@@ -51,15 +51,15 @@ function Cards() {
 function CardsHomeOffice() {
   const [vagas, setVagas] = useState([]);
 
-  useEffect(() => {
-    async function fetchVagas() {
-      try {
-        const data = await getParamet('tipo', 'Home Office');
-        setVagas(data);
-      } catch (error) {
-        console.error('Erro ao buscar vagas:', error);
-      }
+  async function fetchVagas() {
+    try {
+      const data = await getParamet('tipo', 'Home Office');
+      setVagas(data);
+    } catch (error) {
+      console.error('Erro ao buscar vagas:', error);
     }
+  }
+  useEffect(() => {
 
     fetchVagas();
   }, []);

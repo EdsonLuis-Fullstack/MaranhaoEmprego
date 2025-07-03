@@ -21,7 +21,6 @@ export default async function getAllJobs() {
       
       throw new Error('Erro ao buscar as vagas');
     }
-  
     const data = await res.json();
     return data?.data ?? [];
   }

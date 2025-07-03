@@ -1,0 +1,105 @@
+.admin-login-container {
+  min-height: 97vh;
+  background: linear-gradient(135deg, #f0f4ff, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeIn 0.7s ease-in;
+}
+
+.admin-login-form {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.7s ease;
+}
+
+.admin-login-icon {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: #02539b;
+}
+
+.admin-login-form h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.admin-login-form input {
+  background-color: #f5f7fb;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  color: #2c3e50;
+  transition: border 0.3s;
+}
+
+.admin-login-form input:focus {
+  border: 2px solid #02539b;
+  outline: none;
+  background: #fff;
+}
+
+.admin-login-form button {
+  background-color: #02539b;
+  color: white;
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.admin-login-form button:hover {
+  background-color: #4029e3;
+}
+
+.login-error {
+  background: #ffe0e0;
+  color: #c0392b;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 500px) {
+  .admin-login-form {
+    padding: 30px 20px;
+  }
+
+  .admin-login-form h2 {
+    font-size: 1.5rem;
+  }
+}
