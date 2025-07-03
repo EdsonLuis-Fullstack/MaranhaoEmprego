@@ -92,22 +92,22 @@ export default function PaymentForm() {
   const router = useRouter();
   const [mpLoaded, setMpLoaded] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("credit");
-  const [selectedTab, setSelectedTab] = useState<"cartao" | "pix">("cartao");
-  const [amount, setAmount] = useState("7"); // Agora é um state
+  const [selectedTab, setSelectedTab] = useState("cartao");
+  const [amount, setAmount] = useState("7");
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
-  const [popupType, setPopupType] = useState("error"); // "error" ou "success"
-  const [isLoading, setIsLoading] = useState(false); // Estado para controlar 
-  const [uuid_plano,setUuid_Plano] = useState("")
-  const [qrCodeData, setQrCodeData] = useState(null); // Estado para QR Code
+  const [popupType, setPopupType] = useState("error");
+  const [isLoading, setIsLoading] = useState(false);
+  const [uuid_plano, setUuid_Plano] = useState("");
+  const [qrCodeData, setQrCodeData] = useState(null);
+  const [cardFormMounted, setCardFormMounted] = useState(false);
+  const [formReady, setFormReady] = useState(false);
 
-  const cardFormRef = useRef<any>(null); // Referência para o cardForm
+  const cardFormRef = useRef(null);
+  const mountTimeoutRef = useRef(null);
 
   // Função para mostrar popup
-  const showPopupMessage = (
-    message: string,
-    type: "error" | "success" = "error"
-  ) => {
+  const showPopupMessage = (message, type = "error") => {
     setPopupMessage(message);
     setPopupType(type);
     setShowPopup(true);
@@ -115,15 +115,10 @@ export default function PaymentForm() {
 
   // Função para fechar popup
   const closePopup = () => {
-
     setShowPopup(false);
     setPopupMessage("");
     setTimeout(() => {
-
-            window.location.reload()
-
-    
-
+      window.location.reload();
     }, 100);
   };
 
@@ -132,16 +127,66 @@ export default function PaymentForm() {
     setQrCodeData(null);
   };
 
+  // Função para limpar formulário do MercadoPago de forma segura
+  const safeUnmountCardForm = () => {
+    if (mountTimeoutRef.current) {
+      clearTimeout(mountTimeoutRef.current);
+      mountTimeoutRef.current = null;
+    }
+
+    if (cardFormRef.current && cardFormMounted) {
+      try {
+        const formElement = document.getElementById("form-checkout");
+        if (formElement) {
+          cardFormRef.current.unmount();
+        }
+      } catch (error) {
+        console.warn("Erro ao desmontar formulário:", error);
+      } finally {
+        cardFormRef.current = null;
+        setCardFormMounted(false);
+      }
+    }
+  };
+
+  // Função para aguardar elemento no DOM
+  const waitForElement = (selector, timeout = 5000) => {
+    return new Promise((resolve, reject) => {
+      const element = document.getElementById(selector);
+      if (element) {
+        resolve(element);
+        return;
+      }
+
+      const observer = new MutationObserver((mutations, obs) => {
+        const element = document.getElementById(selector);
+        if (element) {
+          obs.disconnect();
+          resolve(element);
+        }
+      });
+
+      observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+
+      setTimeout(() => {
+        observer.disconnect();
+        reject(new Error(`Elemento ${selector} não encontrado`));
+      }, timeout);
+    });
+  };
+
   // UseEffect para buscar o valor do plano apenas uma vez
   useEffect(() => {
     const fetchPlanValue = async () => {
       try {
         setIsLoading(true);
         const response = await pegarInfomacao();
-        const valor = response.valor;
-
-        setUuid_Plano(response.uuid)
-
+        const valor = response.planos[0].valor_Plano;
+        
+        setUuid_Plano(response.planos[0].uuid_Planos);
         setAmount(valor);
 
         // Atualizar o elemento do DOM se existir
@@ -157,7 +202,21 @@ export default function PaymentForm() {
     };
 
     fetchPlanValue();
-  }, []); // Executa apenas uma vez na montagem do componente
+  }, []);
+
+  // UseEffect para controlar quando o formulário está pronto
+  useEffect(() => {
+    if (selectedTab === "cartao" && !isLoading) {
+      // Aguarda um pouco antes de marcar como pronto
+      const timer = setTimeout(() => {
+        setFormReady(true);
+      }, 200);
+
+      return () => clearTimeout(timer);
+    } else {
+      setFormReady(false);
+    }
+  }, [selectedTab, isLoading]);
 
   // UseEffect para inicializar o MercadoPago
   useEffect(() => {
@@ -165,160 +224,230 @@ export default function PaymentForm() {
       selectedTab === "cartao" &&
       mpLoaded &&
       window.MercadoPago &&
-      !isLoading
+      formReady &&
+      !cardFormMounted
     ) {
-      try {
-        const mp = new window.MercadoPago(process.env.NEXT_PUBLIC_MP_KEY);
-        if (cardFormRef.current) {
-          cardFormRef.current.unmount(); // Desmonta o formulário anterior, se existir
-        }
+      const initializeCardForm = async () => {
+        try {
+          // Aguarda o elemento estar disponível no DOM
+          await waitForElement("form-checkout");
 
-        cardFormRef.current = mp.cardForm({
-          amount: `${parseFloat(amount)}`,
-          autoMount: true,
-          paymentMethod: { id: paymentMethod },
-          form: {
-            id: "form-checkout",
-            cardholderName: {
-              id: "form-checkout__cardholderName",
-              placeholder: "Nome no cartão",
-            },
-            cardholderEmail: {
-              id: "form-checkout__cardholderEmail",
-              hidden: true,
-            },
-            cardNumber: {
-              id: "form-checkout__cardNumber",
-              placeholder: "Número do cartão",
-            },
-            expirationDate: {
-              id: "form-checkout__expirationDate",
-              placeholder: "MM/YY",
-            },
-            securityCode: {
-              id: "form-checkout__securityCode",
-              placeholder: "CVV",
-            },
-            identificationType: { id: "form-checkout__identificationType" },
-            identificationNumber: {
-              id: "form-checkout__identificationNumber",
-              placeholder: "Documento",
-            },
-            issuer: { id: "form-checkout__issuer-hidden", hidden: true },
-            installments: {
-              id: "form-checkout__installments-hidden",
-              hidden: true,
-            },
-          },
-          callbacks: {
-            onFormMounted: () => console.log("Formulário montado com sucesso"),
-            onSubmit: async (event) => {
-              event.preventDefault();
-              try {
-                setIsLoading(true)
-                // Capturar dados do formulário diretamente dos inputs
-                const formElement = document.getElementById(
-                  "form-checkout"
-                ) as HTMLFormElement;
-                const formData = new FormData(formElement);
+          // Limpa qualquer formulário anterior
+          safeUnmountCardForm();
 
-                // Obter dados do MercadoPago SDK
-                const cardData = cardFormRef.current.getCardFormData();
+          // Aguarda um pouco mais antes de criar o novo formulário
+          mountTimeoutRef.current = setTimeout(async () => {
+            try {
+              const mp = new window.MercadoPago(process.env.NEXT_PUBLIC_MP_KEY);
 
-                // Combinar dados do formulário com dados do SDK
-                const completeData = {
-                  ...cardData,
-                  cardholderName:
-                    formData.get("cardholderName") ||
-                    document.getElementById("form-checkout__cardholderName")
-                      ?.value,
-                  cardholderEmail:
-                    formData.get("cardholderEmail") ||
-                    document.getElementById("form-checkout__cardholderEmail")
-                      ?.value,
-                  identificationType:
-                    formData.get("identificationType") ||
-                    cardData.identificationType,
-                  identificationNumber:
-                    formData.get("identificationNumber") ||
-                    cardData.identificationNumber,
-                };
+              cardFormRef.current = mp.cardForm({
+                amount: `${parseFloat(amount)}`,
+                autoMount: true,
+                paymentMethod: { id: paymentMethod },
+                form: {
+                  id: "form-checkout",
+                  cardholderName: {
+                    id: "form-checkout__cardholderName",
+                    placeholder: "Nome no cartão",
+                  },
+                  cardholderEmail: {
+                    id: "form-checkout__cardholderEmail",
+                    hidden: true,
+                  },
+                  cardNumber: {
+                    id: "form-checkout__cardNumber",
+                    placeholder: "Número do cartão",
+                  },
+                  expirationDate: {
+                    id: "form-checkout__expirationDate",
+                    placeholder: "MM/YY",
+                  },
+                  securityCode: {
+                    id: "form-checkout__securityCode",
+                    placeholder: "CVV",
+                  },
+                  identificationType: {
+                    id: "form-checkout__identificationType",
+                  },
+                  identificationNumber: {
+                    id: "form-checkout__identificationNumber",
+                    placeholder: "Documento",
+                  },
+                  issuer: { id: "form-checkout__issuer-hidden", hidden: true },
+                  installments: {
+                    id: "form-checkout__installments-hidden",
+                    hidden: true,
+                  },
+                },
+                callbacks: {
+                  onFormMounted: () => {
+                    console.log("Formulário montado com sucesso");
+                    setCardFormMounted(true);
+                  },
+                  onSubmit: async (event) => {
+                    event.preventDefault();
+                    try {
+                      setIsLoading(true);
 
-                console.log("Dados completos do cartão:", completeData);
+                      const formElement =
+                        document.getElementById("form-checkout");
+                      const formData = new FormData(formElement);
 
-                // Verificar se o nome foi capturado
-                if (!completeData.cardholderName) {
-                  showPopupMessage("Por favor, preencha o nome no cartão");
-                  return;
-                }
+                      const cardData = cardFormRef.current.getCardFormData();
 
-                const token_AUTH = Cookies.get(
-                  `${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`
-                );
-                completeData.token_AUTH = token_AUTH;
-                completeData.uuid_plan = uuid_plano
+                      const completeData = {
+                        ...cardData,
+                        cardholderName:
+                          formData.get("cardholderName") ||
+                          document.getElementById(
+                            "form-checkout__cardholderName"
+                          )?.value,
+                        cardholderEmail:
+                          formData.get("cardholderEmail") ||
+                          document.getElementById(
+                            "form-checkout__cardholderEmail"
+                          )?.value,
+                        identificationType:
+                          formData.get("identificationType") ||
+                          cardData.identificationType,
+                        identificationNumber:
+                          formData.get("identificationNumber") ||
+                          cardData.identificationNumber,
+                      };
 
+                      console.log("Dados completos do cartão:", completeData);
 
-                // Enviar dados do cartão e tratar resposta
-                const response = await enviarCartao(completeData);
+                      if (!completeData.cardholderName) {
+                        showPopupMessage(
+                          "Por favor, preencha o nome no cartão"
+                        );
+                        setIsLoading(false);
+                        return;
+                      }
 
-                // Verificar se a resposta tem o formato esperado
+                      const token_AUTH = Cookies.get(
+                        `${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`
+                      );
+                      completeData.token_AUTH = token_AUTH;
+                      completeData.uuid_plan = uuid_plano;
 
-                if(response.code == 407){
+                      const response = await enviarCartao(completeData);
+
+                      if (response.code == 407) {
+                        showPopupMessage(
+                          "Seu cartão foi recusado pelo provedor"
+                        );
+                      }
+                      if (response && typeof response === "object") {
+                        if (response.code === 200) {
+                          showPopupMessage(
+                            response.msg || "Pagamento processado com sucesso!",
+                            "success"
+                          );
+                          setTimeout(() => {
+                            router.push("/");
+                          }, 3000);
+                        } else {
+                          showPopupMessage(
+                            response.msg || "Erro no processamento do pagamento"
+                          );
+                        }
+                      } else {
+                        showPopupMessage(
+                          "Erro inesperado na resposta do servidor"
+                        );
+                      }
+                    } catch (error) {
+                      console.error("Erro ao processar pagamento:", error);
+                      showPopupMessage("Erro no pagamento. Tente novamente.");
+                    } finally {
+                      setIsLoading(false);
+                    }
+                  },
+                  onFetching: (resource) =>
+                    console.log(`Buscando recurso: ${resource}`),
+                  onError: (error) => {
+                    console.error("Erro no formulário:", error);
                     showPopupMessage(
-                      "Seu cartao foi Recusado pelo provedor"
+                      "Erro no formulário. Verifique os dados inseridos."
                     );
-                }
-                if (response && typeof response === "object") {
-                  if (response.code === 200) {
-                    showPopupMessage(
-                      response.msg || "Pagamento processado com sucesso!",
-                      "success"
-                    );
-                    setInterval(() => {
-                      router.push("/")
-                    }, 3000);
-                  } else {
-                    showPopupMessage(
-                      response.msg || "Erro no processamento do pagamento"
-                    );
-                  }
-                } else {
-                  showPopupMessage("Erro inesperado na resposta do servidor");
-                }
-              } catch (error) {
-                setIsLoading(false)
-                console.error("Erro ao processar pagamento:", error);
-                showPopupMessage("Erro no pagamento. Tente novamente.");
-              }
-            },
-            onFetching: (resource) =>
-              console.log(`Buscando recurso: ${resource}`),
-            onError: (error) => {
-              console.error("Erro no formulário:", error);
+                  },
+                },
+              });
+            } catch (error) {
+              console.error("Erro ao inicializar formulário:", error);
               showPopupMessage(
-                "Erro no formulário. Verifique os dados inseridos."
+                "Erro ao carregar formulário. Recarregando página..."
               );
-            },
-          },
-        });
-      } catch (error) {
-              window.location.reload()
-;
-      }
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            }
+          }, 300);
+        } catch (error) {
+          console.error("Erro ao aguardar elemento:", error);
+          showPopupMessage("Erro ao carregar formulário. Tente novamente.");
+        }
+      };
+
+      initializeCardForm();
     }
-  }, [mpLoaded, paymentMethod, amount, selectedTab, isLoading]);
+
+    // Cleanup function
+    return () => {
+      if (selectedTab !== "cartao") {
+        safeUnmountCardForm();
+      }
+    };
+  }, [
+    mpLoaded,
+    paymentMethod,
+    amount,
+    selectedTab,
+    formReady,
+    uuid_plano,
+    cardFormMounted,
+  ]);
+
+  // Cleanup ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      safeUnmountCardForm();
+    };
+  }, []);
+
+  // Cleanup ao mudar de aba
+  useEffect(() => {
+    if (selectedTab !== "cartao") {
+      safeUnmountCardForm();
+      setFormReady(false);
+    }
+  }, [selectedTab]);
 
   const handlePaymentMethodChange = (event) => {
     setPaymentMethod(event.target.value);
+    // Re-monta o formulário quando muda o método de pagamento
+    if (cardFormMounted) {
+      safeUnmountCardForm();
+      setFormReady(false);
+      setTimeout(() => {
+        setFormReady(true);
+      }, 500);
+    }
   };
-
 
   return (
     <div className="conteinerPay">
       <Script
         src="https://sdk.mercadopago.com/js/v2"
-        onLoad={() => setMpLoaded(true)}
+        onLoad={() => {
+          console.log("MercadoPago SDK carregado");
+          setMpLoaded(true);
+        }}
+        onError={(error) => {
+          console.error("Erro ao carregar MercadoPago SDK:", error);
+          showPopupMessage("Erro ao carregar SDK de pagamento");
+        }}
       />
 
       {/* Popup de Mensagem */}
@@ -350,13 +479,23 @@ export default function PaymentForm() {
       <div className="tabs">
         <button
           className={`tab-btn ${selectedTab === "cartao" ? "active" : ""}`}
-          onClick={() => setSelectedTab("cartao")}
+          onClick={() => {
+            if (selectedTab !== "cartao") {
+              safeUnmountCardForm();
+              setSelectedTab("cartao");
+            }
+          }}
         >
           Cartão
         </button>
         <button
           className={`tab-btn ${selectedTab === "pix" ? "active" : ""}`}
-          onClick={() => setSelectedTab("pix")}
+          onClick={() => {
+            if (selectedTab !== "pix") {
+              safeUnmountCardForm();
+              setSelectedTab("pix");
+            }
+          }}
         >
           Pix
         </button>
@@ -364,92 +503,111 @@ export default function PaymentForm() {
 
       {/* Formulário de Cartão */}
       {selectedTab === "cartao" && (
-        <form id="form-checkout" className="form-checkout">
-          <h2>Cartão</h2>
-          <div className="Preço">
-            Preço do plano:{" "}
-            <span id="valor_plano" className="PrecoPlano">
-              R$ {amount}
-            </span>
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="form-checkout__cardholderName">
-              Nome no cartão
-            </label>
-            <input
-              id="form-checkout__cardholderName"
-              name="cardholderName"
-              type="text"
-              placeholder="Nome completo como no cartão"
-            />
-          </div>
-
-          <div style={{ display: "none" }} className="form-group">
-            <label htmlFor="form-checkout__cardholderEmail">Email</label>
-            <input id="form-checkout__cardholderEmail" type="email" />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="form-checkout__cardNumber">Número do cartão</label>
-            <input id="form-checkout__cardNumber" name="cardNumber" />
-          </div>
-
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="form-checkout__securityCode">CVV</label>
-              <input id="form-checkout__securityCode" name="securityCode" />
+        <div>
+          {!formReady || isLoading ? (
+            <div style={{ textAlign: "center", padding: "20px" }}>
+              <p>Carregando formulário...</p>
             </div>
-            <div className="form-group">
-              <label htmlFor="form-checkout__expirationDate">Validade</label>
-              <input id="form-checkout__expirationDate" name="expirationDate" />
-            </div>
-          </div>
+          ) : (
+            <form id="form-checkout" className="form-checkout">
+              <h2>Cartão</h2>
+              <div className="Preço">
+                Preço do plano:{" "}
+                <span id="valor_plano" className="PrecoPlano">
+                  R$ {amount}
+                </span>
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="form-checkout__identificationType">
-              Tipo de documento
-            </label>
-            <select
-              id="form-checkout__identificationType"
-              name="identificationType"
-              required
-            />
-          </div>
+              <div className="form-group">
+                <label htmlFor="form-checkout__cardholderName">
+                  Nome no cartão
+                </label>
+                <input
+                  id="form-checkout__cardholderName"
+                  name="cardholderName"
+                  type="text"
+                  placeholder="Nome completo como no cartão"
+                />
+              </div>
 
-          <div className="form-group">
-            <label htmlFor="form-checkout__identificationNumber">
-              Número do documento
-            </label>
-            <input
-              id="form-checkout__identificationNumber"
-              name="identificationNumber"
-              required
-            />
-          </div>
+              <div style={{ display: "none" }} className="form-group">
+                <label htmlFor="form-checkout__cardholderEmail">Email</label>
+                <input id="form-checkout__cardholderEmail" type="email" />
+              </div>
 
-          <div className="payment-method-group">
-            <label>Tipo de cartão:</label>
-            <select
-              onChange={handlePaymentMethodChange}
-              value={paymentMethod}
-              className="payment-method"
-            >
-              <option value="credit">Crédito</option>
-              <option value="debit">Débito</option>
-            </select>
-          </div>
+              <div className="form-group">
+                <label htmlFor="form-checkout__cardNumber">
+                  Número do cartão
+                </label>
+                <input id="form-checkout__cardNumber" name="cardNumber" />
+              </div>
 
-          {/* Campos ocultos para o SDK */}
-          <div style={{ display: "none" }}>
-            <select id="form-checkout__issuer-hidden"></select>
-            <select id="form-checkout__installments-hidden"></select>
-          </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="form-checkout__securityCode">CVV</label>
+                  <input id="form-checkout__securityCode" name="securityCode" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="form-checkout__expirationDate">
+                    Validade
+                  </label>
+                  <input
+                    id="form-checkout__expirationDate"
+                    name="expirationDate"
+                  />
+                </div>
+              </div>
 
-          <button type="submit" className="btn-submit">
-            {isLoading == true ? ("Carregando Pagamento...") : ("Pagar")}
-          </button>
-        </form>
+              <div className="form-group">
+                <label htmlFor="form-checkout__identificationType">
+                  Tipo de documento
+                </label>
+                <select
+                  id="form-checkout__identificationType"
+                  name="identificationType"
+                  required
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="form-checkout__identificationNumber">
+                  Número do documento
+                </label>
+                <input
+                  id="form-checkout__identificationNumber"
+                  name="identificationNumber"
+                  required
+                />
+              </div>
+
+              <div className="payment-method-group">
+                <label>Tipo de cartão:</label>
+                <select
+                  onChange={handlePaymentMethodChange}
+                  value={paymentMethod}
+                  className="payment-method"
+                >
+                  <option value="credit">Crédito</option>
+                  <option value="debit">Débito</option>
+                </select>
+              </div>
+
+              {/* Campos ocultos para o SDK */}
+              <div style={{ display: "none" }}>
+                <select id="form-checkout__issuer-hidden"></select>
+                <select id="form-checkout__installments-hidden"></select>
+              </div>
+
+              <button
+                type="submit"
+                className="btn-submit"
+                disabled={isLoading || !cardFormMounted}
+              >
+                {isLoading ? "Carregando Pagamento..." : "Pagar"}
+              </button>
+            </form>
+          )}
+        </div>
       )}
 
       {/* Seção PIX - Formulário ou QR Code */}
@@ -467,14 +625,13 @@ export default function PaymentForm() {
               onSubmit={async (e) => {
                 e.preventDefault();
                 try {
-                  setIsLoading(true); // Inicia o carregamento
+                  setIsLoading(true);
                   const nome = e.target.nome.value;
                   const token = Cookies.get(
                     `${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`
                   );
                   const tipo_documento = e.target.tipo_documento.value;
                   const documento_numero = e.target.documento_numero.value;
-
 
                   const data = await enviarPix({
                     nome,
@@ -491,21 +648,18 @@ export default function PaymentForm() {
                   }
 
                   if (data.pixData.qr_code) {
-                    // Define o QR code no estado para renderizar o componente
                     setQrCodeData(data.pixData.qr_code);
-
                   } else {
-                    showPopupMessage(
-                      "Erro ao gerar QR Code. Tente novamente."
-                    );
+                    showPopupMessage("Erro ao gerar QR Code. Tente novamente.");
                     return;
                   }
-                  setIsLoading(false)
                 } catch (error) {
                   console.error("Erro ao processar PIX:", error);
                   showPopupMessage(
                     "Erro ao processar pagamento via PIX. Tente novamente."
                   );
+                } finally {
+                  setIsLoading(false);
                 }
               }}
             >
@@ -549,15 +703,9 @@ export default function PaymentForm() {
                 />
               </div>
 
-                <button
-                  type="submit"
-                  className="btn-submit" 
-                >
-
-                  {isLoading ? "Carregando..." : "Gerar QR Code"}
-                </button>
-
-
+              <button type="submit" className="btn-submit" disabled={isLoading}>
+                {isLoading ? "Carregando..." : "Gerar QR Code"}
+              </button>
             </form>
           )}
         </>

@@ -9,10 +9,10 @@ export async function pegarInfomacao() {
             Accept: "application/json",
             "x-api-key": `${process.env.API_KEY_SECRET}`,
         },
-        cache:"force-cache",
-        next: {
-            revalidate:  7200, // Revalidar a cada 2 horas
-        },
+        cache:"no-cache",
+        // next: {
+        //     revalidate:  7200, // Revalidar a cada 2 horas
+        // },
     
 })
 

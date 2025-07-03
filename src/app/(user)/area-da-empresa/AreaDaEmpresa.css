@@ -1,114 +1,114 @@
-.AreaEmpresa{
-    margin-top: 100px;
-    margin-bottom: 50px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    font-family: montserrat, poppins;
-    padding-left: 80px;
-    padding-right: 80px;
+.AreaEmpresa {
+  margin-top: 100px;
+  margin-bottom: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  font-family: montserrat, poppins;
+  padding-left: 80px;
+  padding-right: 80px;
 }
-.AreaEmpresa .DivulgarVaga{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-    height: 70vh;
+.AreaEmpresa .DivulgarVaga {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  height: 70vh;
 }
-.AreaEmpresa .DivulgarVaga h2{
-    font-size: 35px;
-    font-weight: bold;
-    color: black;
+.AreaEmpresa .DivulgarVaga h2 {
+  font-size: 35px;
+  font-weight: bold;
+  color: black;
 }
-.AreaEmpresa .VagasDivulgadas{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+.AreaEmpresa .VagasDivulgadas {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
-.AreaEmpresa .VagasDivulgadas h2{
-    font-size: 28px;
-    font-weight: bold;
-    color: black;
-    text-transform: uppercase;
+.AreaEmpresa .VagasDivulgadas h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: black;
+  text-transform: uppercase;
 }
-.AreaEmpresa .VagasDivulgadas hr{
-    width: 50%;
-    height: 8px;
-    background-color: #02539b; 
-    border-radius: 15px;
+.AreaEmpresa .VagasDivulgadas hr {
+  width: 50%;
+  height: 8px;
+  background-color: #02539b;
+  border-radius: 15px;
 }
-.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas{
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
+.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
 }
-.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas{
-    border-radius: 7px;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    border-left: #02539b solid 3px;
-    gap: 10px;
-    width: 100%;
-    padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: 0.5s;
+.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas {
+  border-radius: 7px;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  border-left: #02539b solid 3px;
+  gap: 10px;
+  width: 100%;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: 0.5s;
 }
-.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas:hover{
-    cursor: pointer;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
-    transition: 0.5s;
+.AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas:hover {
+  cursor: pointer;
+  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
+  transition: 0.5s;
 }
 .LogoutButton {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ff4d4f;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 .LogoutButton:hover {
-    background: #d9363e;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  background: #d9363e;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
-.AreaEmpresaButtons{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+.AreaEmpresaButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
 }
-.PerfilButton{
-    border: none;
+.PerfilButton {
+  border: none;
 }
-.PerfilInfo{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 20px;
-    width: 100%;
-    font-family: montserrat, poppins;
+.PerfilInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  font-family: montserrat, poppins;
 }
 #CardVagasDivulgadas .titulo-vaga {
   font-size: 20px;
@@ -176,7 +176,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.6);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -189,7 +189,7 @@
   border-radius: 12px;
   max-width: 400px;
   width: 90%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   text-align: center;
   font-family: montserrat, poppins;
 }
@@ -202,29 +202,256 @@
 }
 
 @media screen and (max-width: 798px) {
-    .AreaEmpresa{
-        padding-left: 20px;
-        padding-right: 20px;
-        width: 100%; 
-    }
-    .AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas{
-        width: 90%;
-    }
-    .AreaEmpresa .DivulgarVaga{
-        width: 100%;
-    }
-    .AreaEmpresa .DivulgarVaga h2{
-        font-size: 32px;
-    }
-    .AreaEmpresa .DivulgarVaga p{
-        font-size: 14px;
-    }
-    .AreaEmpresa .VagasDivulgadas h2{
-        font-size: 22px;
-    }
-    .AreaEmpresaButtons{
-        flex-direction: column;
-        align-items: flex-start;
-        justify-content: center;
-    }
+  .AreaEmpresa {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+  }
+  .AreaEmpresa .VagasDivulgadas .CardVagasPublicadas #CardVagasDivulgadas {
+    width: 90%;
+  }
+  .AreaEmpresa .DivulgarVaga {
+    width: 100%;
+  }
+  .AreaEmpresa .DivulgarVaga h2 {
+    font-size: 32px;
+  }
+  .AreaEmpresa .DivulgarVaga p {
+    font-size: 14px;
+  }
+  .AreaEmpresa .VagasDivulgadas h2 {
+    font-size: 22px;
+  }
+  .AreaEmpresaButtons {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+/* Estilos para o popup personalizado */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popup-box {
+  background: white;
+  border-radius: 12px;
+  padding: 0;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.3s ease-out;
+  position: relative;
+}
+
+.popup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 15px 20px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.popup-titulo {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+}
+
+.popup-icon {
+  font-size: 1.5rem;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #f8f9fa;
+}
+
+.popup-icon-sucesso {
+  background: #d4edda;
+}
+
+.popup-icon-confirmacao {
+  background: white;
+}
+
+.popup-icon-erro {
+  background: #f8d7da;
+}
+
+.popup-icon-info {
+  background: #d1ecf1;
+}
+
+.popup-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.popup-content p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.popup-buttons {
+  padding: 15px 20px 20px 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 1px solid #eee;
+}
+
+.popup-buttons button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 80px;
+}
+
+.popup-buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilos específicos para diferentes tipos de popup */
+.popup-sucesso .popup-header {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border-bottom: 1px solid #c3e6cb;
+}
+
+.popup-sucesso .popup-titulo {
+  color: #155724;
+}
+
+.popup-confirmacao .popup-header {
+  background: #02539b;
+  border-bottom: 1px solid #143f64;
+}
+
+.popup-confirmacao .popup-titulo {
+  color: #ffffff;
+}
+
+.popup-erro .popup-header {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  border-bottom: 1px solid #f5c6cb;
+}
+
+.popup-erro .popup-titulo {
+  color: #721c24;
+}
+
+.popup-info .popup-header {
+  background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+  border-bottom: 1px solid #bee5eb;
+}
+
+.popup-info .popup-titulo {
+  color: #0c5460;
+}
+
+/* Animações */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .popup-box {
+    width: 95%;
+    margin: 10px;
+  }
+
+  .popup-buttons {
+    flex-direction: column;
+  }
+
+  .popup-buttons button {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .popup-buttons button:last-child {
+    margin-bottom: 0;
+  }
+}
+
+/* Melhorias nos botões dentro do popup */
+.popup-buttons .btn-vaga {
+  border: 1px solid #ddd;
+  background: white;
+  color: #333;
+}
+
+.popup-buttons .btn-vaga.editar {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.popup-buttons .btn-vaga.editar:hover {
+  background: #0056b3;
+  border-color: #0056b3;
+}
+
+.popup-buttons .btn-vaga.deletar {
+  background: #dc3545;
+  color: white;
+  border-color: #dc3545;
+}
+
+.popup-buttons .btn-vaga.deletar:hover {
+  background: #c82333;
+  border-color: #c82333;
+}
+
+.popup-buttons .btn-vaga.impulsionar {
+  background: #28a745;
+  color: white;
+  border-color: #28a745;
+}
+
+.popup-buttons .btn-vaga.impulsionar:hover {
+  background: #218838;
+  border-color: #218838;
 }
