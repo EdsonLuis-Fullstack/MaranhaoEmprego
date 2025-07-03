@@ -2,20 +2,40 @@
 import PlanoStart from '@/components/botoes/planos/PlanoStart';
 import './planos.css';
 import { CheckCircleTwoTone, HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
+import { useEffect } from 'react';
+import {pegarInfomacao} from '@/components/services/planos/informacaoPlanos'
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
 
 export default function PlanosSimples() {
+    const router = useRouter()
+    const [Planosinfo, setPlanosinfo] = useState({});
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const fetchPlanos = async () => {
+            const resposta = await pegarInfomacao()
+            if(resposta.code !== 200){
+                return router.refresh()
+            }
+            console.log(resposta.planos[0])
+            setPlanosinfo(resposta.planos[0])
+            setLoading(false);
+        }
+        fetchPlanos()
+    }, [])
   return (
     <section className="secao-planos">
         <div className="planos-container">
             <div className="plano-start">
                 <div className='plano-header'>
-                    <h2 className='plano-title'>Plano</h2>
-                    <span className='plano-desconto'>de R$ 97,99</span>
+                    <h2 className='plano-title'>{Planosinfo.titulo_Planos}</h2>
+                    <span className='plano-desconto'>de R$ {Planosinfo.valor_promocional_Planos}</span>
                     <div className='plano-price-container'>
-                        por <span className='plano-price'>R$ 20,00</span>
+                        por <span className='plano-price'>R$ {Planosinfo.valor_Plano}</span>
                         <div className='plano-price-off'>90% OFF</div>
                     </div>
-                    <p style={{textAlign: 'center', padding: '10px'}}>Ganhe 1 credito para impulsionar sua vaga por 7 dias </p>
+                    <p style={{textAlign: 'center', padding: '10px'}}>Ganhe 1 credito para impulsionar sua vaga por {Planosinfo.cobrado_Plano} </p>
                 <div className='plano-header-footer'>
                     <span className='plano-features'>Suporte 24h</span>
                 </div>
@@ -30,8 +50,10 @@ export default function PlanosSimples() {
                         </ul>
                         </div>
                 </div>
-                <div className='plano-selecionar'>
-                    <PlanoStart/>
+                <div className='plano-selecionar' onClick={() => {
+                    router.push('pagamento')
+                }}>
+                    <PlanoStart  />
                 </div>
             </div>
             </div>
