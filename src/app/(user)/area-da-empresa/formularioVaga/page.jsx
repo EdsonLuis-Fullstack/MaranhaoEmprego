@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 'use client'
 import './FormVaga.css'
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import cadastroVagas from '@/components/services/auth/cadastroVagas';
+=======
+"use client";
+import "./FormVaga.css";
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import cadastroVagas from "@/components/services/auth/cadastroVagas";
+>>>>>>> 7b672d13a7be3118fceada282b1b6bf3f548918d
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState("valor");
