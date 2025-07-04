@@ -30,8 +30,8 @@ export default function AlterarDadosPage() {
     <main className="alterar-dados-wrapper">
       <section className="alterar-dados-box">
         <h1>Alterar Dados da Conta</h1>
-          <button type="submit" className="btn-submit">Alterar Email</button>
-          <button type="submit" className="btn-submit">Alterar Nome</button>
+          <Link href="/area-da-empresa/alterarPerfil/email/"><button type="submit" className="btn-submit">Alterar Email</button></Link>
+          <Link href="/area-da-empresa/alterarPerfil/nome/"><button type="submit" className="btn-submit">Alterar Nome</button></Link>
       </section>
     </main>
   );

@@ -15,46 +15,72 @@
     display: flex;
     background-color: #02539b;
     color: white;
-    width: 100%;
-    max-width: 250px; /* máxima largura */
+    width: 100%; /* máxima largura */
     border-radius: 10px;
     justify-content: center;
-    align-items: center;
+    align-items: start;
     margin: 0 auto; /* centralização horizontal */
     padding: 6px 10px; /* espaçamento interno */
-    text-align: center; /* fallback para texto */
+    text-align: start; /* fallback para texto */
     transition: all 0.3s ease; /* animação suave */
 }
+.CardVagas {
+  height: auto;
+  min-height: 300px;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--sombra);
+  background-color: #fff;
+  border-left: 5px solid var(--azul-principal);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.CardVagas:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
 
+.CardVagaHighlight {
+  border: 2px solid #7b2cbf; /* Borda roxa ao redor */
+  box-shadow: 0 4px 16px rgba(123, 44, 191, 0.3); /* Sombra roxa */
+  position: relative;
+  background-color: #fff; /* mantém branco */
+  border-left: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 1rem 1.25rem;
+  border-radius: 8px; /* remove a borda azul original */
+}
 
-  .CardVagas {
-    height: auto;
-    min-height: 300px;
-    width: 100%;
-    border-radius: 7px;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem;
-    box-shadow: var(--sombra);
-    cursor: pointer;
-    transition: transform 0.3s ease;
-  }
-  .CardVagaHighlight{
-    border-left: hsl(224, 100%, 50%);
-  }
-  .CardVagas:hover {
-    transform: translateY(-3px);
-  }
-  
-  #tituloCard {
+/* Selo "Destaque" no canto superior direito */
+.CardVagaHighlight::before {
+  content: "🌟 Vaga Premium";
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #7b2cbf;
+  color: white;
+  padding: 4px 10px;
+  font-size: 0.7rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+#tituloCard {
     color: var(--azul-principal);
     font-family: 'Montserrat', 'Poppins', sans-serif;
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     font-weight: 600;
     line-height: 1.4;
     margin: 0;
-  }
+}
   
   #statusTempo {
     background: var(--azul-principal);
@@ -106,7 +132,7 @@
   }
   @media screen and (max-width: 768px) {
     #linkID {
-        width: 80%;
+        width: 100%;
         padding: 10px 15px;
     }
 }

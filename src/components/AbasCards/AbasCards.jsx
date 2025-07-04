@@ -65,6 +65,7 @@ const AbasCards = () => {
           width: '100%',
           paddingLeft: '0px',
           paddingRight: '0px',
+          marginTop: '100px'
         }}
         tabList={tabListNoTitle}
         activeTabKey={activeTabKey2}

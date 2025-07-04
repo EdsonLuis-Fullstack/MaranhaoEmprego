@@ -28,7 +28,7 @@ function Cards() {
   return (
     <div className="Vagas" >
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]} key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -67,7 +67,7 @@ function CardsHomeOffice() {
   return (
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -105,7 +105,7 @@ function CardsDiarista() {
   return (
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -143,7 +143,7 @@ function CardsEmprego() {
   return (
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -183,7 +183,7 @@ function CardsJovemAprendiz() {
 
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -223,7 +223,7 @@ function CardsEstagio() {
   return (
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -263,7 +263,7 @@ function CardsPcd() {
 
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -303,7 +303,7 @@ function CardsRca() {
   return (
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -343,7 +343,7 @@ function CardsTrainee() {
 
     <div className="Vagas">
       {vagas.map((jobs) => (
-        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+        <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
           <h1 id='tituloCard'>{jobs.titulo}</h1>
           <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
           <p id='Local'><EnvironmentFilled style={{ color: '#02539b' }} /> {jobs.cidade} - MA</p>
@@ -374,7 +374,7 @@ export function Card_Filtros({ vagas = [] }) {
         </div>
       ) : (
         vagas.map((jobs) => (
-          <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""]}  key={jobs.uuid}>
+          <div className={[`CardVagas`, jobs.destaque ? "CardVagaHighlight" : ""].join(" ")} key={jobs.uuid}>
             <h1 id='tituloCard'>{jobs.titulo}</h1>
             <div id="statusTempo">{jobs.date.slice(0, 10)}</div>
             <p id='Local'>

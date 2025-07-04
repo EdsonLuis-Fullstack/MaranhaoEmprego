@@ -1,17 +1,28 @@
 'use client';
-import './email.css'
+import './email.css';
 import { useState } from 'react';
-import Link from 'next/link';
-export default function AlterarNome(){
-    const [captchaValidado, setCaptchaValidado] = useState(false);
+import { useRouter } from 'next/navigation';
 
-  const handleSubmit = (e) => {
+export default function AlterarEmail() {
+  const [captchaValidado, setCaptchaValidado] = useState(false);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const validarEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const nome = formData.get('nome');
-    const email = formData.get('email');
-    if (!nome && !email) {
-      alert('Por favor, preencha pelo menos um campo para atualizar.');
+
+    if (!email) {
+      alert('Por favor, insira um email.');
+      return;
+    }
+
+    if (!validarEmail(email)) {
+      alert('Por favor, insira um email válido.');
       return;
     }
 
@@ -20,18 +31,45 @@ export default function AlterarNome(){
       return;
     }
 
+    try {
+      setLoading(true);
+      const response = await fetch('/api/verificar-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
 
-    console.log('Dados atualizados:', { nome, email });
-    alert('Dados atualizados com sucesso!');
+      const data = await response.json();
+
+      if (response.ok && data.disponivel) {
+        alert('Email disponível! Redirecionando...');
+        router.push('/area-da-empresa/alterarPerfil/email/VerificarEmail');
+      } else {
+        alert(data.mensagem || 'Este email já está em uso.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('Erro ao verificar email. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
   };
-    return(
-        <main className="alterar-dados-wrapper">
+
+  return (
+    <main className="alterar-dados-wrapper">
       <section className="alterar-dados-box">
-        <h1>Alterar nome da conta</h1>
+        <h1>Alterar email da conta</h1>
         <form onSubmit={handleSubmit} className="alterar-dados-form">
           <div className="form-group">
-            <label htmlFor="nome">Novo Email</label>
-            <input type="text" id="nome" name="nome"  />
+            <label htmlFor="email">Novo Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
           <div className="captcha-simulado">
             <input
@@ -42,9 +80,11 @@ export default function AlterarNome(){
             <label htmlFor="captcha">Não sou um robô</label>
           </div>
 
-          <button type="submit" className="btn-submit">Salvar alterações</button>
+          <button type="submit" className="btn-submit" disabled={loading}>
+            {loading ? 'Verificando...' : 'Salvar alterações'}
+          </button>
         </form>
       </section>
     </main>
-    )
+  );
 }
