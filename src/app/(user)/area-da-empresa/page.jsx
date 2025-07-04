@@ -47,10 +47,12 @@ export default function AreaDaEmpresa() {
         const vagas = await getMinhasVagas(
           Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
         );
+        setVagas(vagas);
+
+        
         const creditos = await verificarCreditos(
           Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
         );
-        setVagas(vagas);
         setTemCredito(creditos.destaques);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -96,7 +98,7 @@ export default function AreaDaEmpresa() {
 
   const confirmarImpulsionamento = async () => {
     setMostrarPopup(false);
-    alert(vagaSelecionada.uuid);
+
     const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
     const resposta = await ImpulsionarVagas(token, vagaSelecionada.uuid);
     window.location.reload();
@@ -180,7 +182,7 @@ export default function AreaDaEmpresa() {
               Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`),
               vaga.uuid
             );
-            alert(data.code)
+
             console.log("Deletar vaga:", vaga);
             fecharPopup();
             mostrarPopupPersonalizado(
