@@ -5,14 +5,14 @@
   align-items: center;
   padding: 2rem;
   background-color: #f4f4f4;
-  font-family: 'Montserrat', 'Poppins', sans-serif;
+  font-family: "Montserrat", "Poppins", sans-serif;
 }
 
 .alterar-dados-box {
   background-color: #fff;
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   max-width: 400px;
   width: 100%;
 }
@@ -66,7 +66,7 @@
 .btn-submit:hover {
   background-color: #0056b3;
 }
-#Voltar{
+#Voltar {
   margin-top: 100px;
   font-size: 12px;
   color: #0056b3;
@@ -80,4 +80,124 @@
   .alterar-dados-box h1 {
     font-size: 1.25rem;
   }
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-content h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.modal-content p {
+  margin: 0 0 1.5rem 0;
+  color: #666;
+  line-height: 1.5;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.btn-modal-ok,
+.btn-modal-confirm,
+.btn-modal-cancel {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.btn-modal-ok {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-modal-ok:hover {
+  background-color: #0056b3;
+}
+
+.btn-modal-confirm {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-modal-confirm:hover {
+  background-color: #218838;
+}
+
+.btn-modal-cancel {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-modal-cancel:hover {
+  background-color: #5a6268;
+}
+
+.modal-error h3 {
+  color: #dc3545;
+}
+
+.modal-error {
+  border-left: 4px solid #dc3545;
+}
+
+.modal-success h3 {
+  color: #28a745;
+}
+
+.modal-success {
+  border-left: 4px solid #28a745;
+}
+
+.modal-confirm h3 {
+  color: #ffc107;
+}
+
+.modal-confirm {
+  border-left: 4px solid #ffc107;
+}
+
+.modal-info h3 {
+  color: #007bff;
+}
+
+.modal-info {
+  border-left: 4px solid #007bff;
 }
