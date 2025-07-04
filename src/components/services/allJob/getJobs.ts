@@ -35,7 +35,7 @@ export async function getParamet(parametro: string, valor:string) {
         method: 'GET',
         cache: 'force-cache',
         next: {
-          revalidate: 60,
+          revalidate: 120, // 60 segundos (1 minuto)
         }
       });
     
