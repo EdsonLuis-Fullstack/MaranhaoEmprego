@@ -40,7 +40,9 @@
     cursor: pointer;
     transition: transform 0.3s ease;
   }
-  
+  .CardVagaHighlight{
+    border-left: hsl(224, 100%, 50%);
+  }
   .CardVagas:hover {
     transform: translateY(-3px);
   }

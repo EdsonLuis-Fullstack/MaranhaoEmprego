@@ -170,6 +170,16 @@
 .btn-vaga.deletar:hover {
   background-color: #a71d2a;
 }
+
+.sem-vagas{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  font-family: montserrat, poppins;
+}
 .popup-overlay {
   position: fixed;
   top: 0;
