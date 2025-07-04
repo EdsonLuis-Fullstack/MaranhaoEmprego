@@ -220,7 +220,7 @@ export default function FormVaga() {
 
         <div className="campo-grupo">
           <label htmlFor="nome_Empresa" className="campo-label">
-            Nome da Empresa
+            Nome da Empresa ( Opcional )
           </label>
           <input
             type="text"
@@ -228,7 +228,7 @@ export default function FormVaga() {
             name="nome_Empresa"
             className="campo-input nome_Empresa-vaga"
             placeholder="Digite o nome da sua empresa"
-            required
+            
           />
         </div>
 
