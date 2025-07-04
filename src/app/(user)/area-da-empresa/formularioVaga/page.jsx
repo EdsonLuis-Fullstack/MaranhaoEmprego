@@ -1,18 +1,9 @@
-<<<<<<< HEAD:src/app/(user)/area-da-empresa/formularioVaga/page.jsx
 'use client'
 import './FormVaga.css'
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import cadastroVagas from '@/components/services/auth/cadastroVagas';
-=======
-"use client";
-import "./FormVaga.css";
-import React, { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
-import Cookies from "js-cookie";
-import cadastroVagas from "../../../components/services/auth/cadastroVagas";
->>>>>>> fb5e6818eb725f5b86cd65a172ca354ea29fe322:src/app/area-da-empresa/formularioVaga/page.jsx
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState("valor");
@@ -137,7 +128,7 @@ export default function FormVaga() {
 
   return (
     <div className="FormVaga">
-      <h1 className="titulo-pagina">Cadastro de Vaga</h1>
+      <h1 className="titulo-pagina">Divulgar Sua Vaga</h1>
 
       {/* Popup de Sucesso */}
       {showSuccessPopup && (
