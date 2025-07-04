@@ -2,29 +2,30 @@
 import './VerificarEmail.css';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
+import {MudarEmail_Com_codigo} from "@/components/services/auth/alterarEmail"
+import Cookies from "js-cookie"
 export default function VerificarEmail() {
   const [codigo, setCodigo] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleVerificar = async () => {
-    if (!codigo || codigo.length < 6) {
-      alert('Digite o código de 6 dígitos corretamente.');
+    if (!codigo || codigo.length < 3) {
+      alert('Digite o código de 4 dígitos corretamente.');
       return;
     }
 
     try {
+      const Token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
+      const Email = Cookies.get(`emIaLEWrewwf`)
+
       setLoading(true);
-      const response = await fetch('/api/verificar-codigo-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ codigo }),
-      });
+      const data = await MudarEmail_Com_codigo(Token,Email,codigo)
+      Cookies.remove(`emIaLEWrewwf`)
 
-      const data = await response.json();
+     
 
-      if (response.ok && data.validado) {
+      if (data.code == 200) {
         alert('Código validado com sucesso!');
         router.push('/area-da-empresa');
       } else {
@@ -32,7 +33,7 @@ export default function VerificarEmail() {
       }
     } catch (error) {
       console.error('Erro na verificação:', error);
-      alert('Erro na verificação. Tente novamente.');
+      alert('Erro na verificação. Tente novamente.' + error);
     } finally {
       setLoading(false);
     }
