@@ -29,9 +29,11 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  if (pathname.startsWith("/admin")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", request.nextUrl.origin));
+  if (pathname.startsWith("/admin/")) {
+    const token_ADMIN = request.cookies.get(`${process.env.ADMIN_COOKIE_NAME}`)?.value;
+    console.log(token_ADMIN)
+    if (!token_ADMIN) {
+      return NextResponse.redirect(new URL("/admin", request.nextUrl.origin));
     }
     // Opcional: Verifica se o token pertence a um admin
     // Você pode usar JWT para isso, por exemplo

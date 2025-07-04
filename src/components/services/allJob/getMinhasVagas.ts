@@ -10,7 +10,8 @@ export default async function getMinhasVagas(token:string) {
     },
     cache: 'no-store'
   });
+  const a = await response.json()
+  console.log(a.vagas)
 
-
-  return await response.json();
+  return a
 }

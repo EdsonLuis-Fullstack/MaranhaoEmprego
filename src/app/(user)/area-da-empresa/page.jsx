@@ -12,6 +12,8 @@ import AlterarDados from "@/components/botoes/AlterarDados";
 import Planos from "@/components/botoes/Planos";
 import getMinhasVagas from "@/components/services/allJob/getMinhasVagas";
 import { ApagarMinhasVagas } from "@/components/services/auth/apagarVagasUsuario";
+import { verificarCreditos } from "@/components/services/auth/verificarCreditos";
+import { ImpulsionarVagas } from "@/components/services/auth/impulsionarVagas";
 
 export default function AreaDaEmpresa() {
   const router = useRouter();
@@ -20,13 +22,14 @@ export default function AreaDaEmpresa() {
   const [mostrarPerfil, setMostrarPerfil] = useState(false);
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const [vagaSelecionada, setVagaSelecionada] = useState(null);
-  const [temCredito, setTemCredito] = useState(false); // Simulação de crédito
+  const [temCredito, setTemCredito] = useState(false);
   const [vagas, setVagas] = useState([]);
+  const [loading, setLoading] = useState(true); // Estado de carregamento
 
   // Estados para o popup personalizado
   const [popup, setPopup] = useState({
     mostrar: false,
-    tipo: "", // 'sucesso', 'confirmacao', 'erro'
+    tipo: "",
     titulo: "",
     mensagem: "",
     botoes: [],
@@ -39,10 +42,23 @@ export default function AreaDaEmpresa() {
 
   useEffect(() => {
     const fetchVagas = async () => {
-      const vagas = await getMinhasVagas(
-        Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
-      );
-      setVagas(vagas);
+      try {
+        setLoading(true); // Inicia o carregamento
+        const vagas = await getMinhasVagas(
+          Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
+        );
+        setVagas(vagas);
+
+        
+        const creditos = await verificarCreditos(
+          Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`)
+        );
+        setTemCredito(creditos.destaques);
+      } catch (error) {
+        console.error("Erro ao carregar dados:", error);
+      } finally {
+        setLoading(false); // Finaliza o carregamento
+      }
     };
 
     fetchVagas();
@@ -72,6 +88,7 @@ export default function AreaDaEmpresa() {
       mensagem: "",
       botoes: [],
     });
+    window.location.reload();
   };
 
   const handleImpulsionarClick = (vaga) => {
@@ -79,31 +96,51 @@ export default function AreaDaEmpresa() {
     setMostrarPopup(true);
   };
 
-  const confirmarImpulsionamento = () => {
+  const confirmarImpulsionamento = async () => {
     setMostrarPopup(false);
 
-    // Mostrar popup de sucesso
-    mostrarPopupPersonalizado(
-      "sucesso",
-      "Impulsionamento Realizado!",
-      `A vaga "${vagaSelecionada.titulo}" foi impulsionada com sucesso!`,
-      [
-        {
-          texto: "OK",
-          acao: () => {
-            fecharPopup();
-            setVagaSelecionada(null);
-          },
-          classe: "btn-vaga editar",
-        },
-      ]
-    );
+    const token = Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`);
+    const resposta = await ImpulsionarVagas(token, vagaSelecionada.uuid);
+    window.location.reload();
 
-    // Aqui você conecta com o back-end para descontar crédito ou registrar impulsionamento
+    if (resposta.code == 201) {
+      mostrarPopupPersonalizado(
+        "sucesso",
+        "Impulsionamento Realizado!",
+        `A vaga "${vagaSelecionada.titulo}" foi impulsionada com sucesso!`,
+        [
+          {
+            texto: "OK",
+            acao: () => {
+              fecharPopup();
+              setVagaSelecionada(null);
+            },
+            classe: "btn-vaga editar",
+          },
+        ]
+      );
+          window.location.reload();
+    } else {
+      mostrarPopupPersonalizado(
+        "Um erro ocorreu",
+        "Impulsionamento Nao foi reaizado!",
+        `${resposta.msg}`,
+        [
+          {
+            texto: "OK",
+            acao: () => {
+              fecharPopup();
+              setVagaSelecionada(null);
+            },
+            classe: "btn-vaga editar",
+          },
+        ]
+      );
+          window.location.reload();
+    }
   };
 
   const handleEditarVaga = (vaga) => {
-    // Mostrar popup de informação
     mostrarPopupPersonalizado(
       "info",
       "Editar Vaga",
@@ -118,9 +155,7 @@ export default function AreaDaEmpresa() {
           texto: "Continuar",
           acao: () => {
             fecharPopup();
-            // Implementar lógica para editar vaga
             console.log("Editar vaga:", vaga);
-            // router.push(`/area-da-empresa/editar-vaga/${vaga.uuid}`);
           },
           classe: "btn-vaga editar",
         },
@@ -129,7 +164,6 @@ export default function AreaDaEmpresa() {
   };
 
   const handleDeletarVaga = (vaga) => {
-    // Mostrar popup de confirmação
     mostrarPopupPersonalizado(
       "confirmacao",
       "Confirmar Exclusão",
@@ -142,16 +176,15 @@ export default function AreaDaEmpresa() {
         },
         {
           texto: "Deletar",
-          acao: () => {
-            fecharPopup();
-            ApagarMinhasVagas(
+          acao: async () => {
+
+            const data = await ApagarMinhasVagas(
               Cookies.get(`${process.env.NEXT_PUBLIC_TOKEN_AUTH_NAME}`),
               vaga.uuid
-            ); // Chamar função para deletar vaga
-            // Implementar lógica para deletar vaga
-            console.log("Deletar vaga:", vaga);
+            );
 
-            // Mostrar popup de sucesso após deletar
+            console.log("Deletar vaga:", vaga);
+            fecharPopup();
             mostrarPopupPersonalizado(
               "sucesso",
               "Vaga Deletada!",
@@ -164,14 +197,31 @@ export default function AreaDaEmpresa() {
                 },
               ]
             );
-
-            // Aqui você faria a chamada para o back-end para deletar a vaga
           },
           classe: "btn-vaga deletar",
         },
       ]
     );
   };
+
+  // Componente de Loading
+  const LoadingComponent = () => (
+    <div className="loading-container">
+      <div className="loading-spinner">
+        <div className="spinner"></div>
+      </div>
+      <p className="loading-text">Carregando dados do perfil...</p>
+    </div>
+  );
+
+  // Se estiver carregando, exibe apenas o loading
+  if (loading) {
+    return (
+      <section className="AreaEmpresa">
+        <LoadingComponent />
+      </section>
+    );
+  }
 
   return (
     <section className="AreaEmpresa">
@@ -237,12 +287,16 @@ export default function AreaDaEmpresa() {
                   >
                     Editar
                   </button>
-                  <button
-                    className="btn-vaga impulsionar"
-                    onClick={() => handleImpulsionarClick(vaga)}
-                  >
-                    Impulsionar
-                  </button>
+                  {vaga.anuncio_destaque ? (
+                    ""
+                  ) : (
+                    <button
+                      className="btn-vaga impulsionar"
+                      onClick={() => handleImpulsionarClick(vaga)}
+                    >
+                      Impulsionar
+                    </button>
+                  )}
                   <button
                     className="btn-vaga deletar"
                     onClick={() => handleDeletarVaga(vaga)}

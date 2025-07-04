@@ -1,11 +1,11 @@
 /* Dashboard.css atualizado e responsivo */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Poppins:wght@300;600&display=swap");
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background: #fff;
   overflow-x: hidden;
 }
@@ -25,7 +25,8 @@ body {
   justify-content: center;
 }
 
-.AnalysisContainer, .ConfigContainer {
+.AnalysisContainer,
+.ConfigContainer {
   flex: 1 1 100%;
   max-width: 100%;
   padding: 25px;
@@ -35,7 +36,8 @@ body {
   box-sizing: border-box;
 }
 
-.AnalysisContainer h2, .ConfigContainer h2 {
+.AnalysisContainer h2,
+.ConfigContainer h2 {
   margin-bottom: 25px;
   font-size: 1.5rem;
   color: #02539b;
@@ -90,10 +92,10 @@ body {
   background: #fff;
   border-left: 5px solid #02539b;
   border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
-  font-family: 'Montserrat', 'Poppins', sans-serif;
+  font-family: "Montserrat", "Poppins", sans-serif;
   color: #333;
   max-width: 600px;
   width: 100%;
@@ -102,7 +104,7 @@ body {
 }
 
 .CardVaga:hover {
-  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
 }
 
 .CardVaga h3 {
@@ -231,7 +233,6 @@ body {
   }
 }
 
-
 /* Responsividade */
 @media (max-width: 480px) {
   .CardVaga {
@@ -246,5 +247,128 @@ body {
   .BotoesVaga button {
     width: 100%;
     min-width: unset;
+  }
+}
+/* Popup de Confirmação */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  min-width: 400px;
+  max-width: 500px;
+  width: 90%;
+  animation: popup-fade-in 0.3s ease-out;
+}
+
+@keyframes popup-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.popup-header {
+  padding: 20px 20px 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.popup-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.popup-content {
+  padding: 20px;
+}
+
+.popup-content p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.popup-actions {
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid #eee;
+}
+
+.btn-cancelar {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.btn-cancelar:hover {
+  background-color: #5a6268;
+}
+
+.btn-confirmar {
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color 0.3s;
+  color: white;
+}
+
+.btn-confirmar.btn-aprovar {
+  background-color: #28a745;
+}
+
+.btn-confirmar.btn-aprovar:hover {
+  background-color: #218838;
+}
+
+.btn-confirmar.btn-rejeitar {
+  background-color: #dc3545;
+}
+
+.btn-confirmar.btn-rejeitar:hover {
+  background-color: #c82333;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+  .popup-container {
+    min-width: 300px;
+    margin: 20px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .popup-actions button {
+    width: 100%;
   }
 }

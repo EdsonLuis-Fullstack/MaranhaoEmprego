@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 'use client'
 import './FormVaga.css'
 import React, { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import cadastroVagas from '@/components/services/auth/cadastroVagas';
+=======
+"use client";
+import "./FormVaga.css";
+import React, { useEffect, useState, useRef } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import cadastroVagas from "@/components/services/auth/cadastroVagas";
+>>>>>>> c2a548ba69cfc7f67e8441b2e4d0ddaafb4829bd
 
 export default function FormVaga() {
   const [tipoSalario, setTipoSalario] = useState("valor");
@@ -220,7 +229,7 @@ export default function FormVaga() {
 
         <div className="campo-grupo">
           <label htmlFor="nome_Empresa" className="campo-label">
-            Nome da Empresa
+            Nome da Empresa ( Opcional )
           </label>
           <input
             type="text"
@@ -228,7 +237,7 @@ export default function FormVaga() {
             name="nome_Empresa"
             className="campo-input nome_Empresa-vaga"
             placeholder="Digite o nome da sua empresa"
-            required
+            
           />
         </div>
 
